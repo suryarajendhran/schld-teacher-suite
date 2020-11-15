@@ -1,4 +1,4 @@
-# schld-teacher-suite
+# Scholared's teacher portal
 
 ## Build Setup
 

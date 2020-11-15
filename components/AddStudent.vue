@@ -95,10 +95,10 @@
         <div class="column is-full">
           <div class="field is-grouped is-justify-content-center">
             <div class="control">
-              <button class="button is-link">Submit</button>
+              <button class="button is-primary">Add Student</button>
             </div>
             <div class="control">
-              <button class="button is-link is-light">Cancel</button>
+              <button class="button is-danger is-light">Cancel</button>
             </div>
           </div>
         </div>

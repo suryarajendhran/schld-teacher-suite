@@ -14,6 +14,23 @@
           </div>
         </div>
         <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Correct Answer</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="e.g. Partnership opportunity"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="field is-horizontal">
           <label class="field-label">Correct Choice</label>
           <div class="control">
             <div class="select is-fullwidth">
@@ -27,8 +44,8 @@
               </select>
             </div>
           </div>
-        </div>
-        <div class="field is-horizontal">
+        </div> -->
+        <!-- <div class="field is-horizontal">
           <label class="field-label">Weightage</label>
           <div class="control">
             <input
@@ -38,15 +55,15 @@
               v-model="weightage"
             />
           </div>
-        </div>
-        <div class="field is-horizontal">
+        </div> -->
+        <!-- <div class="field is-horizontal">
           <div class="control field-body">
-            <button  class="button  is-primary">Previous</button>
+            <button class="button is-primary">Previous</button>
           </div>
           <div class="control field-body">
-            <button class="button  is-primary">Previous</button>
+            <button class="button is-primary">Previous</button>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="column is-half">
         <div class="field">
@@ -78,13 +95,12 @@
             <input class="input" placeholder="Option 4" v-model="opt4" />
           </div>
         </div>
-        
+
         <div class="field">
           <div class="control">
             <button class="button is-primary">Finish</button>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -99,7 +115,7 @@ export default {
       opt2: null,
       opt3: null,
       opt4: null,
-      choices: [],
+      choices: ['opt1', 'opt2', 'opt3'],
       year: 'default',
     }
   },

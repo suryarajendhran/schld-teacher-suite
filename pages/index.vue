@@ -1,14 +1,16 @@
 <template>
-<div>
-  <add-student/>
-</div>
+  <div>
+    <!-- <add-student /> -->
+    <add-test />
+  </div>
 </template>
 
 <script>
 import AddStudent from '~/components/AddStudent.vue'
+import AddTest from '~/components/AddTest.vue'
 export default {
-  components: { AddStudent },}
+  components: { AddStudent, AddTest },
+}
 </script>
 
-<style>
-</style>
+<style></style>

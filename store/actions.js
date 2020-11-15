@@ -1,4 +1,3 @@
-import auth from '~/middleware/auth'
 
 export default {
   onAuthStateChanged({ commit }, { authUser }) {

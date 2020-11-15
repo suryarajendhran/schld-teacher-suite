@@ -1,7 +1,7 @@
 <template>
   <div class="section">
     <h1 class="title">{{ title }}</h1>
-    <div class="columns">
+    <div class="columns is-multiline">
       <div class="column is-one-third">
         <div class="field">
           <label class="label">Name</label>
@@ -96,11 +96,37 @@
           </div>
         </div>
       </div>
-      <!-- <div class="column is-full">
-        <table class="table">
-
-        </table>
-      </div> -->
+      <div id="table-container" class="column is-full">
+        <div id="table-level" class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h2 class="title is-size-3 is-bold">Questions</h2>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <button class="button is-primary">
+                <span class="icon"> <i class="fas fa-plus"></i> </span>
+                <span>Add Question</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <b-table
+          :data="questions"
+          :columns="columns"
+          striped
+          hoverable
+          focusable
+          @click="openQuestion"
+        ></b-table>
+      </div>
+    </div>
+    <div class="column is-full has-text-centered">
+      <button class="button is-primary">
+        <span class="icon"> <i class="fas fa-check"></i> </span>
+        <span> Add Test </span>
+      </button>
     </div>
   </div>
 </template>
@@ -109,9 +135,62 @@
 export default {
   data() {
     return {
+      name: null,
+      assignee: null,
+      duration: null,
+      date: null,
+      start_time: null,
+      end_time: null,
       assignees: ['Mechanical - I', 'ECE - I'],
       assignee: 'default',
+      questions: [
+        {
+          qid: '123A',
+          text: 'Some Text',
+          weightage: '2',
+          correct_choice: 'Option 1',
+          choices: '1. Option 1, 2. Option 3, 4. Option 5',
+        },
+        {
+          qid: '123B',
+          text: 'Some Text',
+          weightage: '2',
+          correct_choice: 'Option 1',
+          choices: '1. Option 1, 2. Option 3, 4. Option 5',
+        },
+        {
+          qid: '123C',
+          text: 'Some Text',
+          weightage: '2',
+          correct_choice: 'Option 1',
+          choices: '1. Option 1, 2. Option 3, 4. Option 5',
+        },
+      ],
+      columns: [
+        {
+          field: 'text',
+          label: 'Text',
+        },
+        {
+          field: 'weightage',
+          label: 'Weightage',
+        },
+        {
+          field: 'correct_choice',
+          label: 'Correct Choice',
+        },
+        {
+          field: 'choices',
+          label: 'Choices',
+        },
+      ],
     }
+  },
+  methods: {
+    openQuestion(data) {
+      console.log(data)
+      alert(`Opening quesiton:  ${data}now!`)
+    },
   },
   computed: {
     title() {
@@ -121,4 +200,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+#table-container {
+  margin-top: 20px;
+  border: 1px solid rgb(156, 156, 156);
+  border-radius: 5px;
+}
+</style>

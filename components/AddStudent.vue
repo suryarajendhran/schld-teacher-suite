@@ -3,17 +3,6 @@
     <h1 class="title">{{ title }}</h1>
     <div class="columns is-multiline">
       <div class="column is-half">
-        <!-- <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input
-              class="input"
-              type="text"
-              placeholder="Enter your name"
-              v-model="name"
-            />
-          </div>
-        </div> -->
         <div class="field">
           <label class="label">Name</label>
           <div class="control has-icons-left has-icons-right">

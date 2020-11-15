@@ -3,41 +3,62 @@
     <h1 class="title">{{ title }}</h1>
     <div class="columns is-multiline">
       <div class="column is-half">
-        <div class="field">
+        <!-- <div class="field">
           <label class="label">Name</label>
           <div class="control">
             <input
               class="input"
               type="text"
-              placeholder="Your Name"
+              placeholder="Enter your name"
               v-model="name"
             />
           </div>
+        </div> -->
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control has-icons-left has-icons-right">
+            <input
+              class="input"
+              type="text"
+              placeholder="Enter your name"
+              v-model="name"
+            />
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <!-- <p class="help is-danger">This email is invalid</p> -->
         </div>
       </div>
       <div class="column is-half">
         <div class="field">
           <label class="label">Phone Number</label>
-          <div class="control">
+          <div class="control has-icons-left has-icons-right">
             <input
               class="input"
               type="tel"
               placeholder="Your Phone Number"
               v-model="phone"
             />
+            <span class="icon is-small is-left">
+              <i class="fas fa-mobile"></i>
+            </span>
           </div>
         </div>
       </div>
       <div class="column is-half">
         <div class="field">
           <label class="label">Roll Number</label>
-          <div class="control">
+          <div class="control has-icons-left has-icons-right">
             <input
               class="input"
               type="text"
               placeholder="Your Roll Number"
               v-model="roll_number"
             />
+            <span class="icon is-small is-left">
+              <i class="fas fa-id-card"></i>
+            </span>
           </div>
         </div>
       </div>
@@ -117,6 +138,7 @@ export default {
       departments: ['ECE', 'Mechanical', 'EEE'],
       department: 'default',
       year: 'default',
+      tweenedTitle: null,
     }
   },
   methods: {
@@ -137,6 +159,6 @@ export default {
 
 <style scoped>
 .title {
-  transition: all 0.2s ease-in;
+  transition: all 1s ease-in;
 }
 </style>

@@ -18,6 +18,12 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js' },
+      {
+        src: 'https://kit.fontawesome.com/a135911755.js',
+      },
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)

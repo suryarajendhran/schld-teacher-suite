@@ -1,4 +1,4 @@
-# Scholared's teacher portal
+# Scholared's Teacher Portal
 
 ## Build Setup
 

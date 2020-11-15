@@ -1,12 +1,15 @@
 // 1. Import the initial variables
 @import '../node_modules/bulma/sass/utilities/initial-variables.sass';
 @import '../node_modules/bulma/sass/utilities/functions.sass';
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 // 2. Set your own initial variables
 // Update blue
 $blue: #2c3d55;
 
 $primary: $blue;
+
+$family-primary: 'Inter', sans-serif;
 
 // 3. Import the rest of Bulma
 @import '../node_modules/bulma/bulma.sass';

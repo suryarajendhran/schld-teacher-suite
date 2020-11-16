@@ -43,7 +43,7 @@
           <h2 class="is-size-4 has-text-weight-semibold">Activity</h2>
           <div id="notifications">
             <div class="notification">
-              <div class="time">3:00 PM:</div>
+              <div class="time has-text-weight-medium">3:00 PM</div>
               Fluid Mechanics test has started
             </div>
           </div>

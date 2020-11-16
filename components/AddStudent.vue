@@ -103,11 +103,9 @@
         <div class="field is-grouped is-justify-content-center">
           <div class="control">
             <button class="button is-primary" @click="submit">
-              Add Student
+              <span class="icon"> <i class="fas fa-check"></i> </span>
+              <span> Confirm </span>
             </button>
-          </div>
-          <div class="control">
-            <button class="button is-danger is-light">Cancel</button>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
   <section class="section">
     <!-- <add-student /> -->
     <!-- <add-test /> -->
-    <div class="columns">
+    <div class="columns is-multiline">
       <div class="column is-one-third">
         <h1 class="title">{{ greeting }}</h1>
         <div id="action-container">
@@ -30,7 +30,45 @@
           </div>
           <b-table
             :data="students"
-            :columns="columns"
+            :columns="columns.students"
+            striped
+            hoverable
+            focusable
+            @click="openStudent"
+          ></b-table>
+        </div>
+      </div>
+      <div class="column is-one-third">
+        <div id="activity-container" class="container">
+          <h2 class="is-size-4 has-text-weight-semibold">Activity</h2>
+          <div id="notifications">
+            <div class="notification">
+              <div class="time">3:00 PM:</div>
+              Fluid Mechanics test has started
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-two-thirds">
+        <div id="table-container" class="column is-full">
+          <div id="table-level" class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <h2 class="title is-size-3 is-bold">Test</h2>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <button class="button is-primary">
+                  <span class="icon"> <i class="fas fa-plus"></i> </span>
+                  <span>Add Test</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <b-table
+            :data="tests"
+            :columns="columns.tests"
             striped
             hoverable
             focusable
@@ -78,20 +116,76 @@ export default {
           year: 'I',
         },
       ],
-      columns: [
+      tests: [
         {
-          field: 'uid',
-          label: 'User ID',
-          searchable: true,
+          name: 'Destructive Testing',
+          dept: 'Mech',
+          year: 'III',
+          status: 'Not started',
+          date: '12-12-2020',
+          duration: '120 mins',
         },
         {
-          field: 'name',
-          label: 'Name',
+          name: 'Microcontrollers and System Design',
+          dept: 'EIE',
+          year: 'II',
+          status: 'Completed',
+          date: '11-11-2020',
+          duration: '90 mins',
         },
-        { field: 'password', label: 'Password' },
-        { field: 'dept', label: 'Department' },
-        { field: 'year', label: 'Year' },
+        {
+          name: 'Professional Ethics',
+          dept: 'IT',
+          year: 'III',
+          status: 'Completed',
+          date: '20-10-2020',
+          duration: '150 mins',
+        },
       ],
+      columns: {
+        students: [
+          {
+            field: 'uid',
+            label: 'User ID',
+            searchable: true,
+          },
+          {
+            field: 'name',
+            label: 'Name',
+            searchable: true,
+          },
+          { field: 'password', label: 'Password' },
+          { field: 'dept', label: 'Department' },
+          { field: 'year', label: 'Year' },
+        ],
+        tests: [
+          {
+            field: 'name',
+            label: 'Name',
+            searchable: true,
+          },
+          {
+            field: 'dept',
+            label: 'Department',
+          },
+          {
+            field: 'year',
+            label: 'Year',
+          },
+          {
+            field: 'status',
+            label: 'Status',
+          },
+          {
+            field: 'date',
+            label: 'Date',
+          },
+          {
+            field: 'duration',
+            label: 'Duration',
+          },
+        ],
+      },
     }
   },
   methods: {
@@ -123,6 +217,26 @@ export default {
   display: flex;
   height: 52px;
   font-weight: 500;
+}
+#activity-container {
+  border-radius: 5px;
+  /* margin-top: 20px; */
+  background-color: #f1f1f1;
+  padding: 10px 10px;
+  height: 100%;
+}
+#notifications {
+  margin: 10px 5px 10px 5px;
+}
+.notification {
+  border-radius: 5px;
+  background-color: #444444;
+  color: #dddddd;
+  display: flex;
+  justify-content: space-between;
+}
+.time {
+  align-self: flex-end;
 }
 #table-container {
   border-radius: 5px;

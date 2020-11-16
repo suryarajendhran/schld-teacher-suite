@@ -10,10 +10,10 @@ export default {
     title: 'Teacher Portal - Scholared',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { property: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
-        name: 'description',
+        property: 'description',
         content: 'The portal for teachers to access to Scholared tools',
       },
       {

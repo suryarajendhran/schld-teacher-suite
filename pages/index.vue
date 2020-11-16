@@ -1,7 +1,7 @@
 <template>
   <section class="section">
-    <!-- <add-student /> -->
-    <!-- <add-test /> -->
+    <add-student />
+    <add-test />
     <div class="columns is-multiline">
       <div class="column is-one-quarter">
         <h1 class="title">{{ greeting }}</h1>

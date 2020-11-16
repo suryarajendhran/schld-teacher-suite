@@ -1,6 +1,7 @@
 <template>
   <div class="section">
     <h1 class="title">{{ title }}</h1>
+    <p class="subtitle is-5">Questions {{current_question}}/{{total_questions}}</p>
     <div class="columns is-multiline">
       <div class="column is-half">
         <div class="field">
@@ -79,6 +80,23 @@
         </div>
       </div>
     </div>
+    <div class="columns">
+      <div class="column">
+        <div class="field is-grouped">
+          <p class="control">
+          <button class="button is-primary">Previous</button>
+          </p>
+          <p class="control">
+          <button class="button is-primary">Next</button>
+          </p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="buttons">
+          <button class="button is-primary is-fullwidth">Finish Adding Question</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -107,6 +125,12 @@ export default {
         return this.name
       }
       return 'Add Questions'
+    },
+    current_question() {
+      return 1
+    },
+    total_questions() {
+      return 4
     },
   },
 }

@@ -1,7 +1,5 @@
 <template>
   <section class="section">
-    <add-student />
-    <add-test />
     <div class="columns is-multiline">
       <div class="column is-one-quarter">
         <h1 class="title">{{ greeting }}</h1>
@@ -77,6 +75,8 @@
         </div>
       </div>
     </div>
+    <add-student />
+    <add-test />
   </section>
 </template>
 

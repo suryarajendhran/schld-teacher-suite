@@ -7,8 +7,8 @@
         <h1 class="title">{{ greeting }}</h1>
         <div id="action-container">
           <button class="button is-primary">Broadcast Message</button>
-          <button class="button is-primary">Settings</button>
-          <button class="button is-primary">Sign Out</button>
+          <button class="button is-warning">Settings</button>
+          <button class="button is-danger">Sign Out</button>
         </div>
       </div>
       <div class="column is-two-thirds">
@@ -125,8 +125,8 @@ export default {
   font-weight: 500;
 }
 #table-container {
-  border: 1px solid rgb(156, 156, 156);
   border-radius: 5px;
   height: 100%;
+  background-color: #f1f1f1;
 }
 </style>

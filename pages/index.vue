@@ -54,7 +54,7 @@
           <div id="table-level" class="level">
             <div class="level-left">
               <div class="level-item">
-                <h2 class="title is-size-3 is-bold">Test</h2>
+                <h2 class="title is-size-3 is-bold">Tests</h2>
               </div>
             </div>
             <div class="level-right">

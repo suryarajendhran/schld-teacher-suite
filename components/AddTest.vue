@@ -125,7 +125,7 @@
     <div class="column is-full has-text-centered">
       <button class="button is-primary">
         <span class="icon"> <i class="fas fa-check"></i> </span>
-        <span> Add Test </span>
+        <span> Confirm </span>
       </button>
     </div>
   </div>
@@ -203,7 +203,6 @@ export default {
 <style scoped>
 #table-container {
   margin-top: 20px;
-  border: 1px solid rgb(156, 156, 156);
   border-radius: 5px;
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div class="section">
     <h1 class="title">{{ title }}</h1>
-    <p class="subtitle is-5">Questions {{current_question}}/{{total_questions}}</p>
+    <p class="subtitle is-5">
+      Questions {{ current_question }}/{{ total_questions }}
+    </p>
     <div class="columns is-multiline">
       <div class="column is-half">
         <div class="field">
@@ -9,7 +11,7 @@
           <div class="control">
             <textarea
               class="textarea"
-              placeholder="Textarea"
+              placeholder="Enter the question"
               v-model="question"
             ></textarea>
           </div>
@@ -17,31 +19,21 @@
       </div>
       <div class="column is-half">
         <div class="field">
-          <label class="label">Option 1</label>
+          <label class="label">Choice #1</label>
           <div class="control">
-            <input
-              class="input"
-              type="text"
-              placeholder="Option 1"
-              v-model="opt1"
-            />
+            <input class="input" type="text" v-model="opt1" />
           </div>
         </div>
         <div class="field">
-          <label class="label">Option 2</label>
+          <label class="label">Choice #2</label>
           <div class="control">
-            <input
-              class="input"
-              type="text"
-              placeholder="Option 2"
-              v-model="opt2"
-            />
+            <input class="input" type="text" v-model="opt2" />
           </div>
         </div>
       </div>
       <div class="column is-half">
         <div class="field">
-          <label class="label">Correct Option</label>
+          <label class="label">Correct Choice</label>
           <div class="control">
             <div class="select is-fullwidth">
               <select v-model="correct_option">
@@ -67,15 +59,15 @@
       </div>
       <div class="column is-half">
         <div class="field">
-          <label class="label">Option 3</label>
+          <label class="label">Choice #3</label>
           <div class="control">
-            <input class="input" placeholder="Option 3" v-model="opt3" />
+            <input class="input" v-model="opt3" />
           </div>
         </div>
         <div class="field">
-          <label class="label">Option 4</label>
+          <label class="label">Choice #4</label>
           <div class="control">
-            <input class="input" placeholder="Option 4" v-model="opt4" />
+            <input class="input" v-model="opt4" />
           </div>
         </div>
       </div>
@@ -83,18 +75,31 @@
     <div class="columns">
       <div class="column">
         <div class="field is-grouped is-grouped-centered">
-          <div class="control">
-          <button class="button is-primary">Previous</button>
+          <div class="control is-expanded">
+            <button class="button is-danger is-fullwidth">
+              <span class="icon">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              <span>Previous</span>
+            </button>
           </div>
-          <div class="control">
-          <button class="button is-primary">Next</button>
+          <div class="control is-expanded">
+            <button class="button is-warning is-fullwidth">
+              <span>Next</span>
+              <span class="icon">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="column">
-        <div class="buttons">
-          <button class="button is-primary is-fullwidth">Finish Adding Question</button>
-        </div>
+      <div class="column has-text-centered">
+        <button class="button is-primary">
+          <span>Finish Adding Question</span>
+          <span class="icon">
+            <i class="fas fa-check-circle"></i>
+          </span>
+        </button>
       </div>
     </div>
   </div>

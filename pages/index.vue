@@ -3,7 +3,7 @@
     <!-- <add-student /> -->
     <!-- <add-test /> -->
     <div class="columns is-multiline">
-      <div class="column is-one-third">
+      <div class="column is-one-quarter">
         <h1 class="title">{{ greeting }}</h1>
         <div id="action-container">
           <button class="button is-primary">Broadcast Message</button>
@@ -11,7 +11,7 @@
           <button class="button is-danger">Sign Out</button>
         </div>
       </div>
-      <div class="column is-two-thirds">
+      <div class="column is-three-quarters">
         <div id="table-container" class="column is-full">
           <div id="table-level" class="level">
             <div class="level-left">
@@ -38,7 +38,7 @@
           ></b-table>
         </div>
       </div>
-      <div class="column is-one-third">
+      <div class="column is-one-quarter">
         <div id="activity-container" class="container">
           <h2 class="is-size-4 has-text-weight-semibold">Activity</h2>
           <div id="notifications">
@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="column is-two-thirds">
+      <div class="column is-three-quarters">
         <div id="table-container" class="column is-full">
           <div id="table-level" class="level">
             <div class="level-left">

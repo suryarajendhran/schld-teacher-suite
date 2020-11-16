@@ -82,13 +82,13 @@
     </div>
     <div class="columns">
       <div class="column">
-        <div class="field is-grouped">
-          <p class="control">
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
           <button class="button is-primary">Previous</button>
-          </p>
-          <p class="control">
+          </div>
+          <div class="control">
           <button class="button is-primary">Next</button>
-          </p>
+          </div>
         </div>
       </div>
       <div class="column">

@@ -34,7 +34,6 @@
             striped
             hoverable
             focusable
-            bordered
             @click="openStudent"
           ></b-table>
         </div>
@@ -71,11 +70,19 @@ export default {
           dept: 'EIE',
           year: 'II',
         },
+        {
+          uid: 'fut18',
+          name: 'Kaillash Madhanraj',
+          password: '479g7ehi',
+          dept: 'Mech',
+          year: 'I',
+        },
       ],
       columns: [
         {
           field: 'uid',
           label: 'User ID',
+          searchable: true,
         },
         {
           field: 'name',
@@ -118,8 +125,8 @@ export default {
   font-weight: 500;
 }
 #table-container {
-  margin-top: 20px;
   border: 1px solid rgb(156, 156, 156);
   border-radius: 5px;
+  height: 100%;
 }
 </style>

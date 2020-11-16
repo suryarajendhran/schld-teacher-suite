@@ -16,6 +16,11 @@ export default {
         name: 'description',
         content: 'The portal for teachers to access to Scholared tools',
       },
+      {
+        hid: `og:description`,
+        property: 'og:description',
+        content: 'The portal for teachers to access to Scholared tools',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [

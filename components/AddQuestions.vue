@@ -36,8 +36,8 @@
           <label class="label">Correct Choice</label>
           <div class="control">
             <div class="select is-fullwidth">
-              <select v-model="correct_option">
-                <option disabled value="default">Select Correct Option</option>
+              <select v-model="correct_choice">
+                <option disabled value="default">Select the correct choice</option>
                 <option v-for="choice in options" :key="choice">
                   {{ choice }}
                 </option>
@@ -115,7 +115,7 @@ export default {
       opt3: null,
       opt4: null,
       options: ['opt1', 'opt2', 'opt3'],
-      correct_option: 'default',
+      correct_choice: 'default',
       year: 'default',
     }
   },

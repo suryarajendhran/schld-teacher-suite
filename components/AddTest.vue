@@ -9,11 +9,11 @@
             <input
               class="input"
               type="text"
-              placeholder="Enter your name"
+              placeholder="Enter the test name"
               v-model="name"
             />
             <span class="icon is-small is-left">
-              <i class="fas fa-user"></i>
+              <i class="fas fa-font"></i>
             </span>
           </div>
           <!-- <p class="help is-danger">This email is invalid</p> -->
@@ -194,6 +194,9 @@ export default {
   },
   computed: {
     title() {
+      if (this.name) {
+        return this.name
+      }
       return 'Add Test'
     },
   },

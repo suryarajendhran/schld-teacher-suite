@@ -31,11 +31,15 @@ export default {
     ],
   },
 
+  router: {
+    middleware: 'auth',
+  },
+
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['@/assets/override_styles.scss', '@/assets/transitions.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [{ src: '~/plugins/persistedState.client.js', srr: false }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,

@@ -6,7 +6,7 @@
         <div id="action-container">
           <button class="button is-primary">Broadcast Message</button>
           <button class="button is-warning">Settings</button>
-          <button class="button is-danger">Sign Out</button>
+          <button class="button is-danger" @click="signOut">Sign Out</button>
         </div>
       </div>
       <div class="column is-three-quarters">
@@ -77,10 +77,12 @@
     </div>
     <add-student />
     <add-test />
+    <add-questions />
   </section>
 </template>
 
 <script>
+import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
 export default {
@@ -193,12 +195,17 @@ export default {
       alert(student)
       console.log(student)
     },
+    signOut() {
+      this.$store.commit('auth/switch')
+      this.$router.push('/login')
+    },
   },
-  components: { AddStudent, AddTest },
+  components: { AddStudent, AddTest, AddQuestions },
   computed: {
     greeting() {
       return 'Good Morning'
     },
+    isSignOutLoading() {},
   },
 }
 </script>

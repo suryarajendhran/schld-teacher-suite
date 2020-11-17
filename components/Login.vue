@@ -10,7 +10,7 @@
             <input
               class="input is-primary"
               type="email"
-              placeholder="Your Username"
+              placeholder="E-mail"
               v-model="email"
             />
             <span class="icon is-small is-left">
@@ -26,12 +26,12 @@
           <div class="control has-icons-left has-icons-right">
             <input
               class="input is-primary"
-              type="text"
+              type="password"
               placeholder="Your Password"
               v-model="password"
             />
             <span class="icon is-small is-left">
-              <i class="fas fa-lock"></i>
+              <i class="fas fa-key"></i>
             </span>
             <span class="icon is-small is-right">
               <i class="fas fa-check"></i

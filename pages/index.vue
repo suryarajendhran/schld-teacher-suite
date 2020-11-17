@@ -243,7 +243,8 @@ export default {
   justify-content: space-between;
 }
 .time {
-  align-self: flex-end;
+  align-self: flex-start;
+  margin-right: 5px;
 }
 #table-container {
   border-radius: 5px;

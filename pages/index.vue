@@ -196,7 +196,9 @@ export default {
       console.log(student)
     },
     signOut() {
+      this.$fire.auth.signOut()
       this.$store.commit('auth/switch')
+      console.log('Signing out')
       this.$router.push('/login')
     },
   },

@@ -32,14 +32,14 @@ export default {
   },
 
   router: {
-    middleware: 'auth',
+    middleware: 'authenticate',
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['@/assets/override_styles.scss', '@/assets/transitions.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '~/plugins/persistedState.client.js', srr: false }],
+  plugins: [{ src: '~/plugins/persistedState.client.js' }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -56,7 +56,34 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     'nuxt-buefy',
+    '@nuxtjs/firebase',
   ],
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyCmlj87RL7xg7zsWNkSMXK7CNtHCynvJyA',
+      authDomain: 'scholared-f3d6d.firebaseapp.com',
+      databaseURL: 'https://scholared-f3d6d.firebaseio.com',
+      projectId: 'scholared-f3d6d',
+      storageBucket: 'scholared-f3d6d.appspot.com',
+      messagingSenderId: '860814167376',
+      appId: '1:860814167376:web:56e11c85f0bccbaaef3055',
+      measurementId: 'G-E5VZLRF3PJ',
+    },
+    services: {
+      auth: {
+        persistence: 'local', // default
+        initialize: {
+          onAuthStateChangedAction: 'auth/onAuthStateChanged',
+          subscribeManually: false,
+        },
+        static: true,
+        ssr: false, // default
+        // emulatorPort: 9099,
+        // emulatorHost: 'http://localhost',
+      }, // Just as example. Can be any other service.
+    },
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},

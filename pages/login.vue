@@ -45,6 +45,9 @@
           <button class="button is-primary is-fullwidth" @click="logIn">
             Login
           </button>
+          <button class="button is-primary is-fullwidth" @click="switchState">
+            Switch State
+          </button>
         </div>
       </div>
     </div>
@@ -60,9 +63,21 @@ export default {
     }
   },
   methods: {
-    logIn() {
+    async logIn() {
+      // this.$fire.auth.createUserWithEmailAndPassword(
+      //   'cielograndesurya@gmail.com',
+      //   '123456'
+      // )
+      console.log('Calling logIn')
+      await this.$fire.auth
+        .signInWithEmailAndPassword('cielograndesurya@gmail.com', '123456')
+        .then(() => {
+          this.$store.commit('auth/switch')
+          this.$router.push('/')
+        })
+    },
+    switchState() {
       this.$store.commit('auth/switch')
-      this.$router.push('/')
     },
   },
 }

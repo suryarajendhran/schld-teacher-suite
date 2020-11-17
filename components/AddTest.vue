@@ -189,7 +189,7 @@ export default {
   methods: {
     openQuestion(data) {
       console.log(data)
-      alert(`Opening quesiton:  ${data}now!`)
+      alert(`Opening question:  ${data} now!`)
     },
   },
   computed: {

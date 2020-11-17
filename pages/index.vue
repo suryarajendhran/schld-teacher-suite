@@ -2,7 +2,7 @@
   <section class="section">
     <div class="columns is-multiline">
       <div class="column is-one-quarter">
-        <h1 class="title">{{ greeting }}</h1>
+        <h1 class="title has-text-centered">{{ greeting }}</h1>
         <div id="action-container">
           <button class="button is-primary">Broadcast Message</button>
           <button class="button is-warning">Settings</button>

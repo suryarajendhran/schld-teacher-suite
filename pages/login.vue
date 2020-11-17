@@ -5,13 +5,14 @@
       <div class="column is-one-quarter">
         <div class="title is-4">Log In</div>
         <div class="field">
-          <label for="username">E-mail</label>
+          <label for="username">Email address</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input is-primary"
               type="email"
               placeholder="E-mail"
               v-model="email"
+              required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
@@ -29,6 +30,7 @@
               type="password"
               placeholder="Your Password"
               v-model="password"
+              required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
@@ -42,11 +44,16 @@
           <a href="#">Have trouble logging in?</a>
         </div>
         <div class="field">
-          <button class="button is-primary is-fullwidth" @click="logIn">
+          <button
+            :class="{
+              button: true,
+              'is-primary': true,
+              'is-fullwidth': true,
+              'is-loading': loading,
+            }"
+            @click="logIn"
+          >
             Login
-          </button>
-          <button class="button is-primary is-fullwidth" @click="switchState">
-            Switch State
           </button>
         </div>
       </div>
@@ -60,17 +67,19 @@ export default {
     return {
       email: '',
       password: '',
+      loading: false,
     }
   },
   methods: {
     async logIn() {
+      this.loading = true
       // this.$fire.auth.createUserWithEmailAndPassword(
       //   'cielograndesurya@gmail.com',
       //   '123456'
       // )
       console.log('Calling logIn')
       await this.$fire.auth
-        .signInWithEmailAndPassword('cielograndesurya@gmail.com', '123456')
+        .signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
           this.$store.commit('auth/switch')
           this.$router.push('/')

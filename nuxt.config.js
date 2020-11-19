@@ -1,5 +1,4 @@
 export default {
-
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
@@ -23,10 +22,10 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       // { src: 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js' },
-      {
-        src: 'https://kit.fontawesome.com/a135911755.js',
-        defer: true,
-      },
+      // {
+      //   src: 'https://kit.fontawesome.com/a135911755.js',
+      //   defer: true,
+      // },
     ],
   },
 
@@ -54,7 +53,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-buefy',
+    ['nuxt-buefy', { materialDesignIcons: false }],
     '@nuxtjs/firebase',
   ],
 
@@ -73,11 +72,10 @@ export default {
       auth: {
         persistence: 'local', // default
         initialize: {
-          onAuthStateChangedAction: 'auth/onAuthStateChanged',
+          onAuthStateChangedMutation: 'auth/SET_AUTH_USER',
           subscribeManually: false,
         },
-        static: true,
-        ssr: false, // default
+        static: true, // default
         // emulatorPort: 9099,
         // emulatorHost: 'http://localhost',
       }, // Just as example. Can be any other service.

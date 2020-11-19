@@ -5,11 +5,17 @@ export const state = () => ({
 
 export const mutations = {
   SET_AUTH_USER: (state, { authUser }) => {
-    const { uid, email, displayName } = authUser
-    state.user = {
-      uid: uid,
-      email: email,
-      displayName: displayName,
+    if (!authUser) {
+      state.user = null
+      state.authenticated = false
+    } else {
+      const { uid, email, displayName } = authUser
+      state.user = {
+        uid: uid,
+        email: email,
+        displayName: displayName,
+      }
+      state.authenticated = true
     }
   },
   RESET_STORE: (state) => {

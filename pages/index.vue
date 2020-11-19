@@ -57,7 +57,7 @@
             </div>
             <div class="level-right">
               <div class="level-item">
-                <button class="button is-primary">
+                <button class="button is-primary" @click="addTest">
                   <span class="icon"> <i class="fas fa-plus"></i> </span>
                   <span>Add Test</span>
                 </button>
@@ -75,9 +75,9 @@
         </div>
       </div>
     </div>
-    <!-- <add-student />
-    <add-test />
-    <add-questions /> -->
+    <!-- <add-student /> -->
+    <add-test :display="testModal" @close="testModal = false" />
+    <!-- <add-questions /> -->
   </section>
 </template>
 
@@ -88,6 +88,7 @@ import AddTest from '~/components/AddTest.vue'
 export default {
   data() {
     return {
+      testModal: false,
       students: [
         {
           uid: 'bvwbis',
@@ -200,6 +201,9 @@ export default {
       this.$store.commit('auth/switch')
       console.log('Signing out')
       this.$router.push('/login')
+    },
+    addTest() {
+      this.testModal = true
     },
   },
   components: { AddStudent, AddTest, AddQuestions },

@@ -75,9 +75,9 @@
         </div>
       </div>
     </div>
-    <add-student />
+    <!-- <add-student />
     <add-test />
-    <add-questions />
+    <add-questions /> -->
   </section>
 </template>
 

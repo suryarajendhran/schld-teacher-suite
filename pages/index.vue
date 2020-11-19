@@ -86,6 +86,9 @@ import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
 export default {
+  // mounted() {
+  //   this.$store.dispatch()
+  // },
   data() {
     return {
       testModal: false,

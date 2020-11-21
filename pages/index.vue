@@ -1,41 +1,16 @@
 <template>
   <section class="section">
-    <div class="columns is-multiline">
+    <div class="columns">
       <div class="column is-one-quarter">
-        <h1 class="title has-text-centered">{{ greeting }}</h1>
-        <div id="action-container">
-          <button class="button is-primary">Broadcast Message</button>
-          <button class="button is-warning">Settings</button>
-          <button class="button is-danger" @click="signOut">Sign Out</button>
-        </div>
+        <h1 class="title has-text-left">{{ greeting }}</h1>
       </div>
-      <div class="column is-three-quarters">
-        <div id="table-container" class="column is-full">
-          <div id="table-level" class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <h2 class="title is-size-3 is-bold">Students</h2>
-              </div>
-            </div>
-            <div class="level-right">
-              <div class="level-item">
-                <button class="button is-primary">
-                  <span class="icon"> <i class="fas fa-plus"></i> </span>
-                  <span>Add Student</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <b-table
-            :data="students"
-            :columns="columns.students"
-            striped
-            hoverable
-            focusable
-            @click="openStudent"
-          ></b-table>
-        </div>
+      <div class="column is-half is-offset-one-quarter has-text-right">
+        <button class="button is-primary is-light">Broadcast Message</button>
+        <button class="button is-warning">Settings</button>
+        <button class="button is-danger" @click="signOut">Sign Out</button>
       </div>
+    </div>
+    <div class="columns">
       <div class="column is-one-quarter">
         <div id="activity-container" class="container">
           <h2 class="is-size-4 has-text-weight-semibold">Activity</h2>
@@ -48,31 +23,48 @@
         </div>
       </div>
       <div class="column is-three-quarters">
-        <div id="table-container" class="column is-full">
-          <div id="table-level" class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <h2 class="title is-size-3 is-bold">Tests</h2>
+        <b-tabs size="is-large" type="is-toggle" expanded>
+          <b-tab-item label="Students">
+            <div class="columns">
+              <div
+                class="column is-one-quarter is-offset-three-quarters has-text-right"
+              >
+                <button class="button is-primary">
+                  <span class="icon"> <i class="fas fa-plus"></i> </span>
+                  <span>Add Student</span>
+                </button>
               </div>
             </div>
-            <div class="level-right">
-              <div class="level-item">
+            <b-table
+              :data="students"
+              :columns="columns.students"
+              striped
+              hoverable
+              focusable
+              @click="openStudent"
+            ></b-table>
+          </b-tab-item>
+          <b-tab-item label="Tests">
+            <div class="columns">
+              <div
+                class="column is-one-quarter is-offset-three-quarters has-text-right"
+              >
                 <button class="button is-primary" @click="addTest">
                   <span class="icon"> <i class="fas fa-plus"></i> </span>
                   <span>Add Test</span>
                 </button>
               </div>
             </div>
-          </div>
-          <b-table
-            :data="tests"
-            :columns="columns.tests"
-            striped
-            hoverable
-            focusable
-            @click="openStudent"
-          ></b-table>
-        </div>
+            <b-table
+              :data="tests"
+              :columns="columns.tests"
+              striped
+              hoverable
+              focusable
+              @click="openStudent"
+            ></b-table>
+          </b-tab-item>
+        </b-tabs>
       </div>
     </div>
     <!-- <add-student /> -->
@@ -259,5 +251,11 @@ export default {
   border-radius: 5px;
   height: 100%;
   background-color: #f1f1f1;
+}
+tbody tr {
+  cursor: pointer;
+}
+.tab-content {
+  background: #f1f1f1;
 }
 </style>

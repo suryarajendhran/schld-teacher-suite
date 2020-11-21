@@ -21,16 +21,24 @@
               </div>
               <!-- <p class="help is-danger">This email is invalid</p> -->
             </div>
-            <div class="field">
-              <label class="label">Assign To</label>
+            <label class="label">Assign To</label>
+            <div class="field has-addons">
               <div class="control">
                 <div class="select is-fullwidth">
-                  <select v-model="assignee">
-                    <option disabled value="default">
-                      Select a year and department
+                  <select v-model="department" class="is-size-6">
+                    <option disabled value="default">Department</option>
+                    <option v-for="department in departments" :key="department">
+                      {{ department }}
                     </option>
-                    <option v-for="assignee in assignees" :key="assignee">
-                      {{ assignee }}
+                  </select>
+                </div>
+              </div>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select v-model="year" class="is-size-6">
+                    <option disabled value="default">Year</option>
+                    <option v-for="year in years" :key="year">
+                      {{ year }}
                     </option>
                   </select>
                 </div>
@@ -148,12 +156,22 @@ export default {
     return {
       tid: null,
       name: null,
-      assignee: null,
       duration: null,
       date: null,
       start_time: null,
       end_time: null,
-      assignees: ['Mechanical - I', 'ECE - I'],
+      departments: [
+        'Mechanical',
+        'ECE',
+        'IT',
+        'Civil',
+        'Biotech',
+        'EIE',
+        'CSE',
+      ],
+      department: 'default',
+      year: 'default',
+      years: ['I', 'II', 'III', 'IV'],
       assignee: 'default',
       questions: [
         {
@@ -206,16 +224,23 @@ export default {
     submit() {
       if (this.tid == null) {
         const tid = this.$fire.database.ref('test').push().key
-        this.$fire.database.ref('test').child(tid).set({
-          tid: tid,
-          name: this.name,
-          assignee: this.assignee,
-          duration: this.duration,
-          date: this.date,
-          start_time: this.start_time,
-          end_time: this.end_time,
-          questions: this.questions,
-        })
+        this.$fire.database
+          .ref('test')
+          .child(tid)
+          .set({
+            tid: tid,
+            status: 'Not started'
+              ? this.date || this.year || this.department || this.duration
+              : 'Not assigned',
+            name: this.name,
+            year: this.year,
+            department: this.department,
+            duration: this.duration,
+            date: this.date,
+            start_time: this.start_time,
+            end_time: this.end_time,
+            questions: this.questions,
+          })
       }
     },
   },

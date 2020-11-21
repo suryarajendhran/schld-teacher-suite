@@ -163,7 +163,7 @@ export default {
             searchable: true,
           },
           {
-            field: 'dept',
+            field: 'department',
             label: 'Department',
           },
           {

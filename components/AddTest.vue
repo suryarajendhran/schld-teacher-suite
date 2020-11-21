@@ -125,7 +125,7 @@
             ></b-table>
           </div>
         </div>
-        <div class="column is-full has-text-centered">
+        <div class="column is-full has-text-centered" @click="submit">
           <button class="button is-primary">
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> Confirm </span>
@@ -146,6 +146,7 @@ export default {
   props: ['display'],
   data() {
     return {
+      tid: null,
       name: null,
       assignee: null,
       duration: null,
@@ -201,6 +202,21 @@ export default {
     openQuestion(data) {
       console.log(data)
       alert(`Opening question:  ${data} now!`)
+    },
+    submit() {
+      if (this.tid == null) {
+        const tid = this.$fire.database.ref('test').push().key
+        this.$fire.database.ref('test').child(tid).set({
+          tid: tid,
+          name: this.name,
+          assignee: this.assignee,
+          duration: this.duration,
+          date: this.date,
+          start_time: this.start_time,
+          end_time: this.end_time,
+          questions: this.questions,
+        })
+      }
     },
   },
   computed: {

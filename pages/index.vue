@@ -78,13 +78,13 @@ import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
 export default {
-  // mounted() {
-  //   this.$store.dispatch()
-  // },
+  mounted() {
+    this.$store.dispatch('data/loadData')
+  },
   data() {
     return {
       testModal: false,
-      students: [
+      students1: [
         {
           uid: 'bvwbis',
           name: 'Surya Rajendhran',
@@ -114,7 +114,7 @@ export default {
           year: 'I',
         },
       ],
-      tests: [
+      tests1: [
         {
           name: 'Destructive Testing',
           dept: 'Mech',
@@ -207,6 +207,10 @@ export default {
       return 'Good Morning'
     },
     isSignOutLoading() {},
+    students() {},
+    tests() {
+      return this.$store.state.data.tests
+    },
   },
 }
 </script>

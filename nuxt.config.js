@@ -86,6 +86,7 @@ export default {
         // emulatorPort: 9099,
         // emulatorHost: 'http://localhost',
       }, // Just as example. Can be any other service.
+      database: true,
     },
   },
 

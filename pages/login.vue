@@ -1,5 +1,6 @@
 <template>
   <div class="section">
+    <div id="background"></div>
     <div class="columns">
       <div class="column is-three-quarters"></div>
       <div class="column is-one-quarter">
@@ -92,4 +93,17 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+#background {
+  background-image: url('/login-bg.jpg');
+  background-position: bottom left; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 50%;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+</style>

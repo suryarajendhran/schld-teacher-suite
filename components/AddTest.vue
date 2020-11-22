@@ -151,7 +151,7 @@
 
 <script>
 export default {
-  props: ['display'],
+  props: ['display', 'test'],
   data() {
     return {
       tid: null,
@@ -160,6 +160,8 @@ export default {
       date: null,
       start_time: null,
       end_time: null,
+      department: 'none',
+      year: 'none',
       departments: [
         'Mechanical',
         'ECE',
@@ -169,8 +171,6 @@ export default {
         'EIE',
         'CSE',
       ],
-      department: 'none',
-      year: 'none',
       years: ['I', 'II', 'III', 'IV'],
       assignee: 'none',
       questions: [
@@ -268,6 +268,20 @@ export default {
         return this.name
       }
       return 'Add Test'
+    },
+  },
+  watch: {
+    display: function (val) {
+      if (val == true && this.test == null) {
+        this.tid = null
+        this.name = null
+        this.duration = null
+        this.date = null
+        this.start_time = null
+        this.end_time = null
+        this.department = 'none'
+        this.year = 'none'
+      }
     },
   },
 }

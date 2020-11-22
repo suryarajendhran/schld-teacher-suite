@@ -146,11 +146,14 @@
       aria-label="close"
       @click="$emit('close')"
     ></button>
+    <add-questions :display="questionModal" @close="questionModal = false" />
   </div>
 </template>
 
 <script>
+import AddQuestions from './AddQuestions.vue'
 export default {
+  components: { AddQuestions },
   props: ['display', 'test'],
   data() {
     return {
@@ -172,6 +175,7 @@ export default {
         'CSE',
       ],
       years: ['I', 'II', 'III', 'IV'],
+      questionModal: false,
       assignee: 'none',
       questions: [
         {

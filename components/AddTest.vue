@@ -242,6 +242,22 @@ export default {
             end_time: this.end_time,
             questions: this.questions,
           })
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>error!</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+              this.$buefy.toast.open({
+                message: 'Added successfully!',
+                type: 'is-success',
+              })
+            }
+            this.$emit('close')
+          })
       }
     },
   },

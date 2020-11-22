@@ -229,9 +229,10 @@ export default {
           .child(tid)
           .set({
             tid: tid,
-            status: 'Not started'
-              ? this.date || this.year || this.department || this.duration
-              : 'Not assigned',
+            status:
+              this.date || this.year || this.department || this.duration
+                ? 'Not started'
+                : 'Not assigned',
             name: this.name,
             year: this.year,
             department: this.department,

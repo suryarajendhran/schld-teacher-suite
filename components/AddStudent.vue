@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ modal: true, visible: display, 'fade-in-quick': true}">
+  <div :class="{ modal: true, visible: display, 'fade-in-quick': true }">
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="section" v-if="display">
@@ -143,19 +143,28 @@ export default {
   },
   methods: {
     submit() {
-      if (this.tid == null) {
-        const tid = this.$fire.database.ref('student').push().key
+      if (this.uid == null) {
+        password = Math.random().toString(36).slice(2)
+        this.$fire
+          .auth()
+          .createUserWithEmailAndPassword(this.email, password)
+          .then((user) => {
+            this.uid = user.uid
+          }).catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+          });
         this.$fire.database
           .ref('student')
-          .child(tid)
+          .child(uid)
           .set({
-            tid: tid,
+            uid: uid,
             name: this.name,
             year: this.year,
             department: this.department,
             email: this.email,
             phone: this.phone,
-            roll_number: this.roll_number
+            roll_number: this.roll_number,
           })
           .then((err) => {
             if (err) {
@@ -175,7 +184,7 @@ export default {
             this.$emit('reload')
           })
       }
-    }
+    },
   },
   computed: {
     title() {

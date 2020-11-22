@@ -143,8 +143,39 @@ export default {
   },
   methods: {
     submit() {
-      alert('Submit clicked!')
-    },
+      if (this.tid == null) {
+        const tid = this.$fire.database.ref('student').push().key
+        this.$fire.database
+          .ref('student')
+          .child(tid)
+          .set({
+            tid: tid,
+            name: this.name,
+            year: this.year,
+            department: this.department,
+            email: this.email,
+            phone: this.phone,
+            roll_number: this.roll_number
+          })
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>error!</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+              this.$buefy.toast.open({
+                message: 'Added successfully!',
+                type: 'is-success',
+              })
+            }
+            this.$emit('close')
+            this.$emit('reload')
+          })
+      }
+    }
   },
   computed: {
     title() {

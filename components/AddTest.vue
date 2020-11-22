@@ -116,7 +116,7 @@
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <button class="button is-primary">
+                  <button class="button is-primary" @click="addQuestions">
                     <span class="icon"> <i class="fas fa-plus"></i> </span>
                     <span>Add Question</span>
                   </button>
@@ -264,6 +264,9 @@ export default {
             this.$emit('reload')
           })
       }
+    },
+    addQuestions() {
+      this.questionModal = true
     },
   },
   computed: {

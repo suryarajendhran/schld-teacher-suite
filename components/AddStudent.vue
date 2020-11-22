@@ -145,15 +145,16 @@ export default {
     submit() {
       if (this.uid == null) {
         this.password = Math.random().toString(36).slice(2)
-        this.$fire
-          .auth()
-          .createUserWithEmailAndPassword(this.email, password)
-          .then((user) => {
-            this.uid = user.uid
-          }).catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-          });
+        // this.$fire
+        //   .auth()
+        //   .createUserWithEmailAndPassword(this.email, this.password)
+        //   .then((user) => {
+        //     this.uid = user.uid
+        //   })
+        //   .catch((error) => {
+        //     var errorCode = error.code
+        //     var errorMessage = error.message
+        //   })
         this.$fire.database
           .ref('student')
           .child(uid)

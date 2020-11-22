@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="column is-three-quarters">
-        <b-tabs size="is-large" type="is-toggle" expanded>
+        <b-tabs size="is-medium" type="is-toggle" expanded>
           <b-tab-item label="Students">
             <div class="columns">
               <div

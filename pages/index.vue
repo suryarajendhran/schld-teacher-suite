@@ -29,7 +29,7 @@
               <div
                 class="column is-one-quarter is-offset-three-quarters has-text-right"
               >
-                <button class="button is-primary">
+                <button class="button is-primary" @click="addStudent">
                   <span class="icon"> <i class="fas fa-plus"></i> </span>
                   <span>Add Student</span>
                 </button>
@@ -67,7 +67,11 @@
         </b-tabs>
       </div>
     </div>
-    <!-- <add-student /> -->
+    <add-student
+      :display="studentModal"
+      @close="studentModal = false"
+      @reload ="$store.dispatch('data/loadData')"
+    />
     <add-test
       :display="testModal"
       :test="activeTest"
@@ -91,6 +95,7 @@ export default {
     return {
       testModal: false,
       activeTest: null,
+      studentModal: false,
       students1: [
         {
           uid: 'bvwbis',
@@ -210,6 +215,9 @@ export default {
     },
     addTest() {
       this.testModal = true
+    },
+    addStudent() {
+      this.studentModal = true
     },
   },
   components: { AddStudent, AddTest, AddQuestions },

@@ -32,6 +32,7 @@
               placeholder="Your Password"
               v-model="password"
               required
+              v-on:keyup.enter="logIn"
             />
             <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
@@ -73,17 +74,26 @@ export default {
   },
   methods: {
     async logIn() {
-      this.loading = true
       // this.$fire.auth.createUserWithEmailAndPassword(
       //   'cielograndesurya@gmail.com',
       //   '123456'
       // )
+      this.loading = true
       console.log('Calling logIn')
       await this.$fire.auth
         .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
+        .then((err) => {
           this.$store.commit('auth/switch')
           this.$router.push('/')
+        })
+        .catch((err) => {
+          this.loading = false
+            this.$buefy.toast.open({
+                duration: 2000,
+                message: `${err.message}</b>`,
+                position: 'is-top',
+                type: 'is-warning',
+              })
         })
     },
     switchState() {

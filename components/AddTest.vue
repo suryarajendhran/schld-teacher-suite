@@ -26,7 +26,7 @@
               <div class="control">
                 <div class="select is-fullwidth">
                   <select v-model="department" class="is-size-6">
-                    <option disabled value="default">Department</option>
+                    <option disabled value="none">Department</option>
                     <option v-for="department in departments" :key="department">
                       {{ department }}
                     </option>
@@ -36,7 +36,7 @@
               <div class="control">
                 <div class="select is-fullwidth">
                   <select v-model="year" class="is-size-6">
-                    <option disabled value="default">Year</option>
+                    <option disabled value="none">Year</option>
                     <option v-for="year in years" :key="year">
                       {{ year }}
                     </option>
@@ -169,10 +169,10 @@ export default {
         'EIE',
         'CSE',
       ],
-      department: 'default',
-      year: 'default',
+      department: 'none',
+      year: 'none',
       years: ['I', 'II', 'III', 'IV'],
-      assignee: 'default',
+      assignee: 'none',
       questions: [
         {
           qid: '123A',
@@ -257,6 +257,7 @@ export default {
               })
             }
             this.$emit('close')
+            this.$emit('reload')
           })
       }
     },

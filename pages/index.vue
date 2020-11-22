@@ -68,7 +68,11 @@
       </div>
     </div>
     <!-- <add-student /> -->
-    <add-test :display="testModal" @close="testModal = false" />
+    <add-test
+      :display="testModal"
+      @close="testModal = false"
+      @reload="$store.dispatch('data/loadData')"
+    />
     <!-- <add-questions /> -->
   </section>
 </template>

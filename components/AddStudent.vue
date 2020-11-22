@@ -144,7 +144,7 @@ export default {
   methods: {
     submit() {
       if (this.uid == null) {
-        password = Math.random().toString(36).slice(2)
+        this.password = Math.random().toString(36).slice(2)
         this.$fire
           .auth()
           .createUserWithEmailAndPassword(this.email, password)
@@ -163,6 +163,7 @@ export default {
             year: this.year,
             department: this.department,
             email: this.email,
+            password: this.password,
             phone: this.phone,
             roll_number: this.roll_number,
           })

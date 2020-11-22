@@ -136,7 +136,7 @@
         <div class="column is-full has-text-centered" @click="submit">
           <button class="button is-primary">
             <span class="icon"> <i class="fas fa-check"></i> </span>
-            <span> Confirm </span>
+            <span> {{ buttonLabel }} </span>
           </button>
         </div>
       </div>
@@ -146,7 +146,11 @@
       aria-label="close"
       @click="$emit('close')"
     ></button>
-    <add-questions :display="questionModal" @close="questionModal = false" />
+    <add-questions
+      :display="questionModal"
+      @close="questionModal = false"
+      :tid="tid"
+    />
   </div>
 </template>
 
@@ -276,6 +280,13 @@ export default {
       }
       return 'Add Test'
     },
+    buttonLabel() {
+      if (this.test) {
+        return 'Update'
+      } else {
+        return 'Add'
+      }
+    },
   },
   watch: {
     display: function (val) {
@@ -288,6 +299,25 @@ export default {
         this.end_time = null
         this.department = 'none'
         this.year = 'none'
+        console.log('No Object found')
+      } else if (val == true && this.test != null) {
+        // this.tid = this.test.tid
+        // this.name = this.test.name
+        // this.duration = this.test.duration
+        // this.date = this.test.date
+        // this.start_time = this.test.start_time
+        // this.end_time = this.test.end_time
+        // this.department = this.test.department
+        // this.year = this.test.year
+        for (const property in this.test) {
+          this[property] = this.test[property]
+        }
+        this.$buefy.toast.open({
+          message: 'Test object found!',
+          type: 'is-warning',
+        })
+      } else if (val == false && this.test != null) {
+        this.$emit('reset')
       }
     },
   },

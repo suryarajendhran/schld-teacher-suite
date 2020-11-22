@@ -61,7 +61,7 @@
               striped
               hoverable
               focusable
-              @click="openStudent"
+              @click="openTest"
             ></b-table>
           </b-tab-item>
         </b-tabs>
@@ -70,8 +70,10 @@
     <!-- <add-student /> -->
     <add-test
       :display="testModal"
+      :test="activeTest"
       @close="testModal = false"
       @reload="$store.dispatch('data/loadData')"
+      @reset="activeTest = null"
     />
     <!-- <add-questions /> -->
   </section>
@@ -88,6 +90,7 @@ export default {
   data() {
     return {
       testModal: false,
+      activeTest: null,
       students1: [
         {
           uid: 'bvwbis',
@@ -194,6 +197,10 @@ export default {
     openStudent(student) {
       alert(student)
       console.log(student)
+    },
+    openTest(test) {
+      this.activeTest = test
+      this.testModal = true
     },
     signOut() {
       this.$fire.auth.signOut()

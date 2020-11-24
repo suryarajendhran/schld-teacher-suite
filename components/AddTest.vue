@@ -133,7 +133,7 @@
             ></b-table>
           </div>
         </div>
-        <div class="column is-full has-text-centered" @click="submit">
+        <div class="column is-full has-text-centered" @click="submit(false)">
           <button class="button is-primary">
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
@@ -148,7 +148,7 @@
     ></button>
     <add-questions
       :display="questionModal"
-      @close="questionModal = false"
+      @close=";(questionModal = false), (index = null)"
       @reload="loadQuestions"
       :tid="tid"
       :originalQuestions="questions"
@@ -196,10 +196,10 @@ export default {
           field: 'weightage',
           label: 'Weightage',
         },
-        {
-          field: 'correct_choice',
-          label: 'Correct Choice',
-        },
+        // {
+        //   field: 'correct_choice',
+        //   label: 'Correct Choice',
+        // },
         {
           field: 'choices',
           label: 'Choices',
@@ -216,13 +216,15 @@ export default {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
     },
-    submit() {
+    submit(preventClose = false) {
       let tid
       if (this.tid == null) {
         tid = this.$fire.database.ref('test').push().key
+        this.tid = tid
       } else {
         tid = this.tid
       }
+      const assignedGroup = `${this.year} - ${this.department}`
       this.$fire.database
         .ref('test')
         .child(tid)
@@ -235,6 +237,7 @@ export default {
           name: this.name,
           year: this.year,
           department: this.department,
+          assignedGroup: assignedGroup,
           duration: this.duration,
           date: this.date,
           start_time: this.start_time,
@@ -254,11 +257,17 @@ export default {
               type: 'is-success',
             })
           }
-          this.$emit('close')
+          if (preventClose == false) {
+            this.$emit('close')
+          }
           this.$emit('reload')
         })
     },
     addQuestions() {
+      if (this.tid == null) {
+        // Have to add test first then add questions
+        this.submit(true)
+      }
       this.questionModal = true
     },
     loadQuestions() {
@@ -292,13 +301,6 @@ export default {
         return 'Add'
       }
     },
-    // questionsArray() {
-    //   let questions = []
-    //   for (const key in this.questions) {
-    //     questions.push(this.questions[key])
-    //   }
-    //   return questions
-    // },
   },
   watch: {
     display: function (val) {

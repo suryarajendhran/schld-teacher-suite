@@ -132,6 +132,7 @@ export default {
   data() {
     return {
       text: null,
+      editing: false,
       questions: null,
       correct_choices: {},
       choice_1: null,
@@ -147,7 +148,9 @@ export default {
   },
   methods: {
     resetForm() {
+      console.log('Calling reset form')
       this.text = null
+      this.editing = false
       this.questions = null
       this.correct_choices = {}
       this.choice_1 = null
@@ -172,7 +175,11 @@ export default {
       })
     },
     submit() {
-      this.addLatestToArray()
+      if (this.editing == false) {
+        this.addLatestToArray()
+      } else {
+        this.correct_choices[this.index] = this.choices[this.correct_choice - 1]
+      }
       for (const qid in this.correct_choices) {
         this.$fire.database
           .ref(`answers/${this.tid}`)
@@ -210,15 +217,24 @@ export default {
   },
   watch: {
     display: function (val) {
+      this.resetForm()
       this.questions = this.originalQuestions
       if (val == true && this.index == null) {
         // Clicked on add question
+        this.editing = false
         this.total_questions = this.questions.length + 1
         this.current_question = this.total_questions
       } else if (val == true && this.index != null) {
         // Editing exiting question
+        this.editing = true
         this.total_questions = this.questions.length
         this.current_question = this.index + 1
+        this.$fire.database
+          .ref(`answers/${this.tid}/${this.index}`)
+          .once('value')
+          .then((snapshot) => {
+            this.correct_choice = this.choices.indexOf(snapshot.val()) + 1
+          })
         const question = this.questions[this.index]
         console.log(question)
         for (const key in question) {
@@ -227,7 +243,21 @@ export default {
       } else if (val == false) {
         // Closing the modal
         console.log('Modal closing')
-        this.resetForm()
+      }
+    },
+    text(val) {
+      if (this.editing) {
+        this.questions[this.index].text = val
+      }
+    },
+    choices(val) {
+      if (this.editing) {
+        this.questions[this.index].choices = val
+      }
+    },
+    weightage(val) {
+      if (this.editing) {
+        this.questions[this.index].weightage = val
       }
     },
   },

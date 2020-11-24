@@ -24,13 +24,13 @@
             <div class="field">
               <label class="label">Choice #1</label>
               <div class="control">
-                <input class="input" type="text" v-model="choice_1" />
+                <input class="input" type="text" v-model="choice_1" required />
               </div>
             </div>
             <div class="field">
               <label class="label">Choice #2</label>
               <div class="control">
-                <input class="input" type="text" v-model="choice_2" />
+                <input class="input" type="text" v-model="choice_2" required />
               </div>
             </div>
           </div>
@@ -58,6 +58,7 @@
                   type="text"
                   placeholder="Marks assigned for question"
                   v-model="weightage"
+                  required
                 />
               </div>
             </div>
@@ -66,13 +67,13 @@
             <div class="field">
               <label class="label">Choice #3</label>
               <div class="control">
-                <input class="input" v-model="choice_3" />
+                <input class="input" v-model="choice_3" required />
               </div>
             </div>
             <div class="field">
               <label class="label">Choice #4</label>
               <div class="control">
-                <input class="input" v-model="choice_4" />
+                <input class="input" v-model="choice_4" required />
               </div>
             </div>
           </div>
@@ -99,7 +100,7 @@
             </div>
           </div>
           <div class="column has-text-centered">
-            <button class="button is-primary">
+            <button class="button is-primary" @click="submit">
               <span>Finish Adding Question</span>
               <span class="icon">
                 <i class="fas fa-check-circle"></i>
@@ -119,7 +120,7 @@
 
 <script>
 export default {
-  props: ['display', 'questionObj'],
+  props: ['display', 'questions', 'index', 'tid', 'qid'],
   data() {
     return {
       question: null,
@@ -129,13 +130,32 @@ export default {
       choice_4: null,
       choices: ['Choice 1', 'Choice 2', 'Choice 3', 'Choice 4'],
       correct_choice: 'default',
-      year: 'default',
       weightage: null,
+      current_question: null,
+      total_questions: null,
     }
   },
   methods: {
     submit() {
       alert('Submit clicked!')
+      let qid
+      if (this.qid == null) {
+        qid = this.$fire.database.ref(`test/${this.tid}/questions`).push().key
+      }
+      const choices = [
+        this.choice_1,
+        this.choice_2,
+        this.choice_3,
+        this.choice_4,
+      ]
+      this.$fire.database.ref(`test/${this.tid}/questions`).child(qid).update({
+        question: this.question,
+        choices: choices,
+        correct_choice: this.correct_choice,
+        weightage: this.weightage,
+        tid: this.tid,
+        qid: this.qid,
+      })
     },
   },
   computed: {
@@ -145,11 +165,22 @@ export default {
       }
       return 'Add Questions'
     },
-    current_question() {
-      return 1
-    },
-    total_questions() {
-      return 4
+  },
+  watch: {
+    display: function (val) {
+      if (val == true && this.index == null) {
+        // Clicked on add question
+        this.total_questions = this.questions.length + 1
+        this.current_question = this.total_questions
+      } else if (val == true && this.index != null) {
+        // Editing exiting question
+        this.total_questions = this.questions.length
+        this.current_question = this.index
+        const question = this.questions[this.index]
+        for (const key in question) {
+          this[key] = question[key]
+        }
+      }
     },
   },
 }

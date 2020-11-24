@@ -124,7 +124,7 @@
               </div>
             </div>
             <b-table
-              :data="questions"
+              :data="questionsArray"
               :columns="columns"
               striped
               hoverable
@@ -150,6 +150,8 @@
       :display="questionModal"
       @close="questionModal = false"
       :tid="tid"
+      :questions="questions"
+      :index="index"
     />
   </div>
 </template>
@@ -161,6 +163,8 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      changed: false,
+      index: null,
       tid: null,
       name: null,
       duration: null,
@@ -181,29 +185,7 @@ export default {
       years: ['I', 'II', 'III', 'IV'],
       questionModal: false,
       assignee: 'none',
-      questions: [
-        {
-          qid: '123A',
-          text: 'Some Text',
-          weightage: '2',
-          correct_choice: 'Option 1',
-          choices: '1. Option 1, 2. Option 3, 4. Option 5',
-        },
-        {
-          qid: '123B',
-          text: 'Some Text',
-          weightage: '2',
-          correct_choice: 'Option 1',
-          choices: '1. Option 1, 2. Option 3, 4. Option 5',
-        },
-        {
-          qid: '123C',
-          text: 'Some Text',
-          weightage: '2',
-          correct_choice: 'Option 1',
-          choices: '1. Option 1, 2. Option 3, 4. Option 5',
-        },
-      ],
+      questions: null,
       columns: [
         {
           field: 'text',
@@ -225,49 +207,52 @@ export default {
     }
   },
   methods: {
-    openQuestion(data) {
-      console.log(data)
-      alert(`Opening question:  ${data} now!`)
+    openQuestion(question) {
+      this.index = this.questions.indexOf(question)
+      this.questionModal = true
     },
     submit() {
+      let tid
       if (this.tid == null) {
-        const tid = this.$fire.database.ref('test').push().key
-        this.$fire.database
-          .ref('test')
-          .child(tid)
-          .set({
-            tid: tid,
-            status:
-              this.date || this.year || this.department || this.duration
-                ? 'Not started'
-                : 'Not assigned',
-            name: this.name,
-            year: this.year,
-            department: this.department,
-            duration: this.duration,
-            date: this.date,
-            start_time: this.start_time,
-            end_time: this.end_time,
-            questions: this.questions,
-          })
-          .then((err) => {
-            if (err) {
-              this.$buefy.toast.open({
-                duration: 2000,
-                message: `Something's not good, <b>error!</b>`,
-                position: 'is-bottom',
-                type: 'is-danger',
-              })
-            } else {
-              this.$buefy.toast.open({
-                message: 'Added successfully!',
-                type: 'is-success',
-              })
-            }
-            this.$emit('close')
-            this.$emit('reload')
-          })
+        tid = this.$fire.database.ref('test').push().key
+      } else {
+        tid = this.tid
       }
+      this.$fire.database
+        .ref('test')
+        .child(tid)
+        .update({
+          tid: tid,
+          status:
+            this.date || this.year || this.department || this.duration
+              ? 'Not started'
+              : 'Not assigned',
+          name: this.name,
+          year: this.year,
+          department: this.department,
+          duration: this.duration,
+          date: this.date,
+          start_time: this.start_time,
+          end_time: this.end_time,
+          questions: this.questions,
+        })
+        .then((err) => {
+          if (err) {
+            this.$buefy.toast.open({
+              duration: 2000,
+              message: `Something's not good, <b>error!</b>`,
+              position: 'is-bottom',
+              type: 'is-danger',
+            })
+          } else {
+            this.$buefy.toast.open({
+              message: 'Added successfully!',
+              type: 'is-success',
+            })
+          }
+          this.$emit('close')
+          this.$emit('reload')
+        })
     },
     addQuestions() {
       this.questionModal = true
@@ -286,6 +271,13 @@ export default {
       } else {
         return 'Add'
       }
+    },
+    questionsArray() {
+      let questions = []
+      for (const key in this.questions) {
+        questions.push(this.questions[key])
+      }
+      return questions
     },
   },
   watch: {

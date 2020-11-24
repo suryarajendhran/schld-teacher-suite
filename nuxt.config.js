@@ -1,6 +1,7 @@
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
+  ssr: false,
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -44,7 +45,7 @@ export default {
   css: ['@/assets/override_styles.scss', '@/assets/transitions.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '~/plugins/persistedState.client.js' }],
+  plugins: [{ src: '~/plugins/persistedState.client.js', mode: 'client' }],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,

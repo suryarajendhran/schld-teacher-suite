@@ -105,7 +105,7 @@ export default {
 
 <style>
 #background {
-  background-image: url('/login-bg.jpg');
+  background-image: url('/login-bg.webp');
   background-position: bottom left; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: 50%;

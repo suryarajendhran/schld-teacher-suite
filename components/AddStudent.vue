@@ -153,7 +153,7 @@ export default {
         }
         const response = await this.$axios
           .$post(
-            'http://localhost:5001/scholared-f3d6d/us-central1/addStudent',
+            'https://us-central1-scholared-f3d6d.cloudfunctions.net/addStudent',
             { student: student }
           )
           .then((resp) => console.log(resp))

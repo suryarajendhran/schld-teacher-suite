@@ -96,62 +96,6 @@ export default {
       testModal: false,
       activeTest: null,
       studentModal: false,
-      students1: [
-        {
-          uid: 'bvwbis',
-          name: 'Surya Rajendhran',
-          password: 'fu27fb9',
-          dept: 'ECE',
-          year: 'IV',
-        },
-        {
-          uid: 'bv37is',
-          name: 'Avinash MG',
-          password: '18g7s1j',
-          dept: 'IT',
-          year: 'III',
-        },
-        {
-          uid: 'rtig28',
-          name: 'Murali Mohan Rao',
-          password: 'f1uvj78',
-          dept: 'EIE',
-          year: 'II',
-        },
-        {
-          uid: 'fut18',
-          name: 'Kaillash Madhanraj',
-          password: '479g7ehi',
-          dept: 'Mech',
-          year: 'I',
-        },
-      ],
-      tests1: [
-        {
-          name: 'Destructive Testing',
-          dept: 'Mech',
-          year: 'III',
-          status: 'Not started',
-          date: '12-12-2020',
-          duration: '120 mins',
-        },
-        {
-          name: 'Microcontrollers and System Design',
-          dept: 'EIE',
-          year: 'II',
-          status: 'Completed',
-          date: '11-11-2020',
-          duration: '90 mins',
-        },
-        {
-          name: 'Professional Ethics',
-          dept: 'IT',
-          year: 'III',
-          status: 'Completed',
-          date: '20-10-2020',
-          duration: '150 mins',
-        },
-      ],
       columns: {
         students: [
           {

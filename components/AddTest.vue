@@ -124,7 +124,7 @@
               </div>
             </div>
             <b-table
-              :data="questionsArray"
+              :data="questions"
               :columns="columns"
               striped
               hoverable
@@ -149,8 +149,9 @@
     <add-questions
       :display="questionModal"
       @close="questionModal = false"
+      @reload="loadQuestions"
       :tid="tid"
-      :questions="questions"
+      :originalQuestions="questions"
       :index="index"
     />
   </div>
@@ -185,7 +186,7 @@ export default {
       years: ['I', 'II', 'III', 'IV'],
       questionModal: false,
       assignee: 'none',
-      questions: null,
+      questions: [],
       columns: [
         {
           field: 'text',
@@ -207,6 +208,10 @@ export default {
     }
   },
   methods: {
+    resetForm() {
+      this.questions = []
+      this.tid = null
+    },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
@@ -256,6 +261,22 @@ export default {
     addQuestions() {
       this.questionModal = true
     },
+    loadQuestions() {
+      console.log('Loading questions')
+      if (this.tid !== null) {
+        this.$fire.database
+          .ref(`questions/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            if (snapshot.val() == null) {
+              this.questions = []
+            } else {
+              this.questions = snapshot.val()
+            }
+            console.log(this.questions)
+          })
+      }
+    },
   },
   computed: {
     title() {
@@ -271,13 +292,13 @@ export default {
         return 'Add'
       }
     },
-    questionsArray() {
-      let questions = []
-      for (const key in this.questions) {
-        questions.push(this.questions[key])
-      }
-      return questions
-    },
+    // questionsArray() {
+    //   let questions = []
+    //   for (const key in this.questions) {
+    //     questions.push(this.questions[key])
+    //   }
+    //   return questions
+    // },
   },
   watch: {
     display: function (val) {
@@ -290,7 +311,7 @@ export default {
         this.end_time = null
         this.department = 'none'
         this.year = 'none'
-        this.questions = null
+        this.questions = []
         console.log('No Object found')
       } else if (val == true && this.test != null) {
         this.tid = null
@@ -301,15 +322,18 @@ export default {
         this.end_time = null
         this.department = 'none'
         this.year = 'none'
-        this.questions = null
+        this.questions = []
         for (const property in this.test) {
           this[property] = this.test[property]
         }
+        this.loadQuestions()
         this.$buefy.toast.open({
           message: 'Test object found!',
           type: 'is-warning',
         })
-      } else if (val == false && this.test != null) {
+      } else if (val == false) {
+        // Closing modal
+        this.resetForm()
         this.$emit('reset')
       }
     },

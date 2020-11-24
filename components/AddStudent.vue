@@ -142,49 +142,54 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       if (this.uid == null) {
         this.password = Math.random().toString(36).slice(2)
-        // this.$fire
-        //   .auth()
-        //   .createUserWithEmailAndPassword(this.email, this.password)
-        //   .then((user) => {
-        //     this.uid = user.uid
-        //   })
-        //   .catch((error) => {
-        //     var errorCode = error.code
-        //     var errorMessage = error.message
-        //   })
-        this.$fire.database
-          .ref('student')
-          .child(uid)
-          .set({
-            uid: uid,
-            name: this.name,
-            year: this.year,
-            department: this.department,
-            email: this.email,
-            password: this.password,
-            phone: this.phone,
-            roll_number: this.roll_number,
-          })
-          .then((err) => {
-            if (err) {
-              this.$buefy.toast.open({
-                duration: 2000,
-                message: `Something's not good, <b>error!</b>`,
-                position: 'is-bottom',
-                type: 'is-danger',
-              })
-            } else {
-              this.$buefy.toast.open({
-                message: 'Added successfully!',
-                type: 'is-success',
-              })
-            }
-            this.$emit('close')
-            this.$emit('reload')
-          })
+        const student = {
+          email: this.email,
+          password: this.password,
+          phoneNumber: this.phone,
+          displayName: this.name,
+        }
+        const response = await this.$axios.$post(
+          'http://localhost:5001/scholared-f3d6d/us-central1/addStudent',
+            { student: student }
+        )
+        if(response.message=="New Student created successfully"){
+          //Add Student details to the databse
+          this.$fire.database
+            .ref('student')
+            .child(uid)
+            .set({
+              uid: response.uid,
+              name: this.name,
+              year: this.year,
+              department: this.department,
+              email: this.email,
+              password: this.password,
+              phone: this.phone,
+              roll_number: this.roll_number,
+            })
+            .then((err) => {
+              if (err) {
+                this.$buefy.toast.open({
+                  duration: 2000,
+                  message: `Something's not good, <b>error!</b>`,
+                  position: 'is-bottom',
+                  type: 'is-danger',
+                })
+              } else {
+                this.$buefy.toast.open({
+                  message: 'Added successfully!',
+                  type: 'is-success',
+                })
+              }
+              this.$emit('close')
+              this.$emit('reload')
+            })
+        }else{
+          console.log(`Error: ${response.error}`)
+        }
       }
     },
   },

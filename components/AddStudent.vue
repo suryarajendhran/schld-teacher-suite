@@ -151,11 +151,13 @@ export default {
           phoneNumber: this.phone,
           displayName: this.name,
         }
-        const response = await this.$axios.$post(
-          'http://localhost:5001/scholared-f3d6d/us-central1/addStudent',
+        const response = await this.$axios
+          .$post(
+            'http://localhost:5001/scholared-f3d6d/us-central1/addStudent',
             { student: student }
-        )
-        if(response.message=="New Student created successfully"){
+          )
+          .then((resp) => console.log(resp))
+        if (response.message == 'New Student created successfully') {
           //Add Student details to the databse
           this.$fire.database
             .ref('student')
@@ -187,7 +189,7 @@ export default {
               this.$emit('close')
               this.$emit('reload')
             })
-        }else{
+        } else {
           console.log(`Error: ${response.error}`)
         }
       }

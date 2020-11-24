@@ -234,7 +234,6 @@ export default {
           date: this.date,
           start_time: this.start_time,
           end_time: this.end_time,
-          questions: this.questions,
         })
         .then((err) => {
           if (err) {
@@ -291,16 +290,18 @@ export default {
         this.end_time = null
         this.department = 'none'
         this.year = 'none'
+        this.questions = null
         console.log('No Object found')
       } else if (val == true && this.test != null) {
-        // this.tid = this.test.tid
-        // this.name = this.test.name
-        // this.duration = this.test.duration
-        // this.date = this.test.date
-        // this.start_time = this.test.start_time
-        // this.end_time = this.test.end_time
-        // this.department = this.test.department
-        // this.year = this.test.year
+        this.tid = null
+        this.name = null
+        this.duration = null
+        this.date = null
+        this.start_time = null
+        this.end_time = null
+        this.department = 'none'
+        this.year = 'none'
+        this.questions = null
         for (const property in this.test) {
           this[property] = this.test[property]
         }

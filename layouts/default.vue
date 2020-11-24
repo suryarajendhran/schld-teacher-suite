@@ -1,7 +1,7 @@
 <template>
-<div class="fade-in">
-  <Nuxt />
-</div>
+  <div class="fade-in">
+    <Nuxt />
+  </div>
 </template>
 
 <style>
@@ -18,5 +18,14 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #f1f1f1 inset !important;
+  /*use inset box-shadow to cover background-color*/
+  -webkit-text-fill-color: #000000 !important;
+  /*use text fill color to cover font color*/
 }
 </style>

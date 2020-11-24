@@ -155,51 +155,45 @@ export default {
 
         await this.$axios
           .$post(
-            'http://localhost:5001/scholared-f3d6d/us-central1/addStudent',
+            'https://us-central1-scholared-f3d6d.cloudfunctions.net/addStudent',
             { student: student }
           )
           .then((response) => {
             console.log(response)
+            this.$fire.database
+              .ref('student')
+              .child(response.userRecord.uid)
+              .set({
+                uid: response.userRecord.uid,
+                name: this.name,
+                year: this.year,
+                department: this.department,
+                email: this.email,
+                password: this.password,
+                phone: this.phone,
+                roll_number: this.roll_number,
+              })
+              .then((err) => {
+                if (err) {
+                  this.$buefy.toast.open({
+                    duration: 2000,
+                    message: `Something's not good, <b>error!</b>`,
+                    position: 'is-bottom',
+                    type: 'is-danger',
+                  })
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Added successfully!',
+                    type: 'is-success',
+                  })
+                }
+                this.$emit('close')
+                this.$emit('reload')
+              })
           })
           .catch((response) => {
             console.log(response)
           })
-        // if (response.message == 'New Student created successfully') {
-        //Add Student details to the database
-        // console.log(userRecord)
-        // this.$fire.database
-        //   .ref('student')
-        //   .child(userRecord.uid)
-        //   .set({
-        //     uid: response.uid,
-        //     name: this.name,
-        //     year: this.year,
-        //     department: this.department,
-        //     email: this.email,
-        //     password: this.password,
-        //     phone: this.phone,
-        //     roll_number: this.roll_number,
-        //   })
-        //   .then((err) => {
-        //     if (err) {
-        //       this.$buefy.toast.open({
-        //         duration: 2000,
-        //         message: `Something's not good, <b>error!</b>`,
-        //         position: 'is-bottom',
-        //         type: 'is-danger',
-        //       })
-        //     } else {
-        //       this.$buefy.toast.open({
-        //         message: 'Added successfully!',
-        //         type: 'is-success',
-        //       })
-        //     }
-        //     this.$emit('close')
-        //     this.$emit('reload')
-        //   })
-        // } else {
-        //   console.log(`Error: ${response.error}`)
-        // }
       }
     },
   },

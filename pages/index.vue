@@ -70,7 +70,7 @@
     <add-student
       :display="studentModal"
       @close="studentModal = false"
-      @reload ="$store.dispatch('data/loadData')"
+      @reload="$store.dispatch('data/loadData')"
     />
     <add-test
       :display="testModal"
@@ -172,6 +172,9 @@ export default {
     isSignOutLoading() {},
     students() {},
     tests() {
+      if (this.$store.state.data.tests == null) {
+        return []
+      }
       return this.$store.state.data.tests
     },
   },

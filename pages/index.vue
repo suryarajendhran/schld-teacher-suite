@@ -67,12 +67,12 @@
         </b-tabs>
       </div>
     </div>
-    <add-student
+    <lazy-add-student
       :display="studentModal"
       @close="studentModal = false"
       @reload="$store.dispatch('data/loadData')"
     />
-    <add-test
+    <lazy-add-test
       :display="testModal"
       :test="activeTest"
       @close="testModal = false"

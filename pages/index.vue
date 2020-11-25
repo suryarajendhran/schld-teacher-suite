@@ -173,7 +173,11 @@ export default {
     },
     isSignOutLoading() {},
     students() {
-      return this.$store.state.data.students
+      if(this.$store.state.data.students == null){
+        return []
+      }else{
+        return this.$store.state.data.students
+      }
     },
     tests() {
       if (this.$store.state.data.tests == null) {

@@ -5,9 +5,11 @@
         <h1 class="title has-text-left">{{ greeting }}</h1>
       </div>
       <div class="column is-half is-offset-one-quarter has-text-right">
-        <button class="button is-primary is-light">Broadcast Message</button>
-        <button class="button is-warning">Settings</button>
-        <button class="button is-danger" @click="signOut">Sign Out</button>
+        <button class="button is-primary is-light mt-2">
+          Broadcast Message
+        </button>
+        <button class="button is-warning mt-2">Settings</button>
+        <button class="button is-danger mt-2" @click="signOut">Sign Out</button>
       </div>
     </div>
     <div class="columns">

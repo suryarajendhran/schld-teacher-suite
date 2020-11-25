@@ -152,7 +152,7 @@ export default {
           phoneNumber: this.phone,
           displayName: this.name,
         }
-
+        var groupId = this.year.toString() + ' - ' + this.department
         await this.$axios
           .$post(
             'https://us-central1-scholared-f3d6d.cloudfunctions.net/addStudent',
@@ -172,6 +172,7 @@ export default {
                 password: this.password,
                 phone: this.phone,
                 roll_number: this.roll_number,
+                groupId: groupId,
               })
               .then((err) => {
                 if (err) {
@@ -194,7 +195,7 @@ export default {
           .catch((response) => {
             console.log(response)
           })
-      }else{
+      } else {
         const student = {
           uid: this.uid,
           email: this.email,
@@ -202,7 +203,7 @@ export default {
           phoneNumber: this.phone,
           displayName: this.name,
         }
-        var groupId = this.year.toString() + " - " + this.department
+        var groupId = this.year.toString() + ' - ' + this.department
         await this.$axios
           .$post(
             'https://us-central1-scholared-f3d6d.cloudfunctions.net/updateStudent',
@@ -264,6 +265,7 @@ export default {
         this.phone = this.student.phone
         this.email = this.student.email
         this.department = this.student.department
+        this.year = this.student.year
         this.roll_number = this.student.roll_number
       } else if (val === false) {
         this.$emit('reset')

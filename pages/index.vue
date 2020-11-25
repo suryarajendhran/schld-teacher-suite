@@ -70,7 +70,7 @@
     <add-student
       :display="studentModal"
       @close="studentModal = false"
-      @reload ="$store.dispatch('data/loadData')"
+      @reload="$store.dispatch('data/loadData')"
     />
     <add-test
       :display="testModal"
@@ -109,7 +109,7 @@ export default {
             searchable: true,
           },
           { field: 'password', label: 'Password' },
-          { field: 'dept', label: 'Department' },
+          { field: 'department', label: 'Department' },
           { field: 'year', label: 'Year' },
         ],
         tests: [
@@ -170,7 +170,9 @@ export default {
       return 'Good Morning'
     },
     isSignOutLoading() {},
-    students() {},
+    students() {
+      return this.$store.state.students
+    },
     tests() {
       return this.$store.state.data.tests
     },

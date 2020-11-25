@@ -194,6 +194,55 @@ export default {
           .catch((response) => {
             console.log(response)
           })
+      }else{
+        const student = {
+          uid: this.uid,
+          email: this.email,
+          password: this.password,
+          phoneNumber: this.phone,
+          displayName: this.name,
+        }
+        var groupId = this.year.toString() + " - " + this.department
+        await this.$axios
+          .$post(
+            'https://us-central1-scholared-f3d6d.cloudfunctions.net/updateStudent',
+            { student: student }
+          )
+          .then((response) => {
+            console.log(response)
+            this.$fire.database
+              .ref('student')
+              .child(this.uid)
+              .update({
+                name: this.name,
+                year: this.year,
+                department: this.department,
+                password: this.password,
+                phone: this.phone,
+                roll_number: this.roll_number,
+                groupId: groupId,
+              })
+              .then((err) => {
+                if (err) {
+                  this.$buefy.toast.open({
+                    duration: 2000,
+                    message: `Something's not good, <b>error!</b>`,
+                    position: 'is-bottom',
+                    type: 'is-danger',
+                  })
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Updated successfully!',
+                    type: 'is-success',
+                  })
+                }
+                this.$emit('close')
+                this.$emit('reload')
+              })
+          })
+          .catch((response) => {
+            console.log(response)
+          })
       }
     },
   },
@@ -203,6 +252,22 @@ export default {
         return this.name
       }
       return 'Add Student'
+    },
+  },
+  watch: {
+    display: function (val) {
+      console.log(this.student)
+      if (val == true && this.student !== null) {
+        this.uid = this.student.uid
+        this.name = this.student.name
+        this.password = this.student.password
+        this.phone = this.student.phone
+        this.email = this.student.email
+        this.department = this.student.department
+        this.roll_number = this.student.roll_number
+      } else if (val === false) {
+        this.$emit('reset')
+      }
     },
   },
 }

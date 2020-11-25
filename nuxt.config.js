@@ -45,7 +45,7 @@ export default {
   css: ['@/assets/override_styles.scss', '@/assets/transitions.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '~/plugins/persistedState.client.js', mode: 'client' }],
+  plugins: [],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,

@@ -146,7 +146,7 @@
       aria-label="close"
       @click="$emit('close')"
     ></button>
-    <add-questions
+    <lazy-add-questions
       :display="questionModal"
       @close=";(questionModal = false), (index = null)"
       @reload="loadQuestions"

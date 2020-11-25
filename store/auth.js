@@ -1,5 +1,5 @@
 export const state = () => ({
-  authenticated: false,
+  authenticated: localStorage.getItem('authenticated') === 'true' || false,
   user: null,
 })
 
@@ -8,6 +8,7 @@ export const mutations = {
     if (!authUser) {
       state.user = null
       state.authenticated = false
+      localStorage.setItem('authenticated', false)
     } else {
       const { uid, email, displayName } = authUser
       state.user = {
@@ -16,6 +17,7 @@ export const mutations = {
         displayName: displayName,
       }
       state.authenticated = true
+      localStorage.setItem('authenticated', true)
     }
   },
   RESET_STORE: (state) => {
@@ -23,6 +25,7 @@ export const mutations = {
   },
   switch(state) {
     state.authenticated = !state.authenticated
+    localStorage.setItem('authenticated', state.authenticated)
   },
 }
 

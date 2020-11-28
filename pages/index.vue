@@ -71,8 +71,10 @@
     </div>
     <lazy-add-student
       :display="studentModal"
+      :student="activeStudent"
       @close="studentModal = false"
       @reload="$store.dispatch('data/loadData')"
+      @reset="activeStudent = false"
     />
     <lazy-add-test
       :display="testModal"
@@ -98,6 +100,7 @@ export default {
       testModal: false,
       activeTest: null,
       studentModal: false,
+      activeStudent: null,
       columns: {
         students: [
           {
@@ -146,8 +149,9 @@ export default {
   },
   methods: {
     openStudent(student) {
-      alert(student)
-      console.log(student)
+      this.studentModal = true
+      this.activeStudent= student
+      console.log(student);
     },
     openTest(test) {
       this.activeTest = test
@@ -173,7 +177,11 @@ export default {
     },
     isSignOutLoading() {},
     students() {
-      return this.$store.state.students
+      if(this.$store.state.data.students == null){
+        return []
+      }else{
+        return this.$store.state.data.students
+      }
     },
     tests() {
       if (this.$store.state.data.tests == null) {

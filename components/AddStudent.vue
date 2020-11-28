@@ -95,10 +95,10 @@
                 <div class="select is-fullwidth">
                   <select v-model="year">
                     <option disabled value="default">Select your year</option>
-                    <option>1st Year</option>
-                    <option>2nd Year</option>
-                    <option>3rd Year</option>
-                    <option>4th Year</option>
+                    <option>I</option>
+                    <option>II</option>
+                    <option>III</option>
+                    <option>IV</option>
                   </select>
                 </div>
               </div>
@@ -110,6 +110,12 @@
                 <button class="button is-primary" @click="submit">
                   <span class="icon"> <i class="fas fa-check"></i> </span>
                   <span> Confirm </span>
+                </button>
+              </div>
+               <div class="control">
+                <button class="button is-warning" @click="delete_user">
+                  <span class="icon"> <i class="fas fa-trash"></i> </span>
+                  <span> Delete User </span>
                 </button>
               </div>
             </div>
@@ -142,6 +148,43 @@ export default {
     }
   },
   methods: {
+    async delete_user() {
+      if(this.uid !== null ){
+        const student = {
+          uid: this.uid
+        }
+        await this.$axios
+          .$post(
+            'https://us-central1-scholared-f3d6d.cloudfunctions.net/deleteStudent',
+            { student: student }
+          ).then((response) => {
+            this.$fire.database
+              .ref('student')
+              .child(this.uid)
+              .remove()
+              .then((err) => {
+                if (err) {
+                  this.$buefy.toast.open({
+                    duration: 2000,
+                    message: `Something's not good, <b>error!</b>`,
+                    position: 'is-bottom',
+                    type: 'is-danger',
+                  })
+                } else {
+                  this.$buefy.toast.open({
+                    message: 'Deleted Student successfully',
+                    type: 'is-success',
+                  })
+                }
+                this.$emit('close')
+                this.$emit('reload')
+              })
+          })
+          .catch((response) => {
+            console.log(response)
+          })
+      }
+    },
     async submit() {
       if (this.uid == null) {
         this.password = Math.random().toString(36).slice(2)

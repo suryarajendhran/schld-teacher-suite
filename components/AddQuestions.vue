@@ -217,9 +217,12 @@ export default {
         this.correct_choices[this.index] = this.choices[this.correct_choice - 1]
       }
       for (const qid in this.correct_choices) {
-        this.$fire.database
-          .ref(`answers/${this.tid}`)
-          .update({ [qid]: this.correct_choices[qid] })
+        this.$fire.database.ref(`answers/${this.tid}`).update({
+          [qid]: {
+            value: this.correct_choices[qid],
+            weightage: this.questions[qid].weightage,
+          },
+        })
       }
       this.$fire.database
         .ref(`questions/${this.tid}`)

@@ -109,9 +109,15 @@
           </div> -->
           <div class="column has-text-centered">
             <button class="button is-primary" @click="submit">
-              <span>Finish Adding Question</span>
+              <span>{{ addQuestionLabel }}</span>
               <span class="icon">
                 <i class="fas fa-check-circle"></i>
+              </span>
+            </button>
+            <button class="button is-warning" @click="removeQuestion">
+              <span>Remove Question</span>
+              <span class="icon">
+                <i class="fas fa-trash"></i>
               </span>
             </button>
           </div>
@@ -174,6 +180,36 @@ export default {
         qid: this.questions.length,
       })
     },
+    removeQuestion() {
+      if (this.editing == true) {
+        this.questions.splice(this.index, 1)
+        this.$fire.database
+          .ref(`questions/${this.tid}`)
+          .set(this.questions)
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>${err}</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+              this.$buefy.toast.open({
+                message: 'Removed successfully!',
+                type: 'is-success',
+              })
+              this.$emit('close')
+              this.$emit('reload')
+            }
+          })
+        for (const qid in this.correct_choices) {
+          this.$fire.database
+            .ref(`answers/${this.tid}`)
+            .update({ [qid]: this.correct_choices[qid] })
+        }
+      }
+    },
     submit() {
       if (this.editing == false) {
         this.addLatestToArray()
@@ -213,6 +249,13 @@ export default {
         return this.name
       }
       return 'Add Question'
+    },
+    addQuestionLabel() {
+      if (this.editing == true) {
+        return 'Update Question'
+      } else {
+        return 'Add Question'
+      }
     },
   },
   watch: {

@@ -133,10 +133,14 @@
             ></b-table>
           </div>
         </div>
-        <div class="column is-full has-text-centered" @click="submit(false)">
-          <button class="button is-primary">
+        <div class="has-text-centered">
+          <button class="button is-primary" @click="submit(false)">
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
+          </button>
+          <button class="button is-warning" @click="removeTest">
+            <span class="icon"> <i class="fas fa-trash"></i> </span>
+            <span> Remove Test </span>
           </button>
         </div>
       </div>
@@ -215,6 +219,31 @@ export default {
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
+    },
+    removeTest() {
+      if (this.tid != null) {
+        this.$fire.database
+          .ref('test')
+          .child(this.tid)
+          .remove()
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>error!</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+              this.$buefy.toast.open({
+                message: 'Deleted Test successfully',
+                type: 'is-success',
+              })
+            }
+            this.$emit('close')
+            this.$emit('reload')
+          })
+      }
     },
     submit(preventClose = false) {
       let tid

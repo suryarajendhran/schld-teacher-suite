@@ -107,13 +107,29 @@
           <div class="column is-full">
             <div class="field is-grouped is-justify-content-center">
               <div class="control">
-                <button class="button is-primary" @click="submit">
+                <button
+                  :class="{
+                    button: true,
+                    'is-primary': true,
+                    'is-fullwidth': true,
+                    'is-loading': loading,
+                  }"
+                  @click="submit"
+                >
                   <span class="icon"> <i class="fas fa-check"></i> </span>
                   <span> Confirm </span>
                 </button>
               </div>
-               <div class="control">
-                <button class="button is-warning" @click="delete_user">
+              <div class="control">
+                <button
+                  :class="{
+                    button: true,
+                    'is-warning': true,
+                    'is-fullwidth': true,
+                    'is-loading': loading,
+                  }"
+                  @click="delete_user"
+                >
                   <span class="icon"> <i class="fas fa-trash"></i> </span>
                   <span> Delete User </span>
                 </button>
@@ -145,19 +161,22 @@ export default {
       department: 'default',
       year: 'default',
       tweenedTitle: null,
+      loading: false,
     }
   },
   methods: {
     async delete_user() {
-      if(this.uid !== null ){
+      this.loading = true
+      if (this.uid !== null) {
         const student = {
-          uid: this.uid
+          uid: this.uid,
         }
         await this.$axios
           .$post(
             'https://us-central1-scholared-f3d6d.cloudfunctions.net/deleteStudent',
             { student: student }
-          ).then((response) => {
+          )
+          .then((response) => {
             this.$fire.database
               .ref('student')
               .child(this.uid)
@@ -184,8 +203,10 @@ export default {
             console.log(response)
           })
       }
+      this.loading = false
     },
     async submit() {
+      this.loading = true
       if (this.uid == null) {
         this.password = Math.random().toString(36).slice(2)
         console.log(this.password)
@@ -288,6 +309,7 @@ export default {
             console.log(response)
           })
       }
+      this.loading = false
     },
   },
   computed: {

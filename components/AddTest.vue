@@ -138,7 +138,7 @@
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
           </button>
-          <button class="button is-warning" @click="removeTest">
+          <button class="button is-warning" @click="removeTest" v-if="tid">
             <span class="icon"> <i class="fas fa-trash"></i> </span>
             <span> Remove Test </span>
           </button>
@@ -382,7 +382,7 @@ export default {
 }
 .modal-content {
   background-color: white;
-  margin-top: 10%;
+  margin-top: 50px;
   width: 80%;
   border-radius: 10px;
 }

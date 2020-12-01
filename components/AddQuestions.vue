@@ -216,13 +216,19 @@ export default {
       } else {
         this.correct_choices[this.index] = this.choices[this.correct_choice - 1]
       }
+      console.log(this.correct_choices)
       for (const qid in this.correct_choices) {
-        this.$fire.database.ref(`answers/${this.tid}`).update({
-          [qid]: {
-            value: this.correct_choices[qid],
-            weightage: this.questions[qid].weightage,
-          },
-        })
+        this.$fire.database
+          .ref(`answers/${this.tid}`)
+          .update({
+            [qid]: {
+              value: this.correct_choices[qid],
+              weightage: this.questions[qid].weightage,
+            },
+          })
+          .catch((err) => {
+            console.log('Some err ', err)
+          })
       }
       this.$fire.database
         .ref(`questions/${this.tid}`)
@@ -279,7 +285,8 @@ export default {
           .ref(`answers/${this.tid}/${this.index}`)
           .once('value')
           .then((snapshot) => {
-            this.correct_choice = this.choices.indexOf(snapshot.val()) + 1
+            console.log(snapshot.val())
+            this.correct_choice = this.choices.indexOf(snapshot.val().value) + 1
           })
         const question = this.questions[this.index]
         console.log(question)

@@ -131,7 +131,21 @@
                   @click="delete_user"
                 >
                   <span class="icon"> <i class="fas fa-trash"></i> </span>
-                  <span> Delete User </span>
+                  <span> Delete </span>
+                </button>
+              </div>
+              <div class="control" v-if="locked">
+                <button
+                  :class="{
+                    button: true,
+                    'is-warning': true,
+                    'is-fullwidth': true,
+                    'is-loading': loading,
+                  }"
+                  @click="unlockStudent"
+                >
+                  <span class="icon"> <i class="fas fa-trash"></i> </span>
+                  <span> Unlock Student </span>
                 </button>
               </div>
             </div>
@@ -161,9 +175,34 @@ export default {
       department: 'default',
       year: 'default',
       loading: false,
+      locked: false,
     }
   },
   methods: {
+    unlockStudent() {
+      this.$fire.database
+        .ref(`student/${this.uid}`)
+        .update({
+          locked: false,
+        })
+        .then((err) => {
+          if (err) {
+            this.$buefy.toast.open({
+              duration: 2000,
+              message: `Something's not good, <b>error!</b>`,
+              position: 'is-bottom',
+              type: 'is-danger',
+            })
+          } else {
+            this.$buefy.toast.open({
+              message: 'Unlocked Student successfully',
+              type: 'is-success',
+            })
+          }
+          this.$emit('close')
+          this.$emit('reload')
+        })
+    },
     async delete_user() {
       this.loading = true
       if (this.uid !== null) {
@@ -236,6 +275,7 @@ export default {
                 phone: this.phone,
                 roll_number: this.roll_number,
                 groupId: groupId,
+                locked: false,
               })
               .then((err) => {
                 if (err) {
@@ -331,6 +371,11 @@ export default {
         this.department = this.student.department
         this.year = this.student.year
         this.roll_number = this.student.roll_number
+        if (this.student.locked) {
+          this.locked = this.student.locked
+        } else {
+          this.locked = false
+        }
       } else if (val === false) {
         this.$emit('reset')
       }

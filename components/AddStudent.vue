@@ -3,7 +3,13 @@
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="section" v-if="display">
-        <h1 class="title">{{ title }}</h1>
+        <div id="header">
+          <h1 class="title">{{ title }}</h1>
+          <p style="font-weight: 600" v-if="uid">
+            <span style="color: #888; font-weight: 300"> Password: </span
+            >{{ password }}
+          </p>
+        </div>
         <div class="columns is-multiline">
           <div class="column is-half">
             <div class="field">
@@ -120,7 +126,7 @@
                   <span> Confirm </span>
                 </button>
               </div>
-              <div class="control">
+              <div class="control" v-if="uid">
                 <button
                   :class="{
                     button: true,
@@ -385,8 +391,14 @@ export default {
 </script>
 
 <style scoped>
+#header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .title {
   transition: all 1s ease-in;
+  margin-bottom: 10px;
 }
 #table-container {
   margin-top: 20px;

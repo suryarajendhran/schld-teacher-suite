@@ -157,10 +157,9 @@ export default {
       roll_number: null,
       email: null,
       year: null,
-      departments: ['ECE', 'Mechanical', 'EEE'],
+      departments: ['ECE', 'Mechanical', 'EEE', 'IT', 'CSE', 'Civil', 'EIE'],
       department: 'default',
       year: 'default',
-      tweenedTitle: null,
       loading: false,
     }
   },

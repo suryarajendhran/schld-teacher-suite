@@ -42,7 +42,7 @@
               focusable
               @click="openStudent"
             >
-              <template scope="props" slot="header">
+              <template slot-scope="props" slot="header">
                 <div style="width: 100%" class="has-text-centered">
                   {{ props.column.label }}
                 </div>

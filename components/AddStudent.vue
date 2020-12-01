@@ -144,7 +144,7 @@
                   }"
                   @click="unlockStudent"
                 >
-                  <span class="icon"> <i class="fas fa-trash"></i> </span>
+                  <span class="icon"> <i class="fas fa-unlock"></i> </span>
                   <span> Unlock Student </span>
                 </button>
               </div>

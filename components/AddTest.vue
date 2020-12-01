@@ -130,6 +130,9 @@
               hoverable
               focusable
               @click="openQuestion"
+              paginated
+              per-page="6"
+              sort-icon="arrow-up"
             ></b-table>
           </div>
         </div>
@@ -192,6 +195,11 @@ export default {
       assignee: 'none',
       questions: [],
       columns: [
+        {
+          field: 'qid',
+          label: 'S.No.',
+          sortable: true,
+        },
         {
           field: 'text',
           label: 'Text',
@@ -434,5 +442,6 @@ export default {
   margin-top: 50px;
   width: 80%;
   border-radius: 10px;
+  height: 90%;
 }
 </style>

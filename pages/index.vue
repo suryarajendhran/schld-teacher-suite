@@ -44,7 +44,8 @@
               hoverable
               focusable
               @click="openStudent"
-            ></b-table>
+              ></b-table
+            >
           </b-tab-item>
           <b-tab-item label="Tests">
             <div class="columns">
@@ -150,8 +151,8 @@ export default {
   methods: {
     openStudent(student) {
       this.studentModal = true
-      this.activeStudent= student
-      console.log(student);
+      this.activeStudent = student
+      console.log(student)
     },
     openTest(test) {
       this.activeTest = test
@@ -177,9 +178,9 @@ export default {
     },
     isSignOutLoading() {},
     students() {
-      if(this.$store.state.data.students == null){
+      if (this.$store.state.data.students == null) {
         return []
-      }else{
+      } else {
         return this.$store.state.data.students
       }
     },

@@ -3,6 +3,7 @@ export const state = () => ({
   students: null,
   testLoaded: false,
   studentLoaded: false,
+  authError: false,
 })
 
 export const mutations = {
@@ -13,6 +14,9 @@ export const mutations = {
   LOAD_STUDENTS: (state, { students }) => {
     state.students = students
     state.studentLoaded = true
+  },
+  AUTH_ERR: (state) => {
+    state.authError = true
   },
 }
 
@@ -30,6 +34,11 @@ export const actions = {
         }
         commit('LOAD_TESTS', { tests })
       })
+      .catch((err) => {
+        if (err.message.includes('permission_denied')) {
+          commit('AUTH_ERR')
+        }
+      })
     this.$fire.database
       .ref('student')
       .once('value')
@@ -41,6 +50,14 @@ export const actions = {
           students.push(studentData[key])
         }
         commit('LOAD_STUDENTS', { students })
+      })
+      .catch((err) => {
+        console.log('Error!!')
+        // console.log(err.includes('permission_denied'))
+        console.log(err.message)
+        if (err.message.includes('permission_denied')) {
+          commit('AUTH_ERR')
+        }
       })
   },
 }

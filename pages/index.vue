@@ -13,18 +13,7 @@
       </div>
     </div>
     <div class="columns">
-      <div class="column is-one-quarter">
-        <div id="activity-container" class="container">
-          <h2 class="is-size-4 has-text-weight-semibold">Activity</h2>
-          <div id="notifications">
-            <div class="notification">
-              <div class="time has-text-weight-medium">3:00 PM</div>
-              Fluid Mechanics test has started
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-three-quarters">
+      <div class="column is-8 is-offset-2">
         <b-tabs size="is-medium" type="is-toggle" expanded>
           <b-tab-item label="Students">
             <div class="columns">
@@ -44,8 +33,7 @@
               hoverable
               focusable
               @click="openStudent"
-              ></b-table
-            >
+            ></b-table>
           </b-tab-item>
           <b-tab-item label="Tests">
             <div class="columns">
@@ -92,6 +80,8 @@
 import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
+import { mapState } from 'vuex'
+
 export default {
   mounted() {
     this.$store.dispatch('data/loadData')
@@ -189,6 +179,14 @@ export default {
         return []
       }
       return this.$store.state.data.tests
+    },
+    ...mapState({ authErr: (state) => state.data.authError }),
+  },
+  watch: {
+    authErr(val) {
+      if (val == true) {
+        this.signOut()
+      }
     },
   },
 }

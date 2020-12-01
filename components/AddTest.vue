@@ -220,29 +220,78 @@ export default {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
     },
+    removeAtLocation(location) {
+      this.$fire.database
+        .ref(location)
+        .child(this.tid)
+        .remove()
+        .then((err) => {
+          if (err) {
+            this.$buefy.toast.open({
+              duration: 2000,
+              message: `Something's not good, <b>error!</b>`,
+              position: 'is-bottom',
+              type: 'is-danger',
+            })
+          } else {
+            this.$buefy.toast.open({
+              message: 'Deleted Test successfully',
+              type: 'is-success',
+            })
+          }
+          this.$emit('close')
+          this.$emit('reload')
+        })
+    },
     removeTest() {
       if (this.tid != null) {
-        this.$fire.database
-          .ref('test')
-          .child(this.tid)
-          .remove()
-          .then((err) => {
-            if (err) {
-              this.$buefy.toast.open({
-                duration: 2000,
-                message: `Something's not good, <b>error!</b>`,
-                position: 'is-bottom',
-                type: 'is-danger',
-              })
-            } else {
-              this.$buefy.toast.open({
-                message: 'Deleted Test successfully',
-                type: 'is-success',
-              })
-            }
-            this.$emit('close')
-            this.$emit('reload')
-          })
+        this.removeAtLocation('test')
+        this.removeAtLocation('questions')
+        this.removeAtLocation('answers')
+        this.removeAtLocation('state')
+        this.removeAtLocation('results')
+        // this.$fire.database
+        //   .ref('test')
+        //   .child(this.tid)
+        //   .remove()
+        //   .then((err) => {
+        //     if (err) {
+        //       this.$buefy.toast.open({
+        //         duration: 2000,
+        //         message: `Something's not good, <b>error!</b>`,
+        //         position: 'is-bottom',
+        //         type: 'is-danger',
+        //       })
+        //     } else {
+        //       this.$buefy.toast.open({
+        //         message: 'Deleted Test successfully',
+        //         type: 'is-success',
+        //       })
+        //     }
+        //     this.$emit('close')
+        //     this.$emit('reload')
+        //   })
+        // this.$fire.database
+        //   .ref('questions')
+        //   .child(this.tid)
+        //   .remove()
+        //   .then((err) => {
+        //     if (err) {
+        //       this.$buefy.toast.open({
+        //         duration: 2000,
+        //         message: `Something's not good, <b>error!</b>`,
+        //         position: 'is-bottom',
+        //         type: 'is-danger',
+        //       })
+        //     } else {
+        //       this.$buefy.toast.open({
+        //         message: 'Deleted Test successfully',
+        //         type: 'is-success',
+        //       })
+        //     }
+        //     this.$emit('close')
+        //     this.$emit('reload')
+        //   })
       }
     },
     submit(preventClose = false) {

@@ -21,15 +21,6 @@
         <b-tabs size="is-medium" type="is-toggle" expanded>
           <b-tab-item label="Students">
             <div class="columns">
-              <!-- <div class="column is-two-fifths">
-                <button
-                  class="button is-primary"
-                  @click="$store.dispatch('data/loadData')"
-                >
-                  <span class="icon"> <i class="fa fa-refresh"></i> </span>
-                  <span>Reload Data</span>
-                </button>
-              </div> -->
               <div
                 class="column is-two-fifths is-offset-three-fifths has-text-right"
               >
@@ -105,7 +96,8 @@
               hoverable
               focusable
               @click="openTest"
-            ></b-table>
+            >
+            </b-table>
           </b-tab-item>
         </b-tabs>
       </div>
@@ -124,7 +116,6 @@
       @reload="$store.dispatch('data/loadData')"
       @reset="activeTest = null"
     />
-    <!-- <add-questions /> -->
   </section>
 </template>
 
@@ -178,8 +169,12 @@ export default {
             label: 'Year',
           },
           {
-            field: 'status',
-            label: 'Status',
+            field: 'start_time',
+            label: 'Starting at',
+          },
+          {
+            field: 'end_time',
+            label: 'Ending at',
           },
           {
             field: 'date',
@@ -194,6 +189,18 @@ export default {
     }
   },
   methods: {
+    isLater(time) {
+      console.log(time)
+      const timeNow = new Date()
+      const convertedTime = new Date(time)
+      console.log(timeNow)
+      console.log(convertedTime)
+      if (timeNow > convertedTime) {
+        return 'Started'
+      } else {
+        return 'Not Started'
+      }
+    },
     openStudent(student) {
       this.studentModal = true
       this.activeStudent = student

@@ -81,7 +81,7 @@
           </div>
           <div class="column is-one-third">
             <label class="label">Unlock time</label>
-            <div class="field has-addons">
+            <div class="field">
               <div class="control is-expanded">
                 <input
                   class="input"
@@ -91,9 +91,13 @@
                 />
               </div>
               <div class="control">
-                <button class="button" disabled style="border: 0">
+                <button
+                  class="button"
+                  disabled
+                  style="border: 0; display: flex; margin: auto"
+                >
                   <span class="icon is-small">
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-arrow-down"></i>
                   </span>
                 </button>
               </div>
@@ -165,6 +169,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AddQuestions from './AddQuestions.vue'
 export default {
   components: { AddQuestions },
@@ -328,6 +333,7 @@ export default {
           date: this.date,
           start_time: this.start_time,
           end_time: this.end_time,
+          owner: this.user.uid,
         })
         .then((err) => {
           if (err) {
@@ -387,6 +393,9 @@ export default {
         return 'Add'
       }
     },
+    ...mapState({
+      user: (state) => state.auth.user,
+    }),
   },
   watch: {
     display: function (val) {

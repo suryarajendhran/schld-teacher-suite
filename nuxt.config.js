@@ -61,7 +61,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    ['nuxt-buefy', { materialDesignIcons: false }],
+    ['nuxt-buefy', { materialDesignIcons: true }],
     '@nuxtjs/firebase',
   ],
 

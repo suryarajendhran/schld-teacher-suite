@@ -24,6 +24,8 @@ export const actions = {
   loadData({ commit }) {
     this.$fire.database
       .ref('test')
+      .orderByChild('owner')
+      .equalTo(this.$fire.auth.currentUser.uid)
       .once('value')
       .then((snapshot) => {
         const testData = snapshot.val()

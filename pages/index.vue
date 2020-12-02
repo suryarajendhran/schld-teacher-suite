@@ -1,10 +1,14 @@
 <template>
   <section class="section">
     <div class="columns">
-      <div class="column is-one-quarter">
-        <h1 class="title has-text-left">{{ greeting }}</h1>
+      <div class="column is-half is-justify-content-center mt-2">
+        <h1
+          class="title is-size-4 is-size-3-mobile has-text-left has-text-centered-mobile"
+        >
+          {{ greeting }}
+        </h1>
       </div>
-      <div class="column is-half is-offset-one-quarter has-text-right">
+      <div class="column is-half has-text-right">
         <!-- <button class="button is-primary is-light mt-2">
           Broadcast Message
         </button> -->
@@ -215,7 +219,21 @@ export default {
   components: { AddStudent, AddTest, AddQuestions },
   computed: {
     greeting() {
-      return 'Good Morning'
+      let greeting
+      const hoursNow = new Date().getHours()
+      if (hoursNow < 10) {
+        greeting = 'Good Morning'
+      } else if (hoursNow >= 10 && hoursNow < 15) {
+        greeting = 'Good Afternoon'
+      } else {
+        greeting = 'Good Evening'
+      }
+      try {
+        greeting = greeting + ' ' + this.user.displayName.split(' ')[0]
+      } catch (e) {
+        console.log('No username defined for user!')
+      }
+      return greeting
     },
     isSignOutLoading() {},
     students() {
@@ -231,7 +249,10 @@ export default {
       }
       return this.$store.state.data.tests
     },
-    ...mapState({ authErr: (state) => state.data.authError }),
+    ...mapState({
+      authErr: (state) => state.data.authError,
+      user: (state) => state.auth.user,
+    }),
   },
   watch: {
     authErr(val) {

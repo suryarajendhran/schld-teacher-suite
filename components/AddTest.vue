@@ -3,11 +3,11 @@
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="section" v-if="display">
-        <h1 class="title">{{ title }}</h1>
+        <h1 class="title is-size-4-mobile">{{ title }}</h1>
         <div class="columns is-multiline">
           <div class="column is-one-third">
             <div class="field">
-              <label class="label">Name</label>
+              <label class="label has-text-grey-dark">Name</label>
               <div class="control has-icons-left has-icons-right">
                 <input
                   class="input"
@@ -21,7 +21,7 @@
               </div>
               <!-- <p class="help is-danger">This email is invalid</p> -->
             </div>
-            <label class="label">Assign To</label>
+            <label class="label has-text-grey-dark">Assign To</label>
             <div class="field has-addons">
               <div class="control">
                 <div class="select is-fullwidth">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="column is-one-third">
-            <label class="label">Duration</label>
+            <label class="label has-text-grey-dark">Duration</label>
             <div class="field has-addons is-fullwidth">
               <p class="control has-icons-left has-icons-right is-expanded">
                 <input
@@ -64,7 +64,7 @@
               </p>
             </div>
             <div class="field">
-              <label class="label">Date</label>
+              <label class="label has-text-grey-dark">Date</label>
               <div class="control">
                 <input
                   class="input"
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="column is-one-third">
-            <label class="label">Unlock time</label>
+            <label class="label has-text-grey-dark">Unlock time</label>
             <div class="field">
               <div class="control is-expanded">
                 <input
@@ -115,14 +115,19 @@
             <div id="table-level" class="level">
               <div class="level-left">
                 <div class="level-item">
-                  <h2 class="title is-size-3 is-bold">Questions</h2>
+                  <h2 class="title is-size-3 is-size-4-mobile is-bold">
+                    Questions
+                  </h2>
                 </div>
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <button class="button is-primary" @click="addQuestions">
+                  <button
+                    class="button is-primary is-size-6-mobile"
+                    @click="addQuestions"
+                  >
                     <span class="icon"> <i class="fas fa-plus"></i> </span>
-                    <span>Add Question</span>
+                    <span class="is-size-6-mobile">Add Question</span>
                   </button>
                 </div>
               </div>
@@ -140,14 +145,14 @@
             ></b-table>
           </div>
         </div>
-        <div class="has-text-centered">
-          <button class="button is-primary" @click="submit(false)">
+        <div class="has-text-centered is-flex is-justify-content-space-between">
+          <button class="button is-primary mt-1" @click="submit(false)">
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
           </button>
-          <button class="button is-warning" @click="removeTest" v-if="tid">
+          <button class="button is-warning mt-1" @click="removeTest" v-if="tid">
             <span class="icon"> <i class="fas fa-trash"></i> </span>
-            <span> Remove Test </span>
+            <span> Remove </span>
           </button>
         </div>
       </div>
@@ -263,48 +268,6 @@ export default {
         this.removeAtLocation('answers')
         this.removeAtLocation('state')
         this.removeAtLocation('results')
-        // this.$fire.database
-        //   .ref('test')
-        //   .child(this.tid)
-        //   .remove()
-        //   .then((err) => {
-        //     if (err) {
-        //       this.$buefy.toast.open({
-        //         duration: 2000,
-        //         message: `Something's not good, <b>error!</b>`,
-        //         position: 'is-bottom',
-        //         type: 'is-danger',
-        //       })
-        //     } else {
-        //       this.$buefy.toast.open({
-        //         message: 'Deleted Test successfully',
-        //         type: 'is-success',
-        //       })
-        //     }
-        //     this.$emit('close')
-        //     this.$emit('reload')
-        //   })
-        // this.$fire.database
-        //   .ref('questions')
-        //   .child(this.tid)
-        //   .remove()
-        //   .then((err) => {
-        //     if (err) {
-        //       this.$buefy.toast.open({
-        //         duration: 2000,
-        //         message: `Something's not good, <b>error!</b>`,
-        //         position: 'is-bottom',
-        //         type: 'is-danger',
-        //       })
-        //     } else {
-        //       this.$buefy.toast.open({
-        //         message: 'Deleted Test successfully',
-        //         type: 'is-success',
-        //       })
-        //     }
-        //     this.$emit('close')
-        //     this.$emit('reload')
-        //   })
       }
     },
     submit(preventClose = false) {
@@ -424,10 +387,6 @@ export default {
           this[property] = this.test[property]
         }
         this.loadQuestions()
-        this.$buefy.toast.open({
-          message: 'Test object found!',
-          type: 'is-warning',
-        })
       } else if (val == false) {
         // Closing modal
         this.resetForm()

@@ -32,6 +32,7 @@
             </div>
             <b-table
               :data="students"
+              :loading="!students.length"
               striped
               hoverable
               focusable
@@ -89,6 +90,7 @@
             <b-table
               :data="tests"
               :columns="columns.tests"
+              :loading="!tests.length"
               striped
               hoverable
               focusable
@@ -124,6 +126,13 @@ import { mapState } from 'vuex'
 
 export default {
   mounted() {
+    if (window.innerWidth <= 800 || window.innerHeight <= 600) {
+      // alert('This is a mobile')
+      this.$buefy.dialog.alert({
+        message:
+          'This portal is optimized for viewing on a desktop or PC so if possible open this page on your computer or laptop for a better experience',
+      })
+    }
     this.$store.dispatch('data/loadData')
     this.reloadDataInterval = setInterval(() => {
       this.$store.dispatch('data/loadData')
@@ -334,5 +343,8 @@ tbody tr {
 }
 .table tbody td {
   text-align: center;
+}
+.modal-card {
+  padding: 0px 10px;
 }
 </style>

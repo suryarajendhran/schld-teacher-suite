@@ -135,6 +135,7 @@
             <b-table
               :data="questions"
               :columns="columns"
+              :loading="!questions.length"
               striped
               hoverable
               focusable
@@ -182,6 +183,7 @@ export default {
   data() {
     return {
       changed: false,
+      editing: false,
       index: null,
       tid: null,
       name: null,
@@ -217,10 +219,6 @@ export default {
           field: 'weightage',
           label: 'Weightage',
         },
-        // {
-        //   field: 'correct_choice',
-        //   label: 'Correct Choice',
-        // },
         {
           field: 'choices',
           label: 'Choices',
@@ -306,8 +304,12 @@ export default {
               type: 'is-danger',
             })
           } else {
+            let message = 'Added test'
+            if (this.editing == true) {
+              message = 'Updated test'
+            }
             this.$buefy.toast.open({
-              message: 'Added successfully!',
+              message: `${message} successfully!`,
               type: 'is-success',
             })
           }
@@ -373,6 +375,7 @@ export default {
         this.questions = []
         console.log('No Object found')
       } else if (val == true && this.test != null) {
+        this.editing = true
         this.tid = null
         this.name = null
         this.duration = null

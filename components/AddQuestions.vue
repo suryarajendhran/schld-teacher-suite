@@ -45,18 +45,22 @@
             </div>
           </div>
           <div class="column is-half">
-            <div class="field">
-              <div class="field">
-                <label class="label">Correct Choice</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    type="number"
-                    v-model="correct_choice"
-                    required
-                  />
-                </div>
-              </div>
+            <label class="label">Correct Choice</label>
+            <div class="buttons has-addons">
+              <p class="control">
+                <button
+                  v-for="option in options"
+                  :key="option"
+                  :class="{
+                    button: true,
+                    'is-info': correct_choice == option,
+                    'is-light': correct_choice == option,
+                  }"
+                  @click="correct_choice = option"
+                >
+                  {{ option + 1 }}
+                </button>
+              </p>
             </div>
             <div class="field">
               <label class="label">Weightage</label>
@@ -87,34 +91,14 @@
           </div>
         </div>
         <div class="columns">
-          <!-- <div class="column">
-            <div class="field is-grouped is-grouped-centered">
-              <div class="control is-expanded">
-                <button class="button is-danger is-fullwidth">
-                  <span class="icon">
-                    <i class="fas fa-arrow-circle-left"></i>
-                  </span>
-                  <span>Previous</span>
-                </button>
-              </div>
-              <div class="control is-expanded">
-                <button class="button is-warning is-fullwidth">
-                  <span>Next</span>
-                  <span class="icon">
-                    <i class="fas fa-arrow-circle-right"></i>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div> -->
           <div class="column has-text-centered">
-            <button class="button is-primary" @click="submit">
+            <button class="button is-primary mt-2" @click="submit">
               <span>{{ addQuestionLabel }}</span>
               <span class="icon">
                 <i class="fas fa-check-circle"></i>
               </span>
             </button>
-            <button class="button is-warning" @click="removeQuestion">
+            <button class="button is-warning mt-2" @click="removeQuestion">
               <span>Remove Question</span>
               <span class="icon">
                 <i class="fas fa-trash"></i>
@@ -140,6 +124,7 @@ export default {
       text: null,
       editing: false,
       questions: null,
+      options: [0, 1, 2, 3],
       correct_choices: {},
       choice_1: null,
       choice_2: null,
@@ -153,6 +138,31 @@ export default {
     }
   },
   methods: {
+    checkForm() {
+      if (
+        this.text == null ||
+        this.correct_choice == null ||
+        this.weightage == null ||
+        this.choices[0] == null ||
+        this.choices[1] == null ||
+        this.choices[2] == null ||
+        this.choices[3] == null
+      ) {
+        this.$buefy.dialog.alert({
+          title: 'Error',
+          message: 'Please enter all the details for the question',
+          type: 'is-danger',
+          hasIcon: true,
+          icon: 'times-circle',
+          iconPack: 'fa',
+          ariaRole: 'alertdialog',
+          ariaModal: true,
+        })
+        return false
+      } else {
+        return true
+      }
+    },
     resetForm() {
       console.log('Calling reset form')
       this.text = null
@@ -210,7 +220,11 @@ export default {
         }
       }
     },
+
     submit() {
+      if (this.checkForm() == false) {
+        return
+      }
       if (this.editing == false) {
         this.addLatestToArray()
       } else {
@@ -242,8 +256,12 @@ export default {
               type: 'is-danger',
             })
           } else {
+            let message = 'Added question'
+            if (this.editing == true) {
+              message = 'Updated question'
+            }
             this.$buefy.toast.open({
-              message: 'Added successfully!',
+              message: `${message} successfully!`,
               type: 'is-success',
             })
             this.$emit('close')
@@ -326,8 +344,11 @@ export default {
 }
 .modal-content {
   background-color: white;
-  margin-top: 10%;
+  margin-top: 40px;
   width: 80%;
   border-radius: 10px;
+}
+.radio {
+  display: none;
 }
 </style>

@@ -208,7 +208,6 @@ export default {
         {
           field: 'qid',
           label: 'S.No.',
-          sortable: true,
         },
         {
           field: 'text',

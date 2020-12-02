@@ -42,9 +42,6 @@
                   {{ props.column.label }}
                 </div>
               </template>
-              <!-- <b-table-column field="uid" label="User ID" v-slot="props">
-                {{ props.row.uid }}
-              </b-table-column> -->
               <b-table-column
                 field="name"
                 label="Name"

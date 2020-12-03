@@ -157,6 +157,26 @@
           </button>
         </div>
       </div>
+      <div id="table-container" class="column is-full">
+        <div id="table-level" class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <h2 class="title is-size-3 is-size-4-mobile is-bold">Results</h2>
+            </div>
+          </div>
+        </div>
+        <b-table
+          :data="results"
+          :columns="result_columns"
+          :loading="!results.length"
+          striped
+          hoverable
+          focusable
+          paginated
+          per-page="6"
+          sort-icon="arrow-up"
+        ></b-table>
+      </div>
     </div>
     <button
       class="modal-close is-large"
@@ -222,6 +242,25 @@ export default {
         {
           field: 'choices',
           label: 'Choices',
+        },
+      ],
+      results: [],
+      result_columns: [
+        // {
+        //   field: 'roll_number',
+        //   label: 'Roll.No.',
+        // },
+        // {
+        //   field: 'name',
+        //   label: 'Name',
+        // },
+        {
+          field: 'correct_answers',
+          label: 'Correct Answers',
+        },
+        {
+          field: 'marks',
+          label: 'Total Marks',
         },
       ],
     }
@@ -326,7 +365,27 @@ export default {
       }
       this.questionModal = true
     },
+    loadResults(){
+      console.log("loading results")
+      if(this.tid!== null){
+        this.$fire.database
+        .ref(`results/${this.tid}`)
+        .once('value')
+        .then((snapshot)=>{
+          snapshot.forEach(user => {
+            console.log(user.val())
+            console.log(this.tid)
+            var data = user.val()
+            this.results.push({
+              marks: data.score,
+              correct_answers : data.correct,
+            })
+          });
+        })
+      }
+    },
     loadQuestions() {
+      this.loadResults()
       console.log('Loading questions')
       if (this.tid !== null) {
         this.$fire.database

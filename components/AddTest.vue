@@ -246,20 +246,20 @@ export default {
       ],
       results: [],
       result_columns: [
-        // {
-        //   field: 'roll_number',
-        //   label: 'Roll.No.',
-        // },
-        // {
-        //   field: 'name',
-        //   label: 'Name',
-        // },
         {
-          field: 'correct_answers',
+          field: 'roll_number',
+          label: 'Roll.No.',
+        },
+        {
+          field: 'name',
+          label: 'Name',
+        },
+        {
+          field: 'correct',
           label: 'Correct Answers',
         },
         {
-          field: 'marks',
+          field: 'score',
           label: 'Total Marks',
         },
       ],
@@ -376,10 +376,7 @@ export default {
             console.log(user.val())
             console.log(this.tid)
             var data = user.val()
-            this.results.push({
-              marks: data.score,
-              correct_answers : data.correct,
-            })
+            this.results.push(data)
           });
         })
       }

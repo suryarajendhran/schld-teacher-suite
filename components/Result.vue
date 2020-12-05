@@ -4,7 +4,8 @@
     <div class="modal-content">
       <div class="section" v-if="result">
         <h1>Hello</h1>
-        <p>This is some sample text! {{ content}}</p>
+        <p>This is some sample text!</p>
+        <div>{{ result }}</div>
       </div>
     </div>
     <button

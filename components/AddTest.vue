@@ -302,8 +302,8 @@ export default {
       this.questionModal = true
     },
     openResult(result) {
-      this.current_result = result
-      this.activeResult = true
+      // this.current_result = result
+      this.activeResult = result
     },
     removeAtLocation(location) {
       this.$fire.database

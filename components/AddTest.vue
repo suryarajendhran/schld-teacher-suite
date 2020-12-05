@@ -295,6 +295,7 @@ export default {
     resetForm() {
       this.questions = []
       this.tid = null
+      this.results=[]
     },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)

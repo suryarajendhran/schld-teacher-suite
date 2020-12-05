@@ -181,7 +181,7 @@ export default {
     },
     addLatestToArray() {
       this.correct_choices[this.questions.length] = this.choices[
-        this.correct_choice - 1
+        this.correct_choice
       ]
       this.questions.push({
         text: this.text,
@@ -228,7 +228,7 @@ export default {
       if (this.editing == false) {
         this.addLatestToArray()
       } else {
-        this.correct_choices[this.index] = this.choices[this.correct_choice - 1]
+        this.correct_choices[this.index] = this.choices[this.correct_choice]
       }
       console.log(this.correct_choices)
       for (const qid in this.correct_choices) {
@@ -304,7 +304,7 @@ export default {
           .once('value')
           .then((snapshot) => {
             console.log(snapshot.val())
-            this.correct_choice = this.choices.indexOf(snapshot.val().value) + 1
+            this.correct_choice = this.choices.indexOf(snapshot.val().value)
           })
         const question = this.questions[this.index]
         console.log(question)

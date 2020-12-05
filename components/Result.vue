@@ -14,6 +14,9 @@
 export default {
   props: ['result'],
 }
+computed: {
+  
+}
 </script>
 
 <style scoped>

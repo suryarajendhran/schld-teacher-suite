@@ -193,6 +193,7 @@ export default {
     removeQuestion() {
       if (this.editing == true) {
         this.questions.splice(this.index, 1)
+        this.correct_choices.splice(this.index, 1)
         this.$fire.database
           .ref(`questions/${this.tid}`)
           .set(this.questions)

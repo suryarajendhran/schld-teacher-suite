@@ -168,6 +168,7 @@
                   striped
                   hoverable
                   focusable
+                  @click="openResult"
                   paginated
                   per-page="6"
                   sort-icon="arrow-up"
@@ -278,6 +279,10 @@ export default {
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
+    },
+    openResult(result) {
+      this.current_result = result
+      this.activeResult = true
     },
     removeAtLocation(location) {
       this.$fire.database

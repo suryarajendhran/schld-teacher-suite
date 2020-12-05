@@ -7,6 +7,11 @@
         <p>This is some sample text!</p>
       </div>
     </div>
+    <button
+      class="modal-close is-large"
+      aria-label="close"
+      @click="$emit('close')"
+    ></button>
   </div>
 </template>
 

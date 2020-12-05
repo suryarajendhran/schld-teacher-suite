@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="section" v-if="result">
         <h1>Hello</h1>
-        <p>This is some sample text!</p>
+        <p>This is some sample text! {{ content}}</p>
       </div>
     </div>
     <button
@@ -18,9 +18,11 @@
 <script>
 export default {
   props: ['result'],
-}
-computed: {
-  
+  computed: {
+    content() {
+      return result.roll_number
+    },
+  },
 }
 </script>
 

@@ -111,40 +111,70 @@
               </div>
             </div>
           </div>
-          <div id="table-container" class="column is-full">
-            <div id="table-level" class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <h2 class="title is-size-3 is-size-4-mobile is-bold">
-                    Questions
-                  </h2>
+          <b-tabs size="is-medium" type="is-toggle" expanded class="mt-2">
+            <b-tab-item label="Questions">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <h2 class="title is-size-3 is-size-4-mobile is-bold">
+                        <!-- Questions -->
+                      </h2>
+                    </div>
+                  </div>
+                  <div class="level-right">
+                    <div class="level-item">
+                      <button
+                        class="button is-primary is-size-6-mobile"
+                        @click="addQuestions"
+                      >
+                        <span class="icon"> <i class="fas fa-plus"></i> </span>
+                        <span class="is-size-6-mobile">Add Question</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
+                <b-table
+                  :data="questions"
+                  :columns="columns"
+                  :loading="!questions.length"
+                  striped
+                  hoverable
+                  focusable
+                  @click="openQuestion"
+                  paginated
+                  per-page="6"
+                  sort-icon="arrow-up"
+                ></b-table>
               </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <button
-                    class="button is-primary is-size-6-mobile"
-                    @click="addQuestions"
-                  >
-                    <span class="icon"> <i class="fas fa-plus"></i> </span>
-                    <span class="is-size-6-mobile">Add Question</span>
-                  </button>
+            </b-tab-item>
+            <b-tab-item label="Results">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-item">
+                    <div class="level-item">
+                      <h2
+                        class="title is-size-3 is-size-4-mobile is-bold has-text-centered"
+                      >
+                        <!-- Results -->
+                      </h2>
+                    </div>
+                  </div>
                 </div>
+                <b-table
+                  :data="results"
+                  :columns="result_columns"
+                  :loading="!results.length"
+                  striped
+                  hoverable
+                  focusable
+                  paginated
+                  per-page="6"
+                  sort-icon="arrow-up"
+                ></b-table>
               </div>
-            </div>
-            <b-table
-              :data="questions"
-              :columns="columns"
-              :loading="!questions.length"
-              striped
-              hoverable
-              focusable
-              @click="openQuestion"
-              paginated
-              per-page="6"
-              sort-icon="arrow-up"
-            ></b-table>
-          </div>
+            </b-tab-item>
+          </b-tabs>
         </div>
         <div class="has-text-centered is-flex is-justify-content-space-between">
           <button class="button is-primary mt-1" @click="submit(false)">
@@ -156,26 +186,6 @@
             <span> Remove </span>
           </button>
         </div>
-      </div>
-      <div id="table-container" class="column is-full">
-        <div id="table-level" class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <h2 class="title is-size-3 is-size-4-mobile is-bold">Results</h2>
-            </div>
-          </div>
-        </div>
-        <b-table
-          :data="results"
-          :columns="result_columns"
-          :loading="!results.length"
-          striped
-          hoverable
-          focusable
-          paginated
-          per-page="6"
-          sort-icon="arrow-up"
-        ></b-table>
       </div>
     </div>
     <button
@@ -357,20 +367,20 @@ export default {
       }
       this.questionModal = true
     },
-    loadResults(){
-      console.log("loading results")
-      if(this.tid!== null){
+    loadResults() {
+      console.log('loading results')
+      if (this.tid !== null) {
         this.$fire.database
-        .ref(`results/${this.tid}`)
-        .once('value')
-        .then((snapshot)=>{
-          snapshot.forEach(user => {
-            console.log(user.val())
-            console.log(this.tid)
-            var data = user.val()
-            this.results.push(data)
-          });
-        })
+          .ref(`results/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((user) => {
+              console.log(user.val())
+              console.log(this.tid)
+              var data = user.val()
+              this.results.push(data)
+            })
+          })
       }
     },
     loadQuestions() {
@@ -448,9 +458,11 @@ export default {
 </script>
 
 <style scoped>
-#table-container {
+.table-container {
   margin-top: 20px;
   border-radius: 5px;
+}
+.table-level {
 }
 .visible {
   display: block;

@@ -201,6 +201,7 @@
       :originalQuestions="questions"
       :index="index"
     />
+    <lazy-result :result="activeResult" @close="activeResult=null'/>
   </div>
 </template>
 
@@ -212,6 +213,7 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      activeResult: null,
       changed: false,
       editing: false,
       index: null,
@@ -462,8 +464,8 @@ export default {
   margin-top: 20px;
   border-radius: 5px;
 }
-.table-level {
-}
+/* .table-level {
+} */
 .visible {
   display: block;
 }

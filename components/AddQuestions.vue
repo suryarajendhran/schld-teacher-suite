@@ -193,7 +193,25 @@ export default {
     removeQuestion() {
       if (this.editing == true) {
         this.questions.splice(this.index, 1)
-        this.correct_choices.splice(this.index, 1)
+        // console.log(this.correct_choices)
+        this.$fire.database
+          .ref(`answers/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            let correct_choices = snapshot.val()
+            console.log('Before removing results')
+            console.log(Object.assign({}, correct_choices))
+            correct_choices.splice(this.index, 1)
+            console.log(correct_choices)
+            this.$fire.database
+              .ref(`answers/${this.tid}`)
+              .set(correct_choices)
+              .then((snapshot) => {
+                console.log('Removed results are')
+                console.log(snapshot.val())
+              })
+          })
+        // this.correct_choices.splice(this.index, 1)
         this.$fire.database
           .ref(`questions/${this.tid}`)
           .set(this.questions)
@@ -214,11 +232,11 @@ export default {
               this.$emit('reload')
             }
           })
-        for (const qid in this.correct_choices) {
-          this.$fire.database
-            .ref(`answers/${this.tid}`)
-            .update({ [qid]: this.correct_choices[qid] })
-        }
+        // for (const qid in this.correct_choices) {
+        //   this.$fire.database
+        //     .ref(`answers/${this.tid}`)
+        //     .update({ [qid]: this.correct_choices[qid] })
+        // }
       }
     },
 

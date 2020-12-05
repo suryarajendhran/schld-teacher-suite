@@ -262,7 +262,7 @@ export default {
         },
         {
           field: 'score',
-          label: 'Total Marks',
+          label: 'Marks',
         },
       ],
     }

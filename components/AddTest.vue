@@ -201,15 +201,16 @@
       :originalQuestions="questions"
       :index="index"
     />
-    <lazy-result :result="activeResult" @close="activeResult=null'/>
+    <lazy-result :result="activeResult" @close="activeResult = null" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import AddQuestions from './AddQuestions.vue'
+import Result from './Result.vue'
 export default {
-  components: { AddQuestions },
+  components: { AddQuestions, Result },
   props: ['display', 'test'],
   data() {
     return {

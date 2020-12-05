@@ -24,4 +24,7 @@ export default {
   border-radius: 10px;
   height: 90%;
 }
+.visible {
+  display: block;
+}
 </style>

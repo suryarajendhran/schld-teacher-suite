@@ -5,7 +5,7 @@
       <div class="section" v-if="display">
         <h1 class="title is-size-4-mobile">{{ title }}</h1>
         <div class="columns is-multiline">
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <div class="field">
               <label class="label has-text-grey-dark">Name</label>
               <div class="control has-icons-left has-icons-right">
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <label class="label has-text-grey-dark">Duration</label>
             <div class="field has-addons is-fullwidth">
               <p class="control has-icons-left has-icons-right is-expanded">
@@ -79,7 +79,7 @@
               <!-- <p class="help is-danger">This email is invalid</p> -->
             </div>
           </div>
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <label class="label has-text-grey-dark">Unlock time</label>
             <div class="field">
               <div class="control is-expanded">
@@ -109,6 +109,25 @@
                   v-model="end_time"
                 />
               </div>
+            </div>
+          </div>
+          <div class="column is-one-quarter">
+            <label class="label has-text-grey-dark">Pass percentage</label>
+            <div class="field has-addons is-fullwidth">
+              <p class="control has-icons-left has-icons-right is-expanded">
+                <input
+                  class="input"
+                  type="number"
+                  placeholder="Enter the duration"
+                  v-model="pass_percentage"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-check"></i>
+                </span>
+              </p>
+              <p class="control">
+                <a class="button is-static"> % </a>
+              </p>
             </div>
           </div>
           <b-tabs size="is-medium" type="is-toggle" expanded class="mt-2">
@@ -218,6 +237,7 @@ export default {
       activeResult: null,
       changed: false,
       editing: false,
+      pass_percentage: null,
       index: null,
       tid: null,
       name: null,
@@ -343,6 +363,7 @@ export default {
           start_time: this.start_time,
           end_time: this.end_time,
           owner: this.user.uid,
+          pass_percentage: this.pass_percentage,
         })
         .then((err) => {
           if (err) {
@@ -439,6 +460,7 @@ export default {
         this.department = 'none'
         this.year = 'none'
         this.questions = []
+        this.pass_percentage = null
         console.log('No Object found')
       } else if (val == true && this.test != null) {
         this.editing = true
@@ -451,6 +473,7 @@ export default {
         this.department = 'none'
         this.year = 'none'
         this.questions = []
+        this.pass_percentage = null
         for (const property in this.test) {
           this[property] = this.test[property]
         }

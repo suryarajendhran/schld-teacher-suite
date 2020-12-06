@@ -302,7 +302,24 @@ export default {
       this.questionModal = true
     },
     openResult(result) {
-      // this.current_result = result
+      console.log(result)
+      result.data = []
+      let marks = 0;
+      for (let i = 0; i < result.question.length; i++) {
+        if(result.question[i]==="correct"){
+          marks = result.answers[i].weightage
+        }else{
+          marks = 0
+        }
+        result.data.push(
+          {
+            qid: i+1,
+            result: result.question[i],
+            correct_answer: result.answers[i].value,
+            marks: marks
+          }
+        )
+      }
       this.activeResult = result
     },
     removeAtLocation(location) {

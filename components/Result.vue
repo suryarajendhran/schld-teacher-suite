@@ -5,8 +5,8 @@
       <div class="section" v-if="result">
         <div class="title is-size-4 is-size-3-mobile">{{ result.name }}</div>
         <strong>Roll Number: </strong> {{ result.roll_number }}
-        <p><strong>Attempted:</strong>{{ result.attempted }}</p>
-        <p><strong>Score:</strong>{{ result.score }}/{{ result.total }}</p>
+        <p><strong>Attempted: </strong>{{ result.attempted }}</p>
+        <p><strong>Score: </strong>{{ result.score }}/{{ result.total }}</p>
         <div>
           <b-table
             :data="result.data"

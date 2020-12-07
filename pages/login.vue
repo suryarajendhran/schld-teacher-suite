@@ -58,6 +58,18 @@
             Login
           </button>
         </div>
+        <div class="field">
+          <button
+            :class="{
+              button: true,
+              'is-dark': true,
+              'is-fullwidth': true,
+            }"
+            @click="register"
+          >
+            Register
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -88,16 +100,19 @@ export default {
         })
         .catch((err) => {
           this.loading = false
-            this.$buefy.toast.open({
-                duration: 2000,
-                message: `${err.message}</b>`,
-                position: 'is-top',
-                type: 'is-warning',
-              })
+          this.$buefy.toast.open({
+            duration: 2000,
+            message: `${err.message}</b>`,
+            position: 'is-top',
+            type: 'is-warning',
+          })
         })
     },
     switchState() {
       this.$store.commit('auth/switch')
+    },
+    register() {
+      this.$router.push('/register')
     },
   },
 }

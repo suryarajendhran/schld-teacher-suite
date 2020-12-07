@@ -194,7 +194,7 @@
                 ></b-table>
               </div>
             </b-tab-item>
-            <b-tab-item v-if="tid" label="Students">
+            <b-tab-item label="Status">
               <div class="table-container column is-full">
                 <div class="table-level level">
                   <div class="level-item">
@@ -203,7 +203,7 @@
                 </div>
                 <b-table
                   :data="students_status"
-                  :columns="students_column"
+                  :columns="status_column"
                   :loading="!students_status.length"
                   striped
                   paginated
@@ -290,7 +290,7 @@ export default {
         },
       ],
       students_status: [],
-      students_column: [
+      status_column: [
         {
           field: 'student',
           label: 'Student',

@@ -90,7 +90,7 @@
             <b-table
               :data="tests"
               :columns="columns.tests"
-              :loading="!tests.length"
+              :loading="!tests"
               striped
               hoverable
               focusable

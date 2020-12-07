@@ -11,6 +11,7 @@
             <input
               class="input is-primary"
               type="email"
+              name="email"
               placeholder="E-mail"
               v-model="email"
               required
@@ -18,9 +19,6 @@
             <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -37,9 +35,6 @@
             <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">

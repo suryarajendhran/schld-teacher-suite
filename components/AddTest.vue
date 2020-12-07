@@ -167,7 +167,7 @@
                 ></b-table>
               </div>
             </b-tab-item>
-            <b-tab-item label="Results">
+            <b-tab-item v-if="tid" label="Results">
               <div class="table-container column is-full">
                 <div class="table-level level">
                   <div class="level-item">
@@ -194,7 +194,7 @@
                 ></b-table>
               </div>
             </b-tab-item>
-            <b-tab-item label="Students">
+            <b-tab-item v-if="tid" label="Students">
               <div class="table-container column is-full">
                 <div class="table-level level">
                   <div class="level-item">
@@ -479,7 +479,7 @@ export default {
         this.$fire.database
           .ref(`student/`)
           .orderByChild('groupId')
-          .equalTo('III - EEE')
+          .equalTo(`${this.year} - ${this.department}`)
           .once('value')
           .then((snapshot) => {
             snapshot.forEach((user) => {

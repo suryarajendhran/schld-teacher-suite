@@ -194,6 +194,24 @@
                 ></b-table>
               </div>
             </b-tab-item>
+            <b-tab-item label="Students">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-item">
+                    <div class="level-item"></div>
+                  </div>
+                </div>
+                <b-table
+                  :data="students_status"
+                  :columns="students_column"
+                  :loading="!students_status.length"
+                  striped
+                  paginated
+                  per-page="6"
+                  sort-icon="arrow-up"
+                ></b-table>
+              </div>
+            </b-tab-item>
           </b-tabs>
         </div>
         <div class="has-text-centered is-flex is-justify-content-space-between">
@@ -227,6 +245,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { state } from '~/store/auth'
 import AddQuestions from './AddQuestions.vue'
 import Result from './Result.vue'
 export default {
@@ -270,6 +289,17 @@ export default {
           label: 'Choices',
         },
       ],
+      students_status: [],
+      students_column: [
+        {
+          field: 'student',
+          label: 'Student',
+        },
+        {
+          field: 'status',
+          label: 'Status',
+        },
+      ],
       results: [],
       result_columns: [
         {
@@ -295,7 +325,7 @@ export default {
     resetForm() {
       this.questions = []
       this.tid = null
-      this.results=[]
+      this.results = []
     },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
@@ -304,21 +334,19 @@ export default {
     openResult(result) {
       console.log(result)
       result.data = []
-      let marks = 0;
+      let marks = 0
       for (let i = 0; i < result.question.length; i++) {
-        if(result.question[i]==="correct"){
+        if (result.question[i] === 'correct') {
           marks = result.answers[i].weightage
-        }else{
+        } else {
           marks = 0
         }
-        result.data.push(
-          {
-            qid: i+1,
-            result: result.question[i],
-            correct_answer: result.answers[i].value,
-            marks: marks
-          }
-        )
+        result.data.push({
+          qid: i + 1,
+          result: result.question[i],
+          correct_answer: result.answers[i].value,
+          marks: marks,
+        })
       }
       this.activeResult = result
     },
@@ -430,8 +458,40 @@ export default {
           })
       }
     },
+    loadStudents() {
+      if (this.tid !== null) {
+        var state_users =[]
+        this.$fire.database.ref(`state/${this.tid}`)
+        .once('value')
+        .then((snapshot) => {
+          snapshot.forEach((user) => {
+            state_users.push(user.key)
+          })
+        })
+        this.$fire.database
+          .ref(`student/`)
+          .orderByChild('groupId')
+          .equalTo('III - EEE')
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((user) => {
+              if(state_users.includes(user.key)){
+                var status = "Started Exam"
+              }else{
+                var status = "Haven't Started Exam"
+              }
+              var data = {
+                student: user.val().name,
+                status: status,
+              }
+              this.students_status.push(data)
+            })
+          })
+      }
+    },
     loadQuestions() {
       this.loadResults()
+      this.loadStudents()
       console.log('Loading questions')
       if (this.tid !== null) {
         this.$fire.database

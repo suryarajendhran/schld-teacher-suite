@@ -4,19 +4,19 @@
     <div class="modal-content">
       <div class="section" v-if="result">
         <div class="title is-size-4 is-size-3-mobile">{{ result.name }}</div>
-        <strong>Roll Number: </strong> {{result.roll_number}}
-        <p><strong>Attempted:</strong>{{result.attempted}}</p>
-        <p><strong>Score:</strong>{{result.score}}/{{ result.total }}</p>
+        <strong>Roll Number: </strong> {{ result.roll_number }}
+        <p><strong>Attempted: </strong>{{ result.attempted }}</p>
+        <p><strong>Score: </strong>{{ result.score }}/{{ result.total }}</p>
         <div>
           <b-table
-                  :data="result.data"
-                  :columns="columns"
-                  :loading="!result.data.length"
-                  striped
-                  paginated
-                  per-page="10"
-                  sort-icon="arrow-up"
-                ></b-table>
+            :data="result.data"
+            :columns="columns"
+            :loading="!result.data.length"
+            striped
+            paginated
+            per-page="10"
+            sort-icon="arrow-up"
+          ></b-table>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
 <script>
 export default {
   props: ['result'],
-  data(){
+  data() {
     return {
       columns: [
         {
@@ -52,7 +52,7 @@ export default {
         },
       ],
     }
-  }
+  },
 }
 </script>
 

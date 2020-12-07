@@ -336,17 +336,25 @@ export default {
       result.data = []
       let marks = 0
       for (let i = 0; i < result.question.length; i++) {
-        if (result.question[i] === 'correct') {
-          marks = result.answers[i].weightage
-        } else {
-          marks = 0
+        if (result.answers[i]) {
+          if (result.question[i] === 'correct') {
+            marks = result.answers[i].weightage
+          } else {
+            marks = 0
+          }
+          try {
+            result.data.push({
+              qid: i + 1,
+              result: result.question[i],
+              correct_answer: result.answers[i].value,
+              marks: marks,
+            })
+          } catch (err) {
+            console.log('Error with data: ')
+            console.log('Result is ', result)
+            console.log('I is', i)
+          }
         }
-        result.data.push({
-          qid: i + 1,
-          result: result.question[i],
-          correct_answer: result.answers[i].value,
-          marks: marks,
-        })
       }
       this.activeResult = result
     },

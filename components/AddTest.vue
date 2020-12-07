@@ -332,7 +332,6 @@ export default {
       this.questionModal = true
     },
     openResult(result) {
-      console.log(result)
       result.data = []
       let marks = 0
       for (let i = 0; i < result.question.length; i++) {
@@ -458,25 +457,23 @@ export default {
           .once('value')
           .then((snapshot) => {
             snapshot.forEach((user) => {
-              console.log(user.val())
-              console.log(this.tid)
               var data = user.val()
               this.results.push(data)
             })
           })
       }
     },
-    loadStudents() {
+    async loadStudents() {
       if (this.tid !== null) {
         var state_users =[]
-        this.$fire.database.ref(`state/${this.tid}`)
+        await this.$fire.database.ref(`state/${this.tid}`)
         .once('value')
         .then((snapshot) => {
           snapshot.forEach((user) => {
             state_users.push(user.key)
           })
         })
-        this.$fire.database
+        await this.$fire.database
           .ref(`student/`)
           .orderByChild('groupId')
           .equalTo(`${this.year} - ${this.department}`)
@@ -511,7 +508,6 @@ export default {
             } else {
               this.questions = snapshot.val()
             }
-            console.log(this.questions)
           })
       }
     },

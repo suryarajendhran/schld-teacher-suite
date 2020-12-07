@@ -125,6 +125,15 @@ import AddTest from '~/components/AddTest.vue'
 import { mapState } from 'vuex'
 
 export default {
+  head: {
+    script: [
+      {
+        src: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js',
+        defer: true,
+        async: true,
+      },
+    ],
+  },
   mounted() {
     if (window.innerWidth <= 800 || window.innerHeight <= 600) {
       // alert('This is a mobile')
@@ -133,6 +142,15 @@ export default {
           'This portal is optimized for viewing on a desktop or PC so if possible open this page on your computer or laptop for a better experience',
       })
     }
+    window.OneSignal = window.OneSignal || []
+    window.OneSignal.push(function () {
+      OneSignal.init({
+        appId: 'a30feb88-935f-49e3-b952-4df3ffd7dbe8',
+        notifyButton: {
+          enable: true,
+        },
+      })
+    })
     this.$store.dispatch('data/loadData')
     this.reloadDataInterval = setInterval(() => {
       this.$store.dispatch('data/loadData')

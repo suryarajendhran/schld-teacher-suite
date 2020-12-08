@@ -3,7 +3,9 @@
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="section" v-if="display">
-        <h1 class="title is-size-4-mobile">{{ title }}</h1>
+        <h1 class="title is-size-4-mobile">
+          {{ title }}, {{ user.displayName }}
+        </h1>
         <div class="columns is-multiline">
           <div class="column is-one-quarter">
             <div class="field">
@@ -143,6 +145,36 @@
                   </div>
                   <div class="level-right">
                     <div class="level-item">
+                      <b-dropdown
+                        v-model="questionsPaginate"
+                        aria-role="list"
+                        class="mr-2"
+                      >
+                        <button
+                          class="button is-warning"
+                          type="button"
+                          slot="trigger"
+                        >
+                          <span>{{ questionsPaginate }} per page</span>
+                          <b-icon icon="menu-down"></b-icon>
+                        </button>
+
+                        <b-dropdown-item :value="5" aria-role="listitem">
+                          <p>5</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="10" aria-role="listitem">
+                          <p>10</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="20" aria-role="listitem">
+                          <p>20</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="50" aria-role="listitem">
+                          <p>50</p>
+                        </b-dropdown-item>
+                      </b-dropdown>
                       <button
                         class="button is-primary is-size-6-mobile"
                         @click="addQuestions"
@@ -162,7 +194,7 @@
                   focusable
                   @click="openQuestion"
                   paginated
-                  per-page="10"
+                  :per-page="questionsPaginate"
                   sort-icon="arrow-up"
                 ></b-table>
               </div>
@@ -253,6 +285,7 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      questionsPaginate: 5,
       activeResult: null,
       changed: false,
       editing: false,

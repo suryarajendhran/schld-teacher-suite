@@ -162,7 +162,7 @@
                   focusable
                   @click="openQuestion"
                   paginated
-                  per-page="6"
+                  per-page="10"
                   sort-icon="arrow-up"
                 ></b-table>
               </div>
@@ -207,7 +207,7 @@
                   :loading="!students_status.length"
                   striped
                   paginated
-                  per-page="6"
+                  per-page="50"
                   sort-icon="arrow-up"
                 ></b-table>
               </div>
@@ -466,14 +466,15 @@ export default {
     },
     async loadStudents() {
       if (this.tid !== null) {
-        var state_users =[]
-        await this.$fire.database.ref(`state/${this.tid}`)
-        .once('value')
-        .then((snapshot) => {
-          snapshot.forEach((user) => {
-            state_users.push(user.key)
+        var state_users = []
+        await this.$fire.database
+          .ref(`state/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((user) => {
+              state_users.push(user.key)
+            })
           })
-        })
         await this.$fire.database
           .ref(`student/`)
           .orderByChild('groupId')
@@ -481,9 +482,9 @@ export default {
           .once('value')
           .then((snapshot) => {
             snapshot.forEach((user) => {
-              if(state_users.includes(user.key)){
-                var status = "Started Exam"
-              }else{
+              if (state_users.includes(user.key)) {
+                var status = 'Started Exam'
+              } else {
                 var status = "Haven't Started Exam"
               }
               var data = {

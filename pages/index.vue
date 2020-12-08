@@ -54,6 +54,7 @@
                 field="department"
                 label="Department"
                 v-slot="props"
+                sortable
               >
                 {{ props.row.department }}
               </b-table-column>

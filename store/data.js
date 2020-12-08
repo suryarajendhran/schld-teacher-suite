@@ -25,12 +25,10 @@ export const actions = {
     if (this.$fire.auth.currentUser.uid == 'pUV3qa27F9Rm5KKBDy0wyUuK9kh2') {
       this.$fire.database
         .ref('test')
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           const testData = snapshot.val()
           let tests = []
           for (const key in testData) {
-            // console.log(testData[key]);
             tests.push(testData[key])
           }
           commit('LOAD_TESTS', { tests })
@@ -40,13 +38,29 @@ export const actions = {
             commit('AUTH_ERR')
           }
         })
+      this.$fire.database
+        .ref('student')
+        .on('value', (snapshot) => {
+          const studentData = snapshot.val()
+          let students = []
+          for (const key in studentData) {
+            students.push(studentData[key])
+          }
+          commit('LOAD_STUDENTS', { students })
+        })
+        .catch((err) => {
+          console.log('Error!!')
+          console.log(err.message)
+          if (err.message.includes('permission_denied')) {
+            commit('AUTH_ERR')
+          }
+        })
     } else {
       this.$fire.database
         .ref('test')
         .orderByChild('owner')
         .equalTo(this.$fire.auth.currentUser.uid)
-        .once('value')
-        .then((snapshot) => {
+        .on('value', (snapshot) => {
           const testData = snapshot.val()
           let tests = []
           for (const key in testData) {
@@ -61,25 +75,5 @@ export const actions = {
           }
         })
     }
-    this.$fire.database
-      .ref('student')
-      .once('value')
-      .then((snapshot) => {
-        const studentData = snapshot.val()
-        let students = []
-        for (const key in studentData) {
-          // console.log(testData[key]);
-          students.push(studentData[key])
-        }
-        commit('LOAD_STUDENTS', { students })
-      })
-      .catch((err) => {
-        console.log('Error!!')
-        // console.log(err.includes('permission_denied'))
-        console.log(err.message)
-        if (err.message.includes('permission_denied')) {
-          commit('AUTH_ERR')
-        }
-      })
   },
 }

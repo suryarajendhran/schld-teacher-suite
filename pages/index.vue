@@ -10,10 +10,6 @@
         </h1>
       </div>
       <div class="column is-half has-text-right">
-        <!-- <button class="button is-primary is-light mt-2">
-          Broadcast Message
-        </button> -->
-        <!-- <button class="button is-warning mt-2">Settings</button> -->
         <button class="button is-danger mt-2" @click="signOut">Sign Out</button>
       </div>
     </div>
@@ -154,9 +150,6 @@ export default {
       })
     })
     this.$store.dispatch('data/loadData')
-    this.reloadDataInterval = setInterval(() => {
-      this.$store.dispatch('data/loadData')
-    }, 2000)
   },
   data() {
     return {

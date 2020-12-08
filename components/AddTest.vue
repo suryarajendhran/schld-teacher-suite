@@ -326,6 +326,7 @@ export default {
       this.questions = []
       this.tid = null
       this.results = []
+      this.students_status = []
     },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)

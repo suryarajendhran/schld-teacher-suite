@@ -23,38 +23,22 @@ export const mutations = {
 export const actions = {
   loadData({ commit }) {
     if (this.$fire.auth.currentUser.uid == 'pUV3qa27F9Rm5KKBDy0wyUuK9kh2') {
-      this.$fire.database
-        .ref('test')
-        .on('value', (snapshot) => {
-          const testData = snapshot.val()
-          let tests = []
-          for (const key in testData) {
-            tests.push(testData[key])
-          }
-          commit('LOAD_TESTS', { tests })
-        })
-        .catch((err) => {
-          if (err.message.includes('permission_denied')) {
-            commit('AUTH_ERR')
-          }
-        })
-      this.$fire.database
-        .ref('student')
-        .on('value', (snapshot) => {
-          const studentData = snapshot.val()
-          let students = []
-          for (const key in studentData) {
-            students.push(studentData[key])
-          }
-          commit('LOAD_STUDENTS', { students })
-        })
-        .catch((err) => {
-          console.log('Error!!')
-          console.log(err.message)
-          if (err.message.includes('permission_denied')) {
-            commit('AUTH_ERR')
-          }
-        })
+      this.$fire.database.ref('test').on('value', (snapshot) => {
+        const testData = snapshot.val()
+        let tests = []
+        for (const key in testData) {
+          tests.push(testData[key])
+        }
+        commit('LOAD_TESTS', { tests })
+      })
+      this.$fire.database.ref('student').on('value', (snapshot) => {
+        const studentData = snapshot.val()
+        let students = []
+        for (const key in studentData) {
+          students.push(studentData[key])
+        }
+        commit('LOAD_STUDENTS', { students })
+      })
     } else {
       this.$fire.database
         .ref('test')
@@ -69,11 +53,14 @@ export const actions = {
           }
           commit('LOAD_TESTS', { tests })
         })
-        .catch((err) => {
-          if (err.message.includes('permission_denied')) {
-            commit('AUTH_ERR')
-          }
-        })
+      this.$fire.database.ref('student').on('value', (snapshot) => {
+        const studentData = snapshot.val()
+        let students = []
+        for (const key in studentData) {
+          students.push(studentData[key])
+        }
+        commit('LOAD_STUDENTS', { students })
+      })
     }
   },
 }

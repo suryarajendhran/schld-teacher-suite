@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="section" v-if="display">
         <h1 class="title is-size-4-mobile">
-          {{ title }}, {{ user.displayName }}
+          {{ title }}
         </h1>
         <div class="columns is-multiline">
           <div class="column is-one-quarter">

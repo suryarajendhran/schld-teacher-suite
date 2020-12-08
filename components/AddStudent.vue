@@ -172,6 +172,7 @@ export default {
   props: ['display', 'student'],
   data() {
     return {
+      uid: null,
       name: null,
       phone: null,
       roll_number: null,

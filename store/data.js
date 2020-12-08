@@ -22,25 +22,45 @@ export const mutations = {
 
 export const actions = {
   loadData({ commit }) {
-    this.$fire.database
-      .ref('test')
-      .orderByChild('owner')
-      .equalTo(this.$fire.auth.currentUser.uid)
-      .once('value')
-      .then((snapshot) => {
-        const testData = snapshot.val()
-        let tests = []
-        for (const key in testData) {
-          // console.log(testData[key]);
-          tests.push(testData[key])
-        }
-        commit('LOAD_TESTS', { tests })
-      })
-      .catch((err) => {
-        if (err.message.includes('permission_denied')) {
-          commit('AUTH_ERR')
-        }
-      })
+    if (this.$fire.auth.currentUser.uid == 'pUV3qa27F9Rm5KKBDy0wyUuK9kh2') {
+      this.$fire.database
+        .ref('test')
+        .once('value')
+        .then((snapshot) => {
+          const testData = snapshot.val()
+          let tests = []
+          for (const key in testData) {
+            // console.log(testData[key]);
+            tests.push(testData[key])
+          }
+          commit('LOAD_TESTS', { tests })
+        })
+        .catch((err) => {
+          if (err.message.includes('permission_denied')) {
+            commit('AUTH_ERR')
+          }
+        })
+    } else {
+      this.$fire.database
+        .ref('test')
+        .orderByChild('owner')
+        .equalTo(this.$fire.auth.currentUser.uid)
+        .once('value')
+        .then((snapshot) => {
+          const testData = snapshot.val()
+          let tests = []
+          for (const key in testData) {
+            // console.log(testData[key]);
+            tests.push(testData[key])
+          }
+          commit('LOAD_TESTS', { tests })
+        })
+        .catch((err) => {
+          if (err.message.includes('permission_denied')) {
+            commit('AUTH_ERR')
+          }
+        })
+    }
     this.$fire.database
       .ref('student')
       .once('value')

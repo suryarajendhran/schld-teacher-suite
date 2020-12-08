@@ -137,6 +137,22 @@ export default {
     ],
   },
   mounted() {
+    this.$axios
+      .$get('https://us-central1-scholared-f3d6d.cloudfunctions.net/syncTime')
+      .then((response) => {
+        const time = new Date().getTime()
+        if (Math.abs(response.time - time) > 60000) {
+          this.$buefy.toast.open({
+            duration: 4000,
+            message: `Please correct the system time.`,
+            position: 'is-top',
+            type: 'is-danger',
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     if (window.innerWidth <= 800 || window.innerHeight <= 600) {
       // alert('This is a mobile')
       this.$buefy.dialog.alert({

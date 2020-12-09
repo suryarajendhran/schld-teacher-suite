@@ -265,7 +265,7 @@
     <button
       class="modal-close is-large"
       aria-label="close"
-      @click="$emit('close')"
+      @click="resetForm"
     ></button>
     <lazy-add-questions
       :display="questionModal"
@@ -281,6 +281,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import { state } from '~/store/auth'
 import AddQuestions from './AddQuestions.vue'
 import Result from './Result.vue'
@@ -289,6 +290,10 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      results: null,
+      resultsRef: null,
+      state: null,
+      stateRef: null,
       questionsPaginate: 5,
       activeResult: null,
       changed: false,
@@ -368,6 +373,7 @@ export default {
       this.tid = null
       this.results = []
       this.students_status = []
+      this.$emit('close')
     },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
@@ -577,9 +583,16 @@ export default {
         return 'Add'
       }
     },
+    students() {
+      if (this.tid) {
+        return this.studentsByGroupID(`${this.year} - ${this.department}`)
+      }
+      return []
+    },
     ...mapState({
       user: (state) => state.auth.user,
     }),
+    ...mapGetters({ studentsByGroupID: 'data/studentsByGroupID' }),
   },
   watch: {
     display: function (val) {
@@ -610,6 +623,18 @@ export default {
         for (const property in this.test) {
           this[property] = this.test[property]
         }
+        // this.$fire.database
+        //   .ref('student')
+        //   .orderByChild('groupId')
+        //   .equalTo(`${this.year} - ${this.department}`)
+        //   .on('value', (snapshot) => {
+        //     console.log('Updating students')
+        //     let students = []
+        //     snapshot.forEach((student) => {
+        //       students.push(student)
+        //     })
+        //     this.students = students
+        //   })
         this.loadQuestions()
         this.loadResults()
         this.loadStudents()

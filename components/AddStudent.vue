@@ -195,7 +195,7 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: this.delete_user(),
-        closeOnConfirm: true
+        closeOnConfirm: true,
       })
     },
     unlockStudent() {
@@ -254,7 +254,7 @@ export default {
                 }
                 this.$emit('close')
                 this.$emit('reload')
-            this.loading = false
+                this.loading = false
               })
           })
           .catch((response) => {

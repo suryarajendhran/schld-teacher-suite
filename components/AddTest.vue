@@ -187,7 +187,6 @@
                 </div>
                 <b-table
                   :data="questions"
-                  :columns="columns"
                   :loading="!questions.length"
                   striped
                   hoverable
@@ -196,7 +195,25 @@
                   paginated
                   :per-page="questionsPaginate"
                   sort-icon="arrow-up"
-                ></b-table>
+                >
+                  <template slot-scope="props" slot="header">
+                    <div style="width: 100%" class="has-text-centered">
+                      {{ props.column.label }}
+                    </div>
+                  </template>
+                  <b-table-column label="Sl.No" v-slot="props"
+                    >{{ props.index +1 }}
+                  </b-table-column>
+                  <b-table-column label="Text" v-slot="props"
+                    >{{ props.row.text }}
+                  </b-table-column>
+                  <b-table-column label="Weightage" v-slot="props"
+                    >{{ props.row.weightage }}
+                  </b-table-column>
+                  <b-table-column label="Choices" v-slot="props"
+                    >{{ props.row.choices[0] }}, {{ props.row.choices[1] }}, {{ props.row.choices[2] }}, {{ props.row.choices[3] }}
+                  </b-table-column>
+                </b-table>
               </div>
             </b-tab-item>
             <b-tab-item v-if="tid" label="Results">

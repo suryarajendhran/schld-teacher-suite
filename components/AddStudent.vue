@@ -222,13 +222,13 @@ export default {
           this.$emit('reload')
         })
     },
-    async delete_user() {
+    delete_user() {
       this.loading = true
       if (this.uid !== null) {
         const student = {
           uid: this.uid,
         }
-        await this.$axios
+        this.$axios
           .$post(
             'https://us-central1-scholared-f3d6d.cloudfunctions.net/deleteStudent',
             { student: student }
@@ -254,15 +254,14 @@ export default {
                 }
                 this.$emit('close')
                 this.$emit('reload')
-                return true;
+            this.loading = false
               })
           })
           .catch((response) => {
             console.log(response)
-                return true;
+            this.loading = false
           })
       }
-      this.loading = false
     },
     async submit() {
       this.loading = true

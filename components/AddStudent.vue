@@ -188,14 +188,13 @@ export default {
   methods: {
     confirmDeleteUser() {
       this.$buefy.dialog.confirm({
-        title: 'Deleting User',
-        message:
-          'Are you sure you want to <b>delete</b> User? This action cannot be undone.',
-        confirmText: 'Delete user',
+        title: 'Confirm Delete Student',
+        message: `Are you sure you want to <b>delete</b> ${this.name}? This action cannot be undone.`,
+        confirmText: 'Delete',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => this.deleteUser(),
-        closeOnConfirm: true
+        closeOnConfirm: true,
       })
     },
     unlockStudent() {
@@ -254,7 +253,7 @@ export default {
                 }
                 this.$emit('close')
                 this.$emit('reload')
-            this.loading = false
+                this.loading = false
               })
           })
           .catch((response) => {

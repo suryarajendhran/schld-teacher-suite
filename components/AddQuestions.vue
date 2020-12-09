@@ -98,7 +98,10 @@
                 <i class="fas fa-check-circle"></i>
               </span>
             </button>
-            <button class="button is-warning mt-2" @click="removeQuestion">
+            <button
+              class="button is-warning mt-2"
+              @click="confirm_removeQuestion"
+            >
               <span>Remove Question</span>
               <span class="icon">
                 <i class="fas fa-trash"></i>
@@ -188,6 +191,17 @@ export default {
         choices: this.choices,
         weightage: this.weightage,
         qid: this.questions.length,
+      })
+    },
+    confirm_removeQuestion() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting Question',
+        message:
+          'Are you sure you want to <b>delete</b> this Question? This action cannot be undone.',
+        confirmText: 'Delete Question',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: this.removeQuestion,
       })
     },
     removeQuestion() {

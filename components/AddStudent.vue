@@ -134,7 +134,7 @@
                     'is-fullwidth': true,
                     'is-loading': loading,
                   }"
-                  @click="delete_user"
+                  @click="confirm_delete_user"
                 >
                   <span class="icon"> <i class="fas fa-trash"></i> </span>
                   <span> Delete </span>
@@ -186,6 +186,18 @@ export default {
     }
   },
   methods: {
+    confirm_delete_user() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting User',
+        message:
+          'Are you sure you want to <b>delete</b> User? This action cannot be undone.',
+        confirmText: 'Delete user',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: this.delete_user(),
+        closeOnConfirm: true
+      })
+    },
     unlockStudent() {
       this.$fire.database
         .ref(`student/${this.uid}`)
@@ -242,10 +254,12 @@ export default {
                 }
                 this.$emit('close')
                 this.$emit('reload')
+                return true;
               })
           })
           .catch((response) => {
             console.log(response)
+                return true;
           })
       }
       this.loading = false

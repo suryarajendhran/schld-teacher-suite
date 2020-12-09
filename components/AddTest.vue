@@ -251,7 +251,11 @@
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
           </button>
-          <button class="button is-warning mt-1" @click="removeTest" v-if="tid">
+          <button
+            class="button is-warning mt-1"
+            @click="confirm_removeTest"
+            v-if="tid"
+          >
             <span class="icon"> <i class="fas fa-trash"></i> </span>
             <span> Remove </span>
           </button>
@@ -418,6 +422,17 @@ export default {
           this.$emit('reload')
         })
     },
+    confirm_removeTest() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting Test',
+        message:
+          'Are you sure you want to <b>delete</b> this Test? This action cannot be undone.',
+        confirmText: 'Delete Test',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.removeTest(),
+      })
+    },
     removeTest() {
       if (this.tid != null) {
         this.removeAtLocation('test')
@@ -520,12 +535,12 @@ export default {
           })
         var state_listener = this.$fire.database.ref(`state/${this.tid}`)
         student_listener.on('value').then((snapshot) => {
-          var states = [];
+          var states = []
           snapshot.forEach((user) => {
             states.push(user.key)
           })
           for (let i = 0; i < this.students_status.length; i++) {
-            if(states.includes(this.students_status[i].uid)){
+            if (states.includes(this.students_status[i].uid)) {
               this.students_status[i].status = 'Started Exam'
             }
           }

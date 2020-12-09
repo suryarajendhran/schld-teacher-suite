@@ -188,10 +188,9 @@ export default {
   methods: {
     confirm_delete_user() {
       this.$buefy.dialog.confirm({
-        title: 'Deleting User',
-        message:
-          'Are you sure you want to <b>delete</b> User? This action cannot be undone.',
-        confirmText: 'Delete user',
+        title: 'Confirm Delete Student',
+        message: `Are you sure you want to <b>delete</b> ${this.name}? This action cannot be undone.`,
+        confirmText: 'Delete',
         type: 'is-danger',
         hasIcon: true,
         onConfirm: this.delete_user(),

@@ -64,3 +64,15 @@ export const actions = {
     }
   },
 }
+
+export const getters = {
+  studentsByGroupID: (state) => (groupId) => {
+    let filteredStudents = []
+    state.students.forEach((student) => {
+      if (student.groupId == groupId) {
+        filteredStudents.push(student)
+      }
+    })
+    return filteredStudents
+  },
+}

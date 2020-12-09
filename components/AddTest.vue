@@ -332,6 +332,10 @@ export default {
           field: 'status',
           label: 'Status',
         },
+        {
+          field: 'score',
+          label: 'Score',
+        },
       ],
       results: [],
       result_columns: [
@@ -499,15 +503,7 @@ export default {
     },
     async loadStudents() {
       if (this.tid !== null) {
-        var state_users = []
-        await this.$fire.database
-          .ref(`state/${this.tid}`)
-          .once('value')
-          .then((snapshot) => {
-            snapshot.forEach((user) => {
-              state_users.push(user.key)
-            })
-          })
+        this.students_status = []
         await this.$fire.database
           .ref(`student/`)
           .orderByChild('groupId')
@@ -515,23 +511,28 @@ export default {
           .once('value')
           .then((snapshot) => {
             snapshot.forEach((user) => {
-              if (state_users.includes(user.key)) {
-                var status = 'Started Exam'
-              } else {
-                var status = "Haven't Started Exam"
-              }
-              var data = {
+              this.students_status.push({
+                uid: user.key,
                 student: user.val().name,
-                status: status,
-              }
-              this.students_status.push(data)
+                status: 'Not Started Exam',
+              })
             })
           })
+        var state_listener = this.$fire.database.ref(`state/${this.tid}`)
+        student_listener.on('value').then((snapshot) => {
+          var states = [];
+          snapshot.forEach((user) => {
+            states.push(user.key)
+          })
+          for (let i = 0; i < this.students_status.length; i++) {
+            if(states.includes(this.students_status[i].uid)){
+              this.students_status[i].status = 'Started Exam'
+            }
+          }
+        })
       }
     },
     loadQuestions() {
-      this.loadResults()
-      this.loadStudents()
       console.log('Loading questions')
       if (this.tid !== null) {
         this.$fire.database
@@ -595,6 +596,8 @@ export default {
           this[property] = this.test[property]
         }
         this.loadQuestions()
+        this.loadResults()
+        this.loadStudents()
       } else if (val == false) {
         // Closing modal
         this.resetForm()

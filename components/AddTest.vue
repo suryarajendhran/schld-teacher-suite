@@ -253,7 +253,7 @@
           </button>
           <button
             class="button is-warning mt-1"
-            @click="confirm_removeTest"
+            @click="confirmRemoveTest"
             v-if="tid"
           >
             <span class="icon"> <i class="fas fa-trash"></i> </span>
@@ -428,7 +428,7 @@ export default {
           this.$emit('reload')
         })
     },
-    confirm_removeTest() {
+    confirmRemoveTest() {
       this.$buefy.dialog.confirm({
         title: 'Deleting Test',
         message:

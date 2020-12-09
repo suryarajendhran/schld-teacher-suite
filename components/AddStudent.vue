@@ -134,7 +134,7 @@
                     'is-fullwidth': true,
                     'is-loading': loading,
                   }"
-                  @click="confirm_delete_user"
+                  @click="confirmDeleteUser"
                 >
                   <span class="icon"> <i class="fas fa-trash"></i> </span>
                   <span> Delete </span>
@@ -186,7 +186,7 @@ export default {
     }
   },
   methods: {
-    confirm_delete_user() {
+    confirmDeleteUser() {
       this.$buefy.dialog.confirm({
         title: 'Deleting User',
         message:
@@ -194,7 +194,7 @@ export default {
         confirmText: 'Delete user',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: this.delete_user(),
+        onConfirm: () => this.deleteUser(),
         closeOnConfirm: true
       })
     },
@@ -222,7 +222,7 @@ export default {
           this.$emit('reload')
         })
     },
-    delete_user() {
+    deleteUser() {
       this.loading = true
       if (this.uid !== null) {
         const student = {

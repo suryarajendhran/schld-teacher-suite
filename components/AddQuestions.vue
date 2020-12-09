@@ -100,7 +100,7 @@
             </button>
             <button
               class="button is-warning mt-2"
-              @click="confirm_removeQuestion"
+              @click="confirmRemoveQuestion"
             >
               <span>Remove Question</span>
               <span class="icon">
@@ -193,7 +193,7 @@ export default {
         qid: this.questions.length,
       })
     },
-    confirm_removeQuestion() {
+    confirmRemoveQuestion() {
       this.$buefy.dialog.confirm({
         title: 'Deleting Question',
         message:
@@ -201,7 +201,7 @@ export default {
         confirmText: 'Delete Question',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: this.removeQuestion,
+        onConfirm: () => this.removeQuestion,
       })
     },
     removeQuestion() {

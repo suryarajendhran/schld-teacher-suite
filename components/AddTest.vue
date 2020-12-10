@@ -202,7 +202,7 @@
                     </div>
                   </template>
                   <b-table-column label="Sl.No" v-slot="props"
-                    >{{ props.index +1 }}
+                    >{{ props.index + 1 }}
                   </b-table-column>
                   <b-table-column label="Text" v-slot="props"
                     >{{ props.row.text }}
@@ -211,7 +211,8 @@
                     >{{ props.row.weightage }}
                   </b-table-column>
                   <b-table-column label="Choices" v-slot="props"
-                    >{{ props.row.choices[0] }}, {{ props.row.choices[1] }}, {{ props.row.choices[2] }}, {{ props.row.choices[3] }}
+                    >{{ props.row.choices[0] }}, {{ props.row.choices[1] }},
+                    {{ props.row.choices[2] }}, {{ props.row.choices[3] }}
                   </b-table-column>
                 </b-table>
               </div>
@@ -226,6 +227,9 @@
                       >
                         <!-- Results -->
                       </h2>
+                      <button class="button is-success" @click="exportSheet">
+                        Export to XLSX
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -302,6 +306,8 @@ import { mapGetters } from 'vuex'
 import { state } from '~/store/auth'
 import AddQuestions from './AddQuestions.vue'
 import Result from './Result.vue'
+import XLSX from 'xlsx'
+
 export default {
   components: { AddQuestions, Result },
   props: ['display', 'test'],
@@ -395,6 +401,39 @@ export default {
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
+    },
+    exportSheet() {
+      var sheet = XLSX.utils.book_new()
+      sheet.Props = {
+        Title: 'Results',
+        Subject: 'Test Results',
+        Author: 'Scholared',
+        CreatedDate: new Date(),
+      }
+      sheet.SheetNames.push('Sheet 1')
+      var sheetData = [
+        [
+          'Name',
+          'Roll Number',
+          'Attempted',
+          'Correct',
+          'Score',
+          'Out of Total',
+        ],
+      ];
+      this.results.forEach((result) => {
+        sheetData.push([
+          result.name,
+          result.roll_number,
+          result.attempted,
+          result.correct,
+          result.score,
+          result.total,
+        ])
+      });
+      sheet.Sheets["Sheet 1"] = XLSX.utils.aoa_to_sheet(sheetData);
+      var file = XLSX.write(sheet, {bookType:'xlsx',  type: 'binary'});
+      XLSX.writeFile(sheet, "results.xlsx", {bookType:'xlsx'})
     },
     openResult(result) {
       result.data = []

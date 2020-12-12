@@ -98,7 +98,10 @@
                 <i class="fas fa-check-circle"></i>
               </span>
             </button>
-            <button class="button is-warning mt-2" @click="removeQuestion">
+            <button
+              class="button is-warning mt-2"
+              @click="confirmRemoveQuestion"
+            >
               <span>Remove Question</span>
               <span class="icon">
                 <i class="fas fa-trash"></i>
@@ -181,7 +184,7 @@ export default {
     },
     addLatestToArray() {
       this.correct_choices[this.questions.length] = this.choices[
-        this.correct_choice - 1
+        this.correct_choice
       ]
       this.questions.push({
         text: this.text,
@@ -190,9 +193,39 @@ export default {
         qid: this.questions.length,
       })
     },
+    confirmRemoveQuestion() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting Question',
+        message:
+          'Are you sure you want to <b>delete</b> this Question? This action cannot be undone.',
+        confirmText: 'Delete Question',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.removeQuestion,
+      })
+    },
     removeQuestion() {
       if (this.editing == true) {
         this.questions.splice(this.index, 1)
+        // console.log(this.correct_choices)
+        this.$fire.database
+          .ref(`answers/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            let correct_choices = snapshot.val()
+            console.log('Before removing results')
+            console.log(Object.assign({}, correct_choices))
+            correct_choices.splice(this.index, 1)
+            console.log(correct_choices)
+            this.$fire.database
+              .ref(`answers/${this.tid}`)
+              .set(correct_choices)
+              .then((snapshot) => {
+                console.log('Removed results are')
+                console.log(snapshot.val())
+              })
+          })
+        // this.correct_choices.splice(this.index, 1)
         this.$fire.database
           .ref(`questions/${this.tid}`)
           .set(this.questions)
@@ -213,11 +246,11 @@ export default {
               this.$emit('reload')
             }
           })
-        for (const qid in this.correct_choices) {
-          this.$fire.database
-            .ref(`answers/${this.tid}`)
-            .update({ [qid]: this.correct_choices[qid] })
-        }
+        // for (const qid in this.correct_choices) {
+        //   this.$fire.database
+        //     .ref(`answers/${this.tid}`)
+        //     .update({ [qid]: this.correct_choices[qid] })
+        // }
       }
     },
 
@@ -228,7 +261,7 @@ export default {
       if (this.editing == false) {
         this.addLatestToArray()
       } else {
-        this.correct_choices[this.index] = this.choices[this.correct_choice - 1]
+        this.correct_choices[this.index] = this.choices[this.correct_choice]
       }
       console.log(this.correct_choices)
       for (const qid in this.correct_choices) {
@@ -304,7 +337,7 @@ export default {
           .once('value')
           .then((snapshot) => {
             console.log(snapshot.val())
-            this.correct_choice = this.choices.indexOf(snapshot.val().value) + 1
+            this.correct_choice = this.choices.indexOf(snapshot.val().value)
           })
         const question = this.questions[this.index]
         console.log(question)

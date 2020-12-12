@@ -6,39 +6,35 @@
       <div class="column is-one-third">
         <div class="title is-4">Register</div>
         <div class="field">
-          <label for="displayname">Name</label>
+          <label for="name">Name</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input is-primary"
               type="text"
-              placeholder="Display Name"
+              placeholder="John Appleseed"
+              name="name"
               v-model="name"
               required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
-          <label for="username">Email address</label>
+          <label for="email">Email address</label>
           <div class="control has-icons-left has-icons-right">
             <input
               class="input is-primary"
               type="email"
-              placeholder="E-mail"
+              name="email"
+              placeholder="marissameyer@yahoo.com"
               v-model="email"
               required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-at"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -47,16 +43,14 @@
             <input
               class="input is-primary"
               type="phone"
-              placeholder="Phone Number"
+              name="phone"
+              placeholder="90001993890"
               v-model="phone"
               required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-phone"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -65,23 +59,21 @@
             <input
               class="input is-primary"
               type="password"
-              placeholder="Your Password"
+              name="password"
+              placeholder="******"
               v-model="password"
               required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
           <label for="username">Department</label>
           <div class="field">
             <div class="control has-icons-left">
-              <div class="select is-primary">
+              <div class="select is-primary is-fullwidth">
                 <select v-model="department">
                   <option disabled value="default">
                     Select your department
@@ -103,16 +95,13 @@
             <input
               class="input is-primary"
               type="text"
-              placeholder="Access Code"
+              placeholder="******"
               v-model="access_code"
               required
             />
             <span class="icon is-small is-left">
               <i class="fas fa-hashtag"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -152,16 +141,17 @@ export default {
   },
   methods: {
     async register() {
-      if (this.access_code === 'AccessCode') {
+      if (this.access_code === '120YUTHI') {
         this.loading = true
         await this.$fire.auth
           .createUserWithEmailAndPassword(this.email, this.password)
-          .then((user) => {
+          .then((userRecord) => {
+            console.log(userRecord)
             this.$fire.database
-              .ref(`Teacher`)
-              .child(user.uid)
+              .ref(`teacher`)
+              .child(userRecord.user.uid)
               .set({
-                uid: user.id,
+                uid: userRecord.user.uid,
                 name: this.name,
                 email: this.email,
                 phone: this.phone,
@@ -190,13 +180,13 @@ export default {
               type: 'is-warning',
             })
           })
-      }else{
-          this.$buefy.toast.open({
-              duration: 2000,
-              message: `Wrong Access Code</b>`,
-              position: 'is-top',
-              type: 'is-warning',
-            })
+      } else {
+        this.$buefy.toast.open({
+          duration: 2000,
+          message: `Wrong Access Code</b>`,
+          position: 'is-top',
+          type: 'is-warning',
+        })
       }
     },
     switchState() {
@@ -218,5 +208,10 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
+}
+@media screen and (max-width: 380px) {
+  #background {
+    opacity: 0.7;
+  }
 }
 </style>

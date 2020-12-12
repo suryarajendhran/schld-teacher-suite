@@ -1,5 +1,6 @@
 <template>
   <section class="section">
+    <button @click="random">Random</button>
     <div class="columns">
       <div class="column is-half is-justify-content-center mt-2">
         <h1
@@ -9,10 +10,6 @@
         </h1>
       </div>
       <div class="column is-half has-text-right">
-        <!-- <button class="button is-primary is-light mt-2">
-          Broadcast Message
-        </button> -->
-        <!-- <button class="button is-warning mt-2">Settings</button> -->
         <button class="button is-danger mt-2" @click="signOut">Sign Out</button>
       </div>
     </div>
@@ -54,6 +51,7 @@
                 field="department"
                 label="Department"
                 v-slot="props"
+                sortable
               >
                 {{ props.row.department }}
               </b-table-column>
@@ -90,7 +88,7 @@
             <b-table
               :data="tests"
               :columns="columns.tests"
-              :loading="!tests.length"
+              :loading="!tests"
               striped
               hoverable
               focusable
@@ -122,10 +120,35 @@
 import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
+  head: {
+    script: [
+      {
+        src: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js',
+        defer: true,
+        async: true,
+      },
+    ],
+  },
   mounted() {
+    this.$axios
+      .$get('https://us-central1-scholared-f3d6d.cloudfunctions.net/syncTime')
+      .then((response) => {
+        const time = new Date().getTime()
+        if (Math.abs(response.time - time) > 60000) {
+          this.$buefy.toast.open({
+            duration: 4000,
+            message: `Please correct the system time.`,
+            position: 'is-top',
+            type: 'is-danger',
+          })
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     if (window.innerWidth <= 800 || window.innerHeight <= 600) {
       // alert('This is a mobile')
       this.$buefy.dialog.alert({
@@ -133,10 +156,19 @@ export default {
           'This portal is optimized for viewing on a desktop or PC so if possible open this page on your computer or laptop for a better experience',
       })
     }
+    window.OneSignal = window.OneSignal || []
+    window.OneSignal.push(function () {
+      OneSignal.init({
+        appId: 'a30feb88-935f-49e3-b952-4df3ffd7dbe8',
+        notifyButton: {
+          enable: true,
+        },
+      })
+    })
+    if (this.$store.state.auth.department != null) {
+      this.$store.dispatch('auth/loadDepartment')
+    }
     this.$store.dispatch('data/loadData')
-    this.reloadDataInterval = setInterval(() => {
-      this.$store.dispatch('data/loadData')
-    }, 2000)
   },
   data() {
     return {
@@ -145,21 +177,6 @@ export default {
       studentModal: false,
       activeStudent: null,
       columns: {
-        students: [
-          {
-            field: 'uid',
-            label: 'User ID',
-            searchable: true,
-          },
-          {
-            field: 'name',
-            label: 'Name',
-            searchable: true,
-          },
-          { field: 'password', label: 'Password' },
-          { field: 'department', label: 'Department' },
-          { field: 'year', label: 'Year' },
-        ],
         tests: [
           {
             field: 'name',
@@ -195,6 +212,9 @@ export default {
     }
   },
   methods: {
+    random() {
+      console.log(this.$store.state)
+    },
     isLater(time) {
       console.log(time)
       const timeNow = new Date()
@@ -253,7 +273,8 @@ export default {
       if (this.$store.state.data.students == null) {
         return []
       } else {
-        return this.$store.state.data.students
+        return this.studentsByDepartment(this.$store.state.auth.department)
+        // return this.$store.state.data.students
       }
     },
     tests() {
@@ -265,6 +286,9 @@ export default {
     ...mapState({
       authErr: (state) => state.data.authError,
       user: (state) => state.auth.user,
+    }),
+    ...mapGetters({
+      studentsByDepartment: 'data/studentsByDepartment',
     }),
   },
   watch: {

@@ -1,6 +1,7 @@
 export const state = () => ({
   authenticated: localStorage.getItem('authenticated') === 'true' || false,
   user: null,
+  department: localStorage.getItem('department'),
 })
 
 export const mutations = {
@@ -25,7 +26,15 @@ export const mutations = {
   },
   switch(state) {
     state.authenticated = !state.authenticated
+    if (state.authenticated == false) {
+      state.department = null
+      localStorage.removeItem('department')
+    }
     localStorage.setItem('authenticated', state.authenticated)
+  },
+  setDepartment(state, { teacher_data }) {
+    state.department = teacher_data.department
+    localStorage.setItem('department', state.department)
   },
 }
 
@@ -40,5 +49,14 @@ export const actions = {
       return
     }
     commit('SET_AUTH_USER', { authUser })
+  },
+  loadDepartment({ commit, state }) {
+    console.log(state.user)
+    this.$fire.database
+      .ref(`teacher/${state.user.uid}`)
+      .once('value')
+      .then((snapshot) => {
+        commit('setDepartment', { teacher_data: snapshot.val() })
+      })
   },
 }

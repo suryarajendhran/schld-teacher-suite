@@ -3,9 +3,11 @@
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="section" v-if="display">
-        <h1 class="title is-size-4-mobile">{{ title }}</h1>
+        <h1 class="title is-size-4-mobile">
+          {{ title }}
+        </h1>
         <div class="columns is-multiline">
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <div class="field">
               <label class="label has-text-grey-dark">Name</label>
               <div class="control has-icons-left has-icons-right">
@@ -45,7 +47,7 @@
               </div>
             </div>
           </div>
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <label class="label has-text-grey-dark">Duration</label>
             <div class="field has-addons is-fullwidth">
               <p class="control has-icons-left has-icons-right is-expanded">
@@ -79,7 +81,7 @@
               <!-- <p class="help is-danger">This email is invalid</p> -->
             </div>
           </div>
-          <div class="column is-one-third">
+          <div class="column is-one-quarter">
             <label class="label has-text-grey-dark">Unlock time</label>
             <div class="field">
               <div class="control is-expanded">
@@ -111,77 +113,180 @@
               </div>
             </div>
           </div>
-          <div id="table-container" class="column is-full">
-            <div id="table-level" class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <h2 class="title is-size-3 is-size-4-mobile is-bold">
-                    Questions
-                  </h2>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <button
-                    class="button is-primary is-size-6-mobile"
-                    @click="addQuestions"
-                  >
-                    <span class="icon"> <i class="fas fa-plus"></i> </span>
-                    <span class="is-size-6-mobile">Add Question</span>
-                  </button>
-                </div>
-              </div>
+          <div class="column is-one-quarter">
+            <label class="label has-text-grey-dark">Pass percentage</label>
+            <div class="field has-addons is-fullwidth">
+              <p class="control has-icons-left has-icons-right is-expanded">
+                <input
+                  class="input"
+                  type="number"
+                  placeholder="Enter the duration"
+                  v-model="pass_percentage"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-check"></i>
+                </span>
+              </p>
+              <p class="control">
+                <a class="button is-static"> % </a>
+              </p>
             </div>
-            <b-table
-              :data="questions"
-              :columns="columns"
-              :loading="!questions.length"
-              striped
-              hoverable
-              focusable
-              @click="openQuestion"
-              paginated
-              per-page="6"
-              sort-icon="arrow-up"
-            ></b-table>
           </div>
+          <b-tabs size="is-medium" type="is-toggle" expanded class="mt-2">
+            <b-tab-item label="Questions">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <h2 class="title is-size-3 is-size-4-mobile is-bold">
+                        <!-- Questions -->
+                      </h2>
+                    </div>
+                  </div>
+                  <div class="level-right">
+                    <div class="level-item">
+                      <b-dropdown
+                        v-model="questionsPaginate"
+                        aria-role="list"
+                        class="mr-2"
+                      >
+                        <button
+                          class="button is-warning"
+                          type="button"
+                          slot="trigger"
+                        >
+                          <span>{{ questionsPaginate }} per page</span>
+                          <b-icon icon="menu-down"></b-icon>
+                        </button>
+
+                        <b-dropdown-item :value="5" aria-role="listitem">
+                          <p>5</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="10" aria-role="listitem">
+                          <p>10</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="20" aria-role="listitem">
+                          <p>20</p>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item :value="50" aria-role="listitem">
+                          <p>50</p>
+                        </b-dropdown-item>
+                      </b-dropdown>
+                      <button
+                        class="button is-primary is-size-6-mobile"
+                        @click="addQuestions"
+                      >
+                        <span class="icon"> <i class="fas fa-plus"></i> </span>
+                        <span class="is-size-6-mobile">Add Question</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <b-table
+                  :data="questions"
+                  :loading="!questions.length"
+                  striped
+                  hoverable
+                  focusable
+                  @click="openQuestion"
+                  paginated
+                  :per-page="questionsPaginate"
+                  sort-icon="arrow-up"
+                >
+                  <template slot-scope="props" slot="header">
+                    <div style="width: 100%" class="has-text-centered">
+                      {{ props.column.label }}
+                    </div>
+                  </template>
+                  <b-table-column label="Sl.No" v-slot="props"
+                    >{{ props.index + 1 }}
+                  </b-table-column>
+                  <b-table-column label="Text" v-slot="props"
+                    >{{ props.row.text }}
+                  </b-table-column>
+                  <b-table-column label="Weightage" v-slot="props"
+                    >{{ props.row.weightage }}
+                  </b-table-column>
+                  <b-table-column label="Choices" v-slot="props"
+                    >{{ props.row.choices[0] }}, {{ props.row.choices[1] }},
+                    {{ props.row.choices[2] }}, {{ props.row.choices[3] }}
+                  </b-table-column>
+                </b-table>
+              </div>
+            </b-tab-item>
+            <b-tab-item v-if="tid" label="Results">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-item">
+                    <div class="level-item">
+                      <h2
+                        class="title is-size-3 is-size-4-mobile is-bold has-text-centered"
+                      >
+                        <!-- Results -->
+                      </h2>
+                      <button class="button is-success" @click="exportSheet">
+                        Export to XLSX
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <b-table
+                  :data="results"
+                  :columns="result_columns"
+                  :loading="!results.length"
+                  striped
+                  hoverable
+                  focusable
+                  @click="openResult"
+                  paginated
+                  per-page="6"
+                  sort-icon="arrow-up"
+                ></b-table>
+              </div>
+            </b-tab-item>
+            <b-tab-item label="Status">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-item">
+                    <div class="level-item"></div>
+                  </div>
+                </div>
+                <b-table
+                  :data="students_status"
+                  :columns="status_column"
+                  :loading="!students_status.length"
+                  striped
+                  paginated
+                  per-page="50"
+                  sort-icon="arrow-up"
+                ></b-table>
+              </div>
+            </b-tab-item>
+          </b-tabs>
         </div>
         <div class="has-text-centered is-flex is-justify-content-space-between">
           <button class="button is-primary mt-1" @click="submit(false)">
             <span class="icon"> <i class="fas fa-check"></i> </span>
             <span> {{ buttonLabel }} </span>
           </button>
-          <button class="button is-warning mt-1" @click="removeTest" v-if="tid">
+          <button
+            class="button is-warning mt-1"
+            @click="confirmRemoveTest"
+            v-if="tid"
+          >
             <span class="icon"> <i class="fas fa-trash"></i> </span>
             <span> Remove </span>
           </button>
         </div>
       </div>
-      <div id="table-container" class="column is-full">
-        <div id="table-level" class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <h2 class="title is-size-3 is-size-4-mobile is-bold">Results</h2>
-            </div>
-          </div>
-        </div>
-        <b-table
-          :data="results"
-          :columns="result_columns"
-          :loading="!results.length"
-          striped
-          hoverable
-          focusable
-          paginated
-          per-page="6"
-          sort-icon="arrow-up"
-        ></b-table>
-      </div>
     </div>
     <button
       class="modal-close is-large"
       aria-label="close"
-      @click="$emit('close')"
+      @click="resetForm"
     ></button>
     <lazy-add-questions
       :display="questionModal"
@@ -191,19 +296,32 @@
       :originalQuestions="questions"
       :index="index"
     />
+    <lazy-result :result="activeResult" @close="activeResult = null" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import { state } from '~/store/auth'
 import AddQuestions from './AddQuestions.vue'
+import Result from './Result.vue'
+import XLSX from 'xlsx'
+
 export default {
-  components: { AddQuestions },
+  components: { AddQuestions, Result },
   props: ['display', 'test'],
   data() {
     return {
+      results: null,
+      resultsRef: null,
+      state: null,
+      stateRef: null,
+      questionsPaginate: 5,
+      activeResult: null,
       changed: false,
       editing: false,
+      pass_percentage: null,
       index: null,
       tid: null,
       name: null,
@@ -213,15 +331,7 @@ export default {
       end_time: null,
       department: 'none',
       year: 'none',
-      departments: [
-        'Mechanical',
-        'ECE',
-        'IT',
-        'Civil',
-        'Biotech',
-        'EIE',
-        'CSE',
-      ],
+      departments: ['ECE', 'Mechanical', 'EEE', 'IT', 'CSE', 'Civil', 'EIE'],
       years: ['I', 'II', 'III', 'IV'],
       questionModal: false,
       assignee: 'none',
@@ -244,23 +354,38 @@ export default {
           label: 'Choices',
         },
       ],
+      students_status: [],
+      status_column: [
+        {
+          field: 'student',
+          label: 'Student',
+        },
+        {
+          field: 'status',
+          label: 'Status',
+        },
+        {
+          field: 'score',
+          label: 'Score',
+        },
+      ],
       results: [],
       result_columns: [
-        // {
-        //   field: 'roll_number',
-        //   label: 'Roll.No.',
-        // },
-        // {
-        //   field: 'name',
-        //   label: 'Name',
-        // },
         {
-          field: 'correct_answers',
+          field: 'roll_number',
+          label: 'Roll.No.',
+        },
+        {
+          field: 'name',
+          label: 'Name',
+        },
+        {
+          field: 'correct',
           label: 'Correct Answers',
         },
         {
-          field: 'marks',
-          label: 'Total Marks',
+          field: 'score',
+          label: 'Marks',
         },
       ],
     }
@@ -269,10 +394,72 @@ export default {
     resetForm() {
       this.questions = []
       this.tid = null
+      this.results = []
+      this.students_status = []
+      this.$emit('close')
     },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
+    },
+    exportSheet() {
+      var sheet = XLSX.utils.book_new()
+      sheet.Props = {
+        Title: 'Results',
+        Subject: 'Test Results',
+        Author: 'Scholared',
+        CreatedDate: new Date(),
+      }
+      sheet.SheetNames.push('Sheet 1')
+      var sheetData = [
+        [
+          'Name',
+          'Roll Number',
+          'Attempted',
+          'Correct',
+          'Score',
+          'Out of Total',
+        ],
+      ];
+      this.results.forEach((result) => {
+        sheetData.push([
+          result.name,
+          result.roll_number,
+          result.attempted,
+          result.correct,
+          result.score,
+          result.total,
+        ])
+      });
+      sheet.Sheets["Sheet 1"] = XLSX.utils.aoa_to_sheet(sheetData);
+      var file = XLSX.write(sheet, {bookType:'xlsx',  type: 'binary'});
+      XLSX.writeFile(sheet, "results.xlsx", {bookType:'xlsx'})
+    },
+    openResult(result) {
+      result.data = []
+      let marks = 0
+      for (let i = 0; i < result.question.length; i++) {
+        if (result.answers[i]) {
+          if (result.question[i] === 'correct') {
+            marks = result.answers[i].weightage
+          } else {
+            marks = 0
+          }
+          try {
+            result.data.push({
+              qid: i + 1,
+              result: result.question[i],
+              correct_answer: result.answers[i].value,
+              marks: marks,
+            })
+          } catch (err) {
+            console.log('Error with data: ')
+            console.log('Result is ', result)
+            console.log('I is', i)
+          }
+        }
+      }
+      this.activeResult = result
     },
     removeAtLocation(location) {
       this.$fire.database
@@ -296,6 +483,17 @@ export default {
           this.$emit('close')
           this.$emit('reload')
         })
+    },
+    confirmRemoveTest() {
+      this.$buefy.dialog.confirm({
+        title: 'Deleting Test',
+        message:
+          'Are you sure you want to <b>delete</b> this Test? This action cannot be undone.',
+        confirmText: 'Delete Test',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.removeTest(),
+      })
     },
     removeTest() {
       if (this.tid != null) {
@@ -333,6 +531,7 @@ export default {
           start_time: this.start_time,
           end_time: this.end_time,
           owner: this.user.uid,
+          pass_percentage: this.pass_percentage,
         })
         .then((err) => {
           if (err) {
@@ -365,27 +564,52 @@ export default {
       }
       this.questionModal = true
     },
-    loadResults(){
-      console.log("loading results")
-      if(this.tid!== null){
+    loadResults() {
+      console.log('loading results')
+      if (this.tid !== null) {
         this.$fire.database
-        .ref(`results/${this.tid}`)
-        .once('value')
-        .then((snapshot)=>{
-          snapshot.forEach(user => {
-            console.log(user.val())
-            console.log(this.tid)
-            var data = user.val()
-            this.results.push({
-              marks: data.score,
-              correct_answers : data.correct,
+          .ref(`results/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((user) => {
+              var data = user.val()
+              this.results.push(data)
             })
-          });
+          })
+      }
+    },
+    async loadStudents() {
+      if (this.tid !== null) {
+        this.students_status = []
+        await this.$fire.database
+          .ref(`student/`)
+          .orderByChild('groupId')
+          .equalTo(`${this.year} - ${this.department}`)
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((user) => {
+              this.students_status.push({
+                uid: user.key,
+                student: user.val().name,
+                status: 'Not Started Exam',
+              })
+            })
+          })
+        var state_listener = this.$fire.database.ref(`state/${this.tid}`)
+        student_listener.on('value').then((snapshot) => {
+          var states = []
+          snapshot.forEach((user) => {
+            states.push(user.key)
+          })
+          for (let i = 0; i < this.students_status.length; i++) {
+            if (states.includes(this.students_status[i].uid)) {
+              this.students_status[i].status = 'Started Exam'
+            }
+          }
         })
       }
     },
     loadQuestions() {
-      this.loadResults()
       console.log('Loading questions')
       if (this.tid !== null) {
         this.$fire.database
@@ -397,7 +621,6 @@ export default {
             } else {
               this.questions = snapshot.val()
             }
-            console.log(this.questions)
           })
       }
     },
@@ -416,9 +639,16 @@ export default {
         return 'Add'
       }
     },
+    students() {
+      if (this.tid) {
+        return this.studentsByGroupID(`${this.year} - ${this.department}`)
+      }
+      return []
+    },
     ...mapState({
       user: (state) => state.auth.user,
     }),
+    ...mapGetters({ studentsByGroupID: 'data/studentsByGroupID' }),
   },
   watch: {
     display: function (val) {
@@ -432,6 +662,7 @@ export default {
         this.department = 'none'
         this.year = 'none'
         this.questions = []
+        this.pass_percentage = null
         console.log('No Object found')
       } else if (val == true && this.test != null) {
         this.editing = true
@@ -444,10 +675,25 @@ export default {
         this.department = 'none'
         this.year = 'none'
         this.questions = []
+        this.pass_percentage = null
         for (const property in this.test) {
           this[property] = this.test[property]
         }
+        // this.$fire.database
+        //   .ref('student')
+        //   .orderByChild('groupId')
+        //   .equalTo(`${this.year} - ${this.department}`)
+        //   .on('value', (snapshot) => {
+        //     console.log('Updating students')
+        //     let students = []
+        //     snapshot.forEach((student) => {
+        //       students.push(student)
+        //     })
+        //     this.students = students
+        //   })
         this.loadQuestions()
+        this.loadResults()
+        this.loadStudents()
       } else if (val == false) {
         // Closing modal
         this.resetForm()
@@ -459,10 +705,12 @@ export default {
 </script>
 
 <style scoped>
-#table-container {
+.table-container {
   margin-top: 20px;
   border-radius: 5px;
 }
+/* .table-level {
+} */
 .visible {
   display: block;
 }

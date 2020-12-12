@@ -134,7 +134,7 @@
                     'is-fullwidth': true,
                     'is-loading': loading,
                   }"
-                  @click="delete_user"
+                  @click="confirmDeleteUser"
                 >
                   <span class="icon"> <i class="fas fa-trash"></i> </span>
                   <span> Delete </span>
@@ -172,6 +172,7 @@ export default {
   props: ['display', 'student'],
   data() {
     return {
+      uid: null,
       name: null,
       phone: null,
       roll_number: null,
@@ -185,6 +186,17 @@ export default {
     }
   },
   methods: {
+    confirmDeleteUser() {
+      this.$buefy.dialog.confirm({
+        title: 'Confirm Delete Student',
+        message: `Are you sure you want to <b>delete</b> ${this.name}? This action cannot be undone.`,
+        confirmText: 'Delete',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.deleteUser(),
+        closeOnConfirm: true,
+      })
+    },
     unlockStudent() {
       this.$fire.database
         .ref(`student/${this.uid}`)
@@ -209,13 +221,13 @@ export default {
           this.$emit('reload')
         })
     },
-    async delete_user() {
+    deleteUser() {
       this.loading = true
       if (this.uid !== null) {
         const student = {
           uid: this.uid,
         }
-        await this.$axios
+        this.$axios
           .$post(
             'https://us-central1-scholared-f3d6d.cloudfunctions.net/deleteStudent',
             { student: student }
@@ -241,13 +253,14 @@ export default {
                 }
                 this.$emit('close')
                 this.$emit('reload')
+                this.loading = false
               })
           })
           .catch((response) => {
             console.log(response)
+            this.loading = false
           })
       }
-      this.loading = false
     },
     async submit() {
       this.loading = true

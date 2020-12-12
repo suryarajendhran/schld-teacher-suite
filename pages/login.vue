@@ -11,6 +11,7 @@
             <input
               class="input is-primary"
               type="email"
+              name="email"
               placeholder="E-mail"
               v-model="email"
               required
@@ -18,9 +19,6 @@
             <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -37,9 +35,6 @@
             <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
             </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i
-            ></span>
           </div>
         </div>
         <div class="field">
@@ -56,6 +51,18 @@
             @click="logIn"
           >
             Login
+          </button>
+        </div>
+        <div class="field">
+          <button
+            :class="{
+              button: true,
+              'is-dark': true,
+              'is-fullwidth': true,
+            }"
+            @click="register"
+          >
+            Register
           </button>
         </div>
       </div>
@@ -88,16 +95,19 @@ export default {
         })
         .catch((err) => {
           this.loading = false
-            this.$buefy.toast.open({
-                duration: 2000,
-                message: `${err.message}</b>`,
-                position: 'is-top',
-                type: 'is-warning',
-              })
+          this.$buefy.toast.open({
+            duration: 2000,
+            message: `${err.message}</b>`,
+            position: 'is-top',
+            type: 'is-warning',
+          })
         })
     },
     switchState() {
       this.$store.commit('auth/switch')
+    },
+    register() {
+      this.$router.push('/register')
     },
   },
 }

@@ -22,44 +22,70 @@ export const mutations = {
 
 export const actions = {
   loadData({ commit }) {
-    this.$fire.database
-      .ref('test')
-      .orderByChild('owner')
-      .equalTo(this.$fire.auth.currentUser.uid)
-      .once('value')
-      .then((snapshot) => {
+    if (this.$fire.auth.currentUser.uid == 'pUV3qa27F9Rm5KKBDy0wyUuK9kh2') {
+      this.$fire.database.ref('test').on('value', (snapshot) => {
         const testData = snapshot.val()
         let tests = []
         for (const key in testData) {
-          // console.log(testData[key]);
           tests.push(testData[key])
         }
         commit('LOAD_TESTS', { tests })
       })
-      .catch((err) => {
-        if (err.message.includes('permission_denied')) {
-          commit('AUTH_ERR')
-        }
-      })
-    this.$fire.database
-      .ref('student')
-      .once('value')
-      .then((snapshot) => {
+      this.$fire.database.ref('student').on('value', (snapshot) => {
         const studentData = snapshot.val()
         let students = []
         for (const key in studentData) {
-          // console.log(testData[key]);
           students.push(studentData[key])
         }
         commit('LOAD_STUDENTS', { students })
       })
-      .catch((err) => {
-        console.log('Error!!')
-        // console.log(err.includes('permission_denied'))
-        console.log(err.message)
-        if (err.message.includes('permission_denied')) {
-          commit('AUTH_ERR')
+    } else {
+      this.$fire.database
+        .ref('test')
+        .orderByChild('owner')
+        .equalTo(this.$fire.auth.currentUser.uid)
+        .on('value', (snapshot) => {
+          const testData = snapshot.val()
+          let tests = []
+          for (const key in testData) {
+            // console.log(testData[key]);
+            tests.push(testData[key])
+          }
+          commit('LOAD_TESTS', { tests })
+        })
+      this.$fire.database.ref('student').on('value', (snapshot) => {
+        const studentData = snapshot.val()
+        let students = []
+        for (const key in studentData) {
+          students.push(studentData[key])
         }
+        commit('LOAD_STUDENTS', { students })
       })
+    }
+  },
+}
+
+export const getters = {
+  studentsByGroupID: (state) => (groupId) => {
+    let filteredStudents = []
+    state.students.forEach((student) => {
+      if (student.groupId == groupId) {
+        filteredStudents.push(student)
+      }
+    })
+    return filteredStudents
+  },
+  studentsByDepartment: (state) => (department) => {
+    console.log(department)
+    let filteredStudents = []
+    if (state.students == null) {
+      return []
+    }
+    state.students.forEach((student) => {
+      if (student.department == department) {
+        filteredStudents.push(student)
+      }
+    })
+    return filteredStudents
   },
 }

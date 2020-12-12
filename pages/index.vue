@@ -120,7 +120,7 @@
 import AddQuestions from '~/components/AddQuestions.vue'
 import AddStudent from '~/components/AddStudent.vue'
 import AddTest from '~/components/AddTest.vue'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   head: {
@@ -165,6 +165,9 @@ export default {
         },
       })
     })
+    if (this.$store.state.auth.department != null) {
+      this.$store.dispatch('auth/loadDepartment')
+    }
     this.$store.dispatch('data/loadData')
   },
   data() {
@@ -174,21 +177,6 @@ export default {
       studentModal: false,
       activeStudent: null,
       columns: {
-        students: [
-          {
-            field: 'uid',
-            label: 'User ID',
-            searchable: true,
-          },
-          {
-            field: 'name',
-            label: 'Name',
-            searchable: true,
-          },
-          { field: 'password', label: 'Password' },
-          { field: 'department', label: 'Department' },
-          { field: 'year', label: 'Year' },
-        ],
         tests: [
           {
             field: 'name',
@@ -287,7 +275,8 @@ export default {
       if (this.$store.state.data.students == null) {
         return []
       } else {
-        return this.$store.state.data.students
+        return this.studentsByDepartment(this.$store.state.auth.department)
+        // return this.$store.state.data.students
       }
     },
     tests() {
@@ -299,6 +288,9 @@ export default {
     ...mapState({
       authErr: (state) => state.data.authError,
       user: (state) => state.auth.user,
+    }),
+    ...mapGetters({
+      studentsByDepartment: 'data/studentsByDepartment',
     }),
   },
   watch: {

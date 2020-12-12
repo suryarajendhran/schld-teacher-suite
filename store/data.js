@@ -75,4 +75,17 @@ export const getters = {
     })
     return filteredStudents
   },
+  studentsByDepartment: (state) => (department) => {
+    console.log(department)
+    let filteredStudents = []
+    if (state.students == null) {
+      return []
+    }
+    state.students.forEach((student) => {
+      if (student.department == department) {
+        filteredStudents.push(student)
+      }
+    })
+    return filteredStudents
+  },
 }

@@ -165,11 +165,15 @@ export default {
         },
       })
     })
-    console.log(this.$store.state.auth.department)
-    if (this.$store.state.auth.department == null) {
-      this.$store.dispatch('auth/loadDepartment')
-    }
     this.$store.dispatch('data/loadData')
+    this.uidChecker = setInterval(() => {
+      if (this.$store.state.auth.user != null) {
+        this.$store.dispatch('auth/loadDepartment')
+        clearInterval(this.uidChecker)
+      } else {
+        console.log('No uid found')
+      }
+    }, 200)
   },
   data() {
     return {
@@ -252,6 +256,9 @@ export default {
   },
   components: { AddStudent, AddTest, AddQuestions },
   computed: {
+    department() {
+      return this.$store.state.auth.department
+    },
     greeting() {
       let greeting
       const hoursNow = new Date().getHours()
@@ -273,9 +280,10 @@ export default {
     students() {
       if (this.$store.state.data.students == null) {
         return []
+      } else if (this.department) {
+        return this.studentsByDepartment(this.department)
       } else {
-        return this.studentsByDepartment(this.$store.state.auth.department)
-        // return this.$store.state.data.students
+        return []
       }
     },
     tests() {

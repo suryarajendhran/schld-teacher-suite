@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <button @click="random">Random</button>
+    <!-- <button @click="random">Random</button> -->
     <div class="columns">
       <div class="column is-half is-justify-content-center mt-2">
         <h1
@@ -165,7 +165,8 @@ export default {
         },
       })
     })
-    if (this.$store.state.auth.department != null) {
+    console.log(this.$store.state.auth.department)
+    if (this.$store.state.auth.department == null) {
       this.$store.dispatch('auth/loadDepartment')
     }
     this.$store.dispatch('data/loadData')

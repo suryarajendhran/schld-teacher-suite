@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <!-- <button @click="random">Random</button> -->
+    <button @click="random">Random</button>
     <div class="columns">
       <div class="column is-half is-justify-content-center mt-2">
         <h1
@@ -213,9 +213,7 @@ export default {
   },
   methods: {
     random() {
-      this.$fire.auth.currentUser.updateProfile({
-        displayName: 'Karthikeyan',
-      })
+      console.log(this.$store.state)
     },
     isLater(time) {
       console.log(time)

@@ -182,6 +182,12 @@
                         <span class="icon"> <i class="fas fa-plus"></i> </span>
                         <span class="is-size-6-mobile">Add Question</span>
                       </button>
+
+                      <input
+                        type="file"
+                        class="button mx-2 is-primary is-size-6-mobile"
+                        @change="importQuestions"
+                      />
                     </div>
                   </div>
                 </div>
@@ -398,6 +404,79 @@ export default {
       this.students_status = []
       this.$emit('close')
     },
+    importQuestions(e) {
+      var files = e.target.files,
+        f = files[0]
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result)
+        var workbook = XLSX.read(data, { type: 'array' })
+        var i = 2
+        var questions = []
+        var answers = []
+        while (i != 0) {
+          if (workbook.Sheets.Sheet1[`A${i}`] !== undefined) {
+            question = {
+              qid: i - 2,
+              text: workbook.Sheets.Sheet1[`A${i}`].v,
+              weightage: workbook.Sheets.Sheet1[`B${i}`].v,
+              choices: [
+                workbook.Sheets.Sheet1[`C${i}`].v,
+                workbook.Sheets.Sheet1[`D${i}`].v,
+                workbook.Sheets.Sheet1[`E${i}`].v,
+                workbook.Sheets.Sheet1[`F${i}`].v,
+              ],
+            }
+            answer = {
+              value: workbook.Sheets.Sheet1[`G${i}`].v,
+              weightage: workbook.Sheets.Sheet1[`B${i}`].v,
+            }
+            questions.push(question)
+            answers.push(answer)
+            i++
+          } else {
+            i = 0
+          }
+        }
+        this.$fire.database
+          .ref('questions')
+          .child(this.tid)
+          .set(questions)
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>error!</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+            }
+          })
+        this.$fire.database
+          .ref('answers')
+          .child(this.tid)
+          .set(answers)
+          .then((err) => {
+            if (err) {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Something's not good, <b>error!</b>`,
+                position: 'is-bottom',
+                type: 'is-danger',
+              })
+            } else {
+              this.$buefy.toast.open({
+                duration: 2000,
+                message: `Questions Imported</b>`,
+                position: 'is-bottom',
+                type: 'is-success',
+              })
+            }
+          })
+      }
+      reader.readAsArrayBuffer(f)
+    },
     openQuestion(question) {
       this.index = this.questions.indexOf(question)
       this.questionModal = true
@@ -420,7 +499,7 @@ export default {
           'Score',
           'Out of Total',
         ],
-      ];
+      ]
       this.results.forEach((result) => {
         sheetData.push([
           result.name,
@@ -430,10 +509,10 @@ export default {
           result.score,
           result.total,
         ])
-      });
-      sheet.Sheets["Sheet 1"] = XLSX.utils.aoa_to_sheet(sheetData);
-      var file = XLSX.write(sheet, {bookType:'xlsx',  type: 'binary'});
-      XLSX.writeFile(sheet, "results.xlsx", {bookType:'xlsx'})
+      })
+      sheet.Sheets['Sheet 1'] = XLSX.utils.aoa_to_sheet(sheetData)
+      var file = XLSX.write(sheet, { bookType: 'xlsx', type: 'binary' })
+      XLSX.writeFile(sheet, 'results.xlsx', { bookType: 'xlsx' })
     },
     openResult(result) {
       result.data = []

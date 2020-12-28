@@ -416,7 +416,7 @@ export default {
         var answers = []
         while (i != 0) {
           if (workbook.Sheets.Sheet1[`A${i}`] !== undefined) {
-            question = {
+            const question = {
               qid: i - 2,
               text: workbook.Sheets.Sheet1[`A${i}`].v,
               weightage: workbook.Sheets.Sheet1[`B${i}`].v,
@@ -427,7 +427,7 @@ export default {
                 workbook.Sheets.Sheet1[`F${i}`].v,
               ],
             }
-            answer = {
+            const answer = {
               value: workbook.Sheets.Sheet1[`G${i}`].v,
               weightage: workbook.Sheets.Sheet1[`B${i}`].v,
             }
@@ -441,7 +441,7 @@ export default {
         this.$fire.database
           .ref('questions')
           .child(this.tid)
-          .set(questions)
+          .update(questions)
           .then((err) => {
             if (err) {
               this.$buefy.toast.open({

@@ -408,7 +408,7 @@ export default {
       var files = e.target.files,
         f = files[0]
       var reader = new FileReader()
-      reader.onload = function (e) {
+      reader.onload = (e) => {
         var data = new Uint8Array(e.target.result)
         var workbook = XLSX.read(data, { type: 'array' })
         var i = 2

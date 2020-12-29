@@ -182,12 +182,23 @@
                         <span class="icon"> <i class="fas fa-plus"></i> </span>
                         <span class="is-size-6-mobile">Add Question</span>
                       </button>
-
-                      <input
-                        type="file"
-                        class="button mx-2 is-primary is-size-6-mobile"
-                        @change="importQuestions"
-                      />
+                      <div class="mx-2 file is-primary">
+                        <label class="file-label">
+                          <input
+                            @change="importQuestions"
+                            class="file-input"
+                            type="file"
+                            name="resume"
+                            accept=".xls,.xlsx"
+                          />
+                          <span class="file-cta">
+                            <span class="file-icon">
+                              <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label"> Import Questions</span>
+                          </span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -319,6 +330,7 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      file: null,
       results: null,
       resultsRef: null,
       state: null,
@@ -408,16 +420,28 @@ export default {
       var files = e.target.files,
         f = files[0]
       var reader = new FileReader()
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         var data = new Uint8Array(e.target.result)
         var workbook = XLSX.read(data, { type: 'array' })
         var i = 2
         var questions = []
         var answers = []
+        for (const key in this.questions) {
+          questions.push(this.questions[key])
+        }
+        await this.$fire.database
+          .ref(`answers/${this.tid}`)
+          .once('value')
+          .then((snapshot) => {
+            snapshot.forEach((answer) => {
+              answers.push(answer.val())
+              console.log(answer.val())
+            })
+          })
         while (i != 0) {
           if (workbook.Sheets.Sheet1[`A${i}`] !== undefined) {
             const question = {
-              qid: i - 2,
+              qid: questions.length,
               text: workbook.Sheets.Sheet1[`A${i}`].v,
               weightage: workbook.Sheets.Sheet1[`B${i}`].v,
               choices: [
@@ -441,7 +465,7 @@ export default {
         this.$fire.database
           .ref('questions')
           .child(this.tid)
-          .update(questions)
+          .set(questions)
           .then((err) => {
             if (err) {
               this.$buefy.toast.open({

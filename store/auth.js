@@ -1,5 +1,6 @@
 export const state = () => ({
   authenticated: localStorage.getItem('authenticated') === 'true' || false,
+  userDataLoaded: false,
   user: null,
   department: localStorage.getItem('department'),
 })
@@ -17,6 +18,7 @@ export const mutations = {
         email: email,
         displayName: displayName,
       }
+      state.userDataLoaded = true
       state.authenticated = true
       localStorage.setItem('authenticated', true)
     }
@@ -52,11 +54,15 @@ export const actions = {
   },
   loadDepartment({ commit, state }) {
     console.log(state.user)
-    this.$fire.database
-      .ref(`teacher/${state.user.uid}`)
-      .once('value')
-      .then((snapshot) => {
-        commit('setDepartment', { teacher_data: snapshot.val() })
-      })
+    try {
+      this.$fire.database
+        .ref(`teacher/${state.user.uid}`)
+        .once('value')
+        .then((snapshot) => {
+          commit('setDepartment', { teacher_data: snapshot.val() })
+        })
+    } catch (err) {
+      console.log('Error at loadDepartment', err)
+    }
   },
 }

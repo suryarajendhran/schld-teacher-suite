@@ -234,6 +234,41 @@
                 </b-table>
               </div>
             </b-tab-item>
+            <b-tab-item label="Status">
+              <div class="table-container column is-full">
+                <div class="table-level level">
+                  <div class="level-item">
+                    <div class="level-item"></div>
+                  </div>
+                </div>
+                <b-table
+                  :data="students_status"
+                  :loading="!students_status.length"
+                  striped
+                  paginated
+                  per-page="50"
+                  sort-icon="arrow-up"
+                >
+                  <b-table-column label="Student" v-slot="props"
+                    >{{ props.row.student }}
+                  </b-table-column>
+                  <b-table-column label="Status" v-slot="props">
+                    <div
+                      :class="{
+                        [getStyling(props.row.status, props.row.uid)]: true,
+                        status,
+                      }"
+                    >
+                      {{
+                        isInResults(props.row.uid)
+                          ? 'Submitted'
+                          : props.row.status
+                      }}
+                    </div>
+                  </b-table-column>
+                </b-table>
+              </div>
+            </b-tab-item>
             <b-tab-item v-if="tid" label="Results">
               <div class="table-container column is-full">
                 <div class="table-level level">
@@ -260,24 +295,6 @@
                   @click="openResult"
                   paginated
                   per-page="6"
-                  sort-icon="arrow-up"
-                ></b-table>
-              </div>
-            </b-tab-item>
-            <b-tab-item label="Status">
-              <div class="table-container column is-full">
-                <div class="table-level level">
-                  <div class="level-item">
-                    <div class="level-item"></div>
-                  </div>
-                </div>
-                <b-table
-                  :data="students_status"
-                  :columns="status_column"
-                  :loading="!students_status.length"
-                  striped
-                  paginated
-                  per-page="50"
                   sort-icon="arrow-up"
                 ></b-table>
               </div>
@@ -410,6 +427,36 @@ export default {
     }
   },
   methods: {
+    getScore(uid) {
+      this.results.forEach((result) => {
+        if ((result.uid = uid)) {
+          return true
+        }
+      })
+      return false
+    },
+    getStyling(status, uid) {
+      console.log(status)
+      if (this.isInResults(uid) == true) {
+        console.log(`Returning submitted for ${uid}`)
+        return 'submitted'
+      } else if (status == 'Not Started Exam') {
+        return 'not-started'
+      } else {
+        return 'started'
+      }
+    },
+    isInResults(uid) {
+      let flag = false
+      this.results.forEach((result) => {
+        if (result.uid == uid) {
+          console.log('Found true')
+          flag = true
+          return true
+        }
+      })
+      return flag
+    },
     resetForm() {
       this.questions = []
       this.tid = null
@@ -700,7 +747,7 @@ export default {
             })
           })
         var state_listener = this.$fire.database.ref(`state/${this.tid}`)
-        student_listener.on('value').then((snapshot) => {
+        state_listener.on('value', (snapshot) => {
           var states = []
           snapshot.forEach((user) => {
             states.push(user.key)
@@ -824,5 +871,18 @@ export default {
   width: 80%;
   border-radius: 10px;
   height: 90%;
+}
+.status {
+  border-radius: 5px;
+  margin: 0px 30%;
+}
+.submitted {
+  background-color: rgb(104, 255, 104);
+}
+.not-started {
+  background-color: rgb(255, 147, 147);
+}
+.started {
+  background-color: rgb(255, 225, 0);
 }
 </style>

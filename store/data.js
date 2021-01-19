@@ -76,7 +76,7 @@ export const getters = {
     return filteredStudents
   },
   studentsByDepartment: (state) => (department) => {
-    console.log(department)
+    console.log("Received value at home",department)
     let filteredStudents = []
     if (state.students == null) {
       return []

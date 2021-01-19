@@ -20,6 +20,23 @@
 <script>
 export default {
   middleware: null,
+  head: {
+    title: 'Question Templates - Scholared',
+    meta: [
+      { charset: 'utf-8' },
+      { property: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        property: 'description',
+        content: 'The templates for uploading questions to Scholared.',
+      },
+      {
+        hid: `og:description`,
+        property: 'og:description',
+        content: 'The templates for uploading questions to Scholared.',
+      },
+    ],
+  },
   data() {
     const verified = localStorage.getItem('template-link-verified')
     return {

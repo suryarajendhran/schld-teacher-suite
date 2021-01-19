@@ -132,6 +132,7 @@ export default {
       },
     ],
   },
+  middleware: 'authenticate',
   mounted() {
     this.$axios
       .$get('https://us-central1-scholared-f3d6d.cloudfunctions.net/syncTime')

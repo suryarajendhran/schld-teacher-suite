@@ -49,9 +49,9 @@ export default {
     ],
   },
 
-  router: {
-    middleware: 'authenticate',
-  },
+  // router: {
+  //   middleware: 'authenticate',
+  // },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['@/assets/override_styles.scss', '@/assets/transitions.css'],

@@ -204,7 +204,7 @@
                 </div>
                 <b-table
                   :data="questions"
-                  :loading="!questions.length"
+                  :loading="!questionsLoaded"
                   striped
                   hoverable
                   focusable
@@ -330,6 +330,7 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      questionsLoaded: false,
       file: null,
       results: null,
       resultsRef: null,
@@ -717,13 +718,13 @@ export default {
       if (this.tid !== null) {
         this.$fire.database
           .ref(`questions/${this.tid}`)
-          .once('value')
-          .then((snapshot) => {
+          .on('value', (snapshot) => {
             if (snapshot.val() == null) {
               this.questions = []
             } else {
               this.questions = snapshot.val()
             }
+            this.questionsLoaded = true
           })
       }
     },

@@ -63,7 +63,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: [],
+  buildModules: ['@nuxtjs/google-analytics'],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
@@ -101,6 +101,10 @@ export default {
       }, // Just as example. Can be any other service.
       database: true,
     },
+  },
+
+  googleAnalytics: {
+    id: 'G-RCQFXW4LF8',
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

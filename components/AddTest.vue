@@ -132,6 +132,12 @@
               </p>
             </div>
           </div>
+          <div class="column is-full" v-if="!tid">
+            <p class="subtitle has-text-centered">
+              Note: Importing questions feature will only be available after
+              saving the test the first time
+            </p>
+          </div>
           <b-tabs size="is-medium" type="is-toggle" expanded class="mt-2">
             <b-tab-item label="Questions">
               <div class="table-container column is-full">
@@ -182,7 +188,7 @@
                         <span class="icon"> <i class="fas fa-plus"></i> </span>
                         <span class="is-size-6-mobile">Add Question</span>
                       </button>
-                      <div class="mx-2 file is-primary">
+                      <div class="mx-2 file is-primary" v-if="tid">
                         <label class="file-label">
                           <input
                             @change="importQuestions"

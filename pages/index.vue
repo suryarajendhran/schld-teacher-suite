@@ -29,7 +29,7 @@
             </div>
             <b-table
               :data="students"
-              :loading="!students.length"
+              :loading="!students.length && students_loading"
               striped
               hoverable
               focusable
@@ -182,6 +182,7 @@ export default {
       activeTest: null,
       studentModal: false,
       activeStudent: null,
+      students_loading: true,
       columns: {
         tests: [
           {
@@ -280,10 +281,13 @@ export default {
     isSignOutLoading() {},
     students() {
       if (this.$store.state.data.students == null) {
+        this.students_loading = false
         return []
       } else if (this.department) {
+        this.students_loading = false
         return this.studentsByDepartment(this.department)
       } else {
+        this.students_loading = false
         return []
       }
     },

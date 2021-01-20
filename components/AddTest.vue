@@ -219,7 +219,7 @@
                     </div>
                   </template>
                   <b-table-column label="Sl.No" v-slot="props"
-                    >{{ props.index + 1 }}
+                    >{{ props.row.qid + 1 }}
                   </b-table-column>
                   <b-table-column label="Text" v-slot="props"
                     >{{ props.row.text }}
@@ -243,7 +243,7 @@
                 </div>
                 <b-table
                   :data="students_status"
-                  :loading="!students_status.length"
+                  :loading="status_loading"
                   striped
                   paginated
                   per-page="50"
@@ -288,7 +288,7 @@
                 <b-table
                   :data="results"
                   :columns="result_columns"
-                  :loading="!results.length"
+                  :loading="results_loading"
                   striped
                   hoverable
                   focusable
@@ -347,6 +347,8 @@ export default {
   props: ['display', 'test'],
   data() {
     return {
+      status_loading: true,
+      results_loading: true,
       questionsLoaded: false,
       file: null,
       results: null,
@@ -488,6 +490,22 @@ export default {
           })
         while (i != 0) {
           if (workbook.Sheets.Sheet1[`A${i}`] !== undefined) {
+            try {
+              console.log(`i value is ${i}`)
+              console.log(workbook.Sheets.Sheet1[`A${i}`].v)
+              console.log(workbook.Sheets.Sheet1[`B${i}`].v)
+              console.log(workbook.Sheets.Sheet1[`C${i}`].v)
+              console.log(workbook.Sheets.Sheet1[`D${i}`].v)
+              console.log(workbook.Sheets.Sheet1[`E${i}`].v)
+              console.log(workbook.Sheets.Sheet1[`F${i}`].v)
+            } catch (err) {
+              console.log(`Error while parsing the ${i}th row: ${err}`)
+              this.$buefy.snackbar.open({
+                message:
+                  'Issue while reading the spreadsheet, please check the file and try again',
+                position: 'is-top',
+              })
+            }
             const question = {
               qid: questions.length,
               text: workbook.Sheets.Sheet1[`A${i}`].v,
@@ -726,6 +744,7 @@ export default {
               var data = user.val()
               this.results.push(data)
             })
+            this.results_loading = false
           })
       }
     },
@@ -757,6 +776,7 @@ export default {
               this.students_status[i].status = 'Started Exam'
             }
           }
+          this.status_loading = false
         })
       }
     },
